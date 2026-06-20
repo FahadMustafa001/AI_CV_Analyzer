@@ -119,9 +119,28 @@ def parse_cv(file_path: str) -> Optional[CVAnalysisSchema]:
                     "content": f"Analyze and parse the following resume plain text extract:\n\n{raw_text}"
                 }
             ],
-            temperature=0.1 # Absolute low temperature enforces high factual fidelity with zero hallucinations
+            temperature=0.1
         )
         return structured_data
     except Exception as e:
-        print(f"Instructor cognitive parsing failed: {e}")
-        return None
+        print(f"Instructor cognitive parsing failed on primary model: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            structured_data = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                response_model=CVAnalysisSchema,
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "You are a professional ATS system backend component. Your task is to process raw text extracts from CVs and seamlessly structure every piece of information into the designated target JSON model. Do not truncate, omit, or overlook any project, link, or experience details."
+                    },
+                    {
+                        "role": "user", 
+                        "content": f"Analyze and parse the following resume plain text extract:\n\n{raw_text}"
+                    }
+                ],
+                temperature=0.1
+            )
+            return structured_data
+        except Exception as e2:
+            print(f"Instructor cognitive parsing failed on fallback model: {e2}")
+            return None

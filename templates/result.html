@@ -93,22 +93,35 @@
                      onclick="toggleCompareCandidate(this)">
             </td>
             <td class="ps-4">
-              <div class="d-flex align-items-center gap-2 flex-wrap">
-                <div class="fw-bold text-white fs-5">{{ r.name }}</div>
-                {% if r.final_score >= threshold %}
-                  <span class="badge badge-cert" style="font-size: 10px; padding: 0.25em 0.5em;">Suitable</span>
-                {% else %}
-                  <span class="badge badge-danger" style="font-size: 10px; padding: 0.25em 0.5em;">Below Threshold</span>
-                {% endif %}
+              <div class="d-flex align-items-center gap-3">
+                {% set gradients = [
+                  'linear-gradient(135deg, #6366f1, #a855f7)',
+                  'linear-gradient(135deg, #10b981, #3b82f6)',
+                  'linear-gradient(135deg, #f59e0b, #f43f5e)',
+                  'linear-gradient(135deg, #06b6d4, #6366f1)',
+                  'linear-gradient(135deg, #a855f7, #ec4899)'
+                ] %}
+                {% set grad = gradients[loop.index0 % gradients|length] %}
+                <div class="avatar-circle" style="background: {{ grad }};">
+                  {{ r.name[:2].upper() }}
+                </div>
+                <div>
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="fw-bold text-white fs-5">{{ r.name }}</div>
+                    {% if r.final_score >= threshold %}
+                      <span class="badge badge-cert" style="font-size: 10px; padding: 0.25em 0.5em;">Suitable</span>
+                    {% else %}
+                      <span class="badge badge-danger" style="font-size: 10px; padding: 0.25em 0.5em;">Below Threshold</span>
+                    {% endif %}
+                  </div>
+                  <div class="text-muted small mt-1">📧 {{ r.email|default('Not found') }}</div>
+                </div>
               </div>
-              <div class="text-muted small mt-1">📧 {{ r.email|default('Not found') }}</div>
             </td>
             <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="progress-container flex-grow-1" style="height: 6px;">
-                  <div class="progress-bar-neon bg-info" role="progressbar" style="--w: {{ r.job_score }}%; width: var(--w);"></div>
-                </div>
-                <span class="text-white small fw-bold">{{ r.job_score }}%</span>
+              {% set match_badge_class = 'rating-badge-success' if r.job_score >= 70 else ('rating-badge-warning' if r.job_score >= 45 else 'rating-badge-danger') %}
+              <div class="rating-badge {{ match_badge_class }}">
+                {{ r.job_score }}%
               </div>
             </td>
             <td>
@@ -120,19 +133,9 @@
               <span class="badge badge-int mb-1"><i class="bi bi-mortarboard-fill me-1"></i> {{ r.education|length }} Edu</span>
             </td>
             <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="progress-container flex-grow-1" style="height: 8px;">
-                  {% if r.final_score >= threshold %}
-                    <div class="progress-bar-neon bg-success" role="progressbar" style="--w: {{ r.final_score }}%; width: var(--w);"></div>
-                  {% else %}
-                    <div class="progress-bar-neon bg-warning" role="progressbar" style="--w: {{ r.final_score }}%; width: var(--w);"></div>
-                  {% endif %}
-                </div>
-                {% if r.final_score >= threshold %}
-                  <span class="text-success fw-bold fs-5">{{ r.final_score }}%</span>
-                {% else %}
-                  <span class="text-warning fw-bold fs-5">{{ r.final_score }}%</span>
-                {% endif %}
+              {% set score_badge_class = 'rating-badge-success' if r.final_score >= threshold else 'rating-badge-warning' %}
+              <div class="rating-badge {{ score_badge_class }} fs-5 py-2">
+                {{ r.final_score }}%
               </div>
             </td>
             <td class="text-center">

@@ -791,3 +791,94 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   font-size: 1.4rem;
 }
 
+/* Modern Candidate Initials Avatar */
+.avatar-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Premium Dynamic Rating Badge */
+.rating-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.95rem;
+  min-width: 65px;
+  text-align: center;
+  letter-spacing: -0.01em;
+  transition: all 0.3s ease;
+}
+.rating-badge-success {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: #34d399 !important;
+  border: 1px solid rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+}
+.rating-badge-warning {
+  background: rgba(245, 158, 11, 0.15) !important;
+  color: #fbbf24 !important;
+  border: 1px solid rgba(245, 158, 11, 0.35) !important;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.15);
+}
+.rating-badge-danger {
+  background: rgba(244, 63, 94, 0.15) !important;
+  color: #fda4af !important;
+  border: 1px solid rgba(244, 63, 94, 0.35) !important;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.15);
+}
+
+/* Row Hover Glow & Border */
+.table tbody tr {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-left: 3px solid transparent;
+}
+.table tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.05) !important;
+  border-left-color: var(--primary) !important;
+  box-shadow: inset 10px 0 20px rgba(99, 102, 241, 0.03), 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.table tbody tr:hover td {
+  background-color: transparent !important;
+}
+
+/* Custom Checkbox Style */
+.compare-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px;
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.compare-checkbox:checked {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 8px var(--primary-glow) !important;
+}
+
+/* Search Query Glow in result */
+.query-glow {
+  color: #a5b4fc;
+  text-shadow: 0 0 8px rgba(165, 180, 252, 0.4);
+}
+
+

@@ -478,3 +478,35 @@ TypeError: Object of type Undefined is not JSON serializable
 2026-06-20 16:04:42,134 INFO werkzeug Thread-75 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:04:42] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
 2026-06-20 16:05:31,540 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
 2026-06-20 16:05:31,598 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 16:05:33,968 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 16:05:34,099 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 16:05:37,052 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 16:05:37,057 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 16:05:37,137 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 16:05:37,145 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 16:06:08,051 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 16:06:08,054 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 16:06:08,303 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:06:08] "GET / HTTP/1.1" 200 -
+2026-06-20 16:06:08,499 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:06:08] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 16:06:08,503 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:06:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 16:06:33,983 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:06:33] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 16:06:34,080 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:06:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 16:06:34,088 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:06:34] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 16:07:16,872 INFO httpx MainThread : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 16:08:25,133 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:08:25] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 16:08:25,244 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:08:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 16:08:25,250 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:08:25] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 16:08:40,137 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:08:40] "GET / HTTP/1.1" 200 -
+2026-06-20 16:08:41,587 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:08:41] "GET /static/images/logo.png HTTP/1.1" 200 -
+2026-06-20 16:08:41,588 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:08:41] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 16:10:05,805 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:10:05] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 16:10:07,436 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:10:07] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 16:10:07,440 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:10:07] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 16:11:19,602 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:11:19] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 16:11:19,658 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:11:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 16:11:19,663 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:11:19] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 16:15:42,715 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:15:42] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 16:15:42,958 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:15:42] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 16:15:42,984 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 16:15:42] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 16:19:58,992 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_parser.py', reloading
+2026-06-20 16:19:59,220 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_parser.py', reloading

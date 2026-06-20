@@ -109,42 +109,51 @@
                    onclick="toggleCompareCandidate(this)">
           </td>
           <td class="ps-4">
-            <div class="fw-bold text-white fs-5">{{ row.name }}</div>
-            <div class="text-muted small mt-1"><i class="bi bi-briefcase-fill text-indigo-300 me-1"></i> Target: {{ row.job_role }}</div>
+            <div class="d-flex align-items-center gap-3">
+              {% set gradients = [
+                'linear-gradient(135deg, #6366f1, #a855f7)',
+                'linear-gradient(135deg, #10b981, #3b82f6)',
+                'linear-gradient(135deg, #f59e0b, #f43f5e)',
+                'linear-gradient(135deg, #06b6d4, #6366f1)',
+                'linear-gradient(135deg, #a855f7, #ec4899)'
+              ] %}
+              {% set grad = gradients[loop.index0 % gradients|length] %}
+              <div class="avatar-circle" style="background: {{ grad }};">
+                {{ row.name[:2].upper() }}
+              </div>
+              <div>
+                <div class="fw-bold text-white fs-5">{{ row.name }}</div>
+                <div class="text-muted small mt-1"><i class="bi bi-briefcase-fill text-indigo-300 me-1"></i> Target: {{ row.job_role }}</div>
+              </div>
+            </div>
             
             {% if query and row.match_explanation %}
-              <div class="mt-2 p-2 rounded" style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25); max-width: 450px;">
+              <div class="mt-2 p-2 rounded" style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25); max-width: 450px; margin-left: 58px;">
                 <span class="text-indigo-200 small" style="font-size: 13px;"><i class="bi bi-cpu-fill text-indigo-300 me-1"></i> <strong>AI Match:</strong> {{ row.match_explanation }}</span>
               </div>
             {% endif %}
           </td>
           {% if query %}
             <td>
-              <div class="d-flex align-items-center gap-2">
-                <div class="progress-container flex-grow-1" style="height: 6px;">
-                  <div class="progress-bar-neon bg-success" role="progressbar" style="--w: {{ row.relevance_score }}%; width: var(--w);"></div>
-                </div>
-                <span class="text-success small fw-bold">{{ row.relevance_score }}%</span>
+              {% set relevance_badge_class = 'rating-badge-success' if row.relevance_score >= 70 else ('rating-badge-warning' if row.relevance_score >= 45 else 'rating-badge-danger') %}
+              <div class="rating-badge {{ relevance_badge_class }}">
+                {{ row.relevance_score }}%
               </div>
             </td>
           {% endif %}
           <td>
-            <div class="d-flex align-items-center gap-2">
-              <div class="progress-container flex-grow-1" style="height: 6px;">
-                <div class="progress-bar-neon bg-info" role="progressbar" style="--w: {{ row.job_score }}%; width: var(--w);"></div>
-              </div>
-              <span class="text-white small fw-bold">{{ row.job_score }}%</span>
+            {% set match_badge_class = 'rating-badge-success' if row.job_score >= 70 else ('rating-badge-warning' if row.job_score >= 45 else 'rating-badge-danger') %}
+            <div class="rating-badge {{ match_badge_class }}">
+              {{ row.job_score }}%
             </div>
           </td>
           <td>
             <span class="badge bg-secondary px-2 py-1 fs-6">{{ row.exp_years }} yrs</span>
           </td>
           <td>
-            <div class="d-flex align-items-center gap-2">
-              <div class="progress-container flex-grow-1" style="height: 6px;">
-                <div class="progress-bar-neon bg-warning" role="progressbar" style="--w: {{ row.personality_score }}%; width: var(--w);"></div>
-              </div>
-              <span class="text-white small fw-bold">{{ row.personality_score }}%</span>
+            {% set pers_badge_class = 'rating-badge-success' if row.personality_score >= 70 else ('rating-badge-warning' if row.personality_score >= 45 else 'rating-badge-danger') %}
+            <div class="rating-badge {{ pers_badge_class }}">
+              {{ row.personality_score }}%
             </div>
           </td>
           <td>
@@ -184,11 +193,9 @@
             </div>
           </td>
           <td>
-            <div class="d-flex align-items-center gap-2">
-              <div class="progress-container flex-grow-1" style="height: 8px;">
-                <div class="progress-bar-neon bg-success" role="progressbar" style="--w: {{ row.final_score }}%; width: var(--w);"></div>
-              </div>
-              <span class="text-success fw-bold fs-5">{{ row.final_score }}%</span>
+            {% set score_badge_class = 'rating-badge-success' if row.final_score >= 50 else 'rating-badge-warning' %}
+            <div class="rating-badge {{ score_badge_class }} fs-5 py-2">
+              {{ row.final_score }}%
             </div>
           </td>
           <td class="text-center">
