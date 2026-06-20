@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, send_file
 from werkzeug.utils import secure_filename
 import os
 import sqlite3
 import json
 import logging
+from pdf_generator import generate_candidate_pdf
 
 # Configure logging to save errors into a file and output to console
 root_logger = logging.getLogger()
@@ -635,6 +636,37 @@ def ranking():
             rows.append(deserialize_candidate(r))
         conn.close()
         return render_template('ranking.html', rows=rows)
+
+@app.route('/export_pdf/<name>')
+def export_pdf(name: str):
+    try:
+        conn = sqlite3.connect("candidates.db")
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score,
+                   personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism,
+                   email, links, education, experience, projects, ai_report
+            FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1
+        """, (name,))
+        row = cur.fetchone()
+        conn.close()
+        
+        if not row:
+            return "Candidate not found", 404
+            
+        candidate_data = deserialize_candidate(row)
+        pdf_buffer = generate_candidate_pdf(candidate_data)
+        
+        filename = f"{name.replace(' ', '_')}_AI_Profile_Audit.pdf"
+        return send_file(
+            pdf_buffer,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=filename
+        )
+    except Exception as e:
+        logging.error(f"Error exporting PDF for {name}: {e}", exc_info=True)
+        return f"Error generating PDF report: {str(e)}", 500
 
 @app.route('/delete_candidate/<name>', methods=['POST'])
 def delete_candidate(name: str):

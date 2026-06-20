@@ -14,9 +14,12 @@
       <h3 class="mb-1 text-white">Analysis Results: <span class="text-indigo-400">{{ job_role }}</span></h3>
       <p class="text-muted small mb-0">System processed all resumes using hybrid semantic vector weights and cognitive AI models.</p>
     </div>
-    <div class="text-md-end text-start">
-      <span class="badge bg-success fs-6 px-3 py-2">Suitable: {{ suitable|default(0) }} / {{ total|default(0) }}</span>
-      <div class="text-muted small mt-1">Passing Threshold: {{ threshold|default(50) }}%</div>
+    <div class="text-md-end text-start d-flex flex-column align-items-md-end align-items-start gap-2">
+      <div class="d-flex gap-2">
+        <button onclick="exportTalentPoolCSV()" class="btn btn-outline-primary btn-sm px-3.5 py-1.5 rounded-pill"><i class="bi bi-download me-1"></i> Export CSV</button>
+        <span class="badge bg-success fs-6 px-3 py-2 d-flex align-items-center">Suitable: {{ suitable|default(0) }} / {{ total|default(0) }}</span>
+      </div>
+      <div class="text-muted small">Passing Threshold: {{ threshold|default(50) }}%</div>
     </div>
   </div>
 
@@ -199,7 +202,8 @@
 
           <tr class="collapse" id="details-{{ loop.index }}">
             <td colspan="8" class="bg-light-glass p-4 border-top border-bottom">
-              <div class="row g-4">
+              <div class="sticky-detail-container">
+                <div class="row g-4">
                 
                 <div class="col-md-6 col-lg-7 text-start">
                   <div class="box-highlight rounded mb-3">
@@ -217,7 +221,12 @@
 
                   {% if r.ai_report.categorized_skills %}
                   <div class="box-highlight rounded mb-3">
-                    <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-tags-fill icon-glow-indigo me-2"></i> Categorized Skills Inventory</h5>
+                    <div class="d-flex justify-content-between align-items-center border-bottom border-white-10 pb-2 mb-2">
+                      <h5 class="text-white fw-bold mb-0"><i class="bi bi-tags-fill icon-glow-indigo me-2"></i> Categorized Skills Inventory</h5>
+                      {% if r.ai_report.tech_alignment_score is not none %}
+                        <span class="badge bg-success rounded-pill px-3 py-1.5" style="font-size: 12px; font-weight: 600;">Tech Match: {{ r.ai_report.tech_alignment_score }}%</span>
+                      {% endif %}
+                    </div>
                     <div class="mt-3 d-flex flex-column gap-3 text-start">
                       {% set cat_map = [
                         ('programming_languages', 'Programming Languages', 'bi-code-slash', 'text-primary'),
@@ -320,8 +329,29 @@
                         <i class="bi bi-cpu-fill icon-glow-indigo me-2"></i> Cognitive AI Audit Report
                       </h5>
                       
+                      <!-- Hiring Recommendation Badge -->
+                      {% if r.ai_report.hiring_recommendation %}
+                      <div class="p-3 rounded mb-4 text-start animate-fade-in" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                        <small class="text-indigo-300 fw-bold d-block mb-2"><i class="bi bi-shield-check icon-glow-info me-1"></i> AI Decision Recommendation</small>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                          {% set rec_val = r.ai_report.hiring_recommendation %}
+                          {% set badge_class = 'bg-success' if rec_val == 'Strong Hire' 
+                                              else ('bg-primary' if rec_val == 'Hire' 
+                                              else ('bg-warning text-dark' if rec_val == 'Interview' 
+                                              else 'bg-danger')) %}
+                          <span class="badge {{ badge_class }} fs-6 px-3 py-1.5 rounded-pill">{{ rec_val }}</span>
+                        </div>
+                        <div class="text-white small" style="line-height: 1.45;">{{ r.ai_report.recommendation_rationale }}</div>
+                      </div>
+                      {% endif %}
+                      
                       <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-                        <small class="text-indigo-300 fw-bold d-block mb-1"><i class="bi bi-file-earmark-check icon-glow-info me-1"></i> Layout & Parser Feedback</small>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                          <small class="text-indigo-300 fw-bold"><i class="bi bi-file-earmark-check icon-glow-info me-1"></i> Layout & Parser Feedback</small>
+                          {% if r.ai_report.formatting_score is not none %}
+                            <span class="badge bg-indigo-500 rounded-pill px-2.5 py-1 small" style="font-size: 11px;">Score: {{ r.ai_report.formatting_score }}%</span>
+                          {% endif %}
+                        </div>
                         <span class="text-white small">{{ r.ai_report.formatting_feedback }}</span>
                       </div>
 
@@ -337,26 +367,37 @@
                       {% set current_role_norm = r.job_role|default(job_role) %}
                       {% set target = benchmarks.get(current_role_norm, {"openness": 50, "conscientiousness": 50, "extraversion": 50, "agreeableness": 50, "neuroticism": 50}) %}
                       <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
-                        <small class="text-warning fw-bold d-block mb-2"><i class="bi bi-person-badge-fill icon-glow-warning me-1"></i> Projected Personality Alignment ({{ r.personality_score }}% Fit)</small>
-                        <div class="row g-2">
-                          {% for trait, val in r.personality_traits.items() %}
-                          <div class="col-12 mb-2">
-                            <div class="d-flex justify-content-between text-white-50 small mb-1" style="font-size: 11px;">
-                              <span class="text-capitalize">{{ trait }}</span>
-                              <span>
-                                <span class="text-white-50">Target: {{ target[trait] }}%</span> | 
-                                <strong class="text-white">Actual: {{ val }}%</strong>
-                              </span>
-                            </div>
-                            <div class="personality-bar-container">
-                              <div class="personality-bar-actual" style="--w: {{ val }}%; width: var(--w);"></div>
-                              <div class="personality-bar-benchmark" style="--l: {{ target[trait] }}%; left: var(--l);">
-                                <span class="personality-bar-benchmark-label">Target</span>
+                        <small class="text-warning fw-bold d-block mb-3"><i class="bi bi-person-badge-fill icon-glow-warning me-1"></i> Projected Personality Alignment ({{ r.personality_score }}% Fit)</small>
+                        
+                        <div class="row align-items-center g-3">
+                          <div class="col-lg-7 text-start">
+                            <div class="row g-2">
+                              {% for trait, val in r.personality_traits.items() %}
+                              <div class="col-12 mb-2">
+                                <div class="d-flex justify-content-between text-white-50 small mb-1" style="font-size: 11px;">
+                                  <span class="text-capitalize">{{ trait }}</span>
+                                  <span>
+                                    <span class="text-white-50">Target: {{ target[trait] }}%</span> | 
+                                    <strong class="text-white">Actual: {{ val }}%</strong>
+                                  </span>
+                                </div>
+                                <div class="personality-bar-container">
+                                  <div class="personality-bar-actual" style="--w: {{ val }}%; width: var(--w);"></div>
+                                  <div class="personality-bar-benchmark" style="--l: {{ target[trait] }}%; left: var(--l);">
+                                    <span class="personality-bar-benchmark-label">Target</span>
+                                  </div>
+                                </div>
                               </div>
+                              {% endfor %}
                             </div>
                           </div>
-                          {% endfor %}
+                          <div class="col-lg-5 d-flex align-items-center justify-content-center">
+                            <div style="height: 180px; width: 100%; max-width: 180px; position: relative;">
+                              <canvas id="personality-radar-{{ loop.index }}" data-traits='{{ r.personality_traits|tojson }}' data-target='{{ target|tojson }}'></canvas>
+                            </div>
+                          </div>
                         </div>
+
                         {% if r.ai_report.personality_fit_explanation %}
                         <div class="mt-3 p-2.5 rounded text-start animate-fade-in" style="background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.22);">
                           <span class="text-warning small" style="font-size: 12px; line-height: 1.4;"><i class="bi bi-brain text-warning me-1"></i> <strong>Alignment Analysis:</strong> {{ r.ai_report.personality_fit_explanation }}</span>
@@ -405,7 +446,7 @@
                     </div>
                   </div>
                 </div>
-
+              </div>
               </div>
             </td>
           </tr>
@@ -425,6 +466,127 @@
 </div>
 
 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Listen for collapse show events to initialize radar charts lazily
+  const collapseElements = document.querySelectorAll('.collapse');
+  collapseElements.forEach(el => {
+    el.addEventListener('shown.bs.collapse', function(event) {
+      const targetId = event.target.id;
+      if (targetId.startsWith('details-')) {
+        const index = targetId.replace('details-', '');
+        initRadarChart(index);
+      }
+    });
+  });
+});
+
+function initRadarChart(index) {
+  const canvas = document.getElementById(`personality-radar-${index}`);
+  if (!canvas || canvas.dataset.initialized) return;
+  
+  const traits = JSON.parse(canvas.dataset.traits);
+  const target = JSON.parse(canvas.dataset.target);
+  
+  new Chart(canvas, {
+    type: 'radar',
+    data: {
+      labels: ['Openness', 'Conscientiousness', 'Extraversion', 'Agreeableness', 'Neuroticism'],
+      datasets: [
+        {
+          label: 'Candidate',
+          data: [traits.openness, traits.conscientiousness, traits.extraversion, traits.agreeableness, traits.neuroticism],
+          fill: true,
+          backgroundColor: 'rgba(99, 102, 241, 0.2)',
+          borderColor: 'rgba(99, 102, 241, 0.9)',
+          pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
+        },
+        {
+          label: 'Benchmark',
+          data: [target.openness, target.conscientiousness, target.extraversion, target.agreeableness, target.neuroticism],
+          fill: true,
+          backgroundColor: 'rgba(245, 158, 11, 0.1)',
+          borderColor: 'rgba(245, 158, 11, 0.8)',
+          pointBackgroundColor: 'rgba(245, 158, 11, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(245, 158, 11, 1)'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        r: {
+          grid: {
+            color: 'rgba(255, 255, 255, 0.08)'
+          },
+          angleLines: {
+            color: 'rgba(255, 255, 255, 0.08)'
+          },
+          pointLabels: {
+            color: 'rgba(255, 255, 255, 0.65)',
+            font: {
+              size: 9,
+              family: 'Outfit'
+            }
+          },
+          ticks: {
+            display: false,
+            maxTicksLimit: 3
+          },
+          suggestedMin: 0,
+          suggestedMax: 100
+        }
+      }
+    }
+  });
+  canvas.dataset.initialized = 'true';
+}
+
+function exportTalentPoolCSV() {
+  const rows = Array.from(document.querySelectorAll('.table-ranking tbody tr:not(.collapse)'));
+  if (rows.length === 0) {
+    alert("No candidate records available to export.");
+    return;
+  }
+  
+  let csvContent = "data:text/csv;charset=utf-8,";
+  csvContent += "Candidate Name,Target Job Role,Job Match %,Experience (Years),Personality Fit %,Final Score %\n";
+  
+  rows.forEach(row => {
+    const name = row.querySelector('.fw-bold.text-white').textContent.trim();
+    const role = row.querySelector('.text-muted.small').textContent.replace('Target:', '').trim();
+    const checkbox = row.querySelector('.compare-checkbox');
+    const match = checkbox.getAttribute('data-match') + "%";
+    const exp = checkbox.getAttribute('data-exp') + " Years";
+    const personality = checkbox.getAttribute('data-personality') + "%";
+    const finalScore = checkbox.getAttribute('data-score') + "%";
+    
+    const escapedName = `"${name.replace(/"/g, '""')}"`;
+    const escapedRole = `"${role.replace(/"/g, '""')}"`;
+    
+    csvContent += `${escapedName},${escapedRole},${match},${exp},${personality},${finalScore}\n`;
+  });
+  
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `talent_pool_export_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
 <script>
 // Filter dashboard

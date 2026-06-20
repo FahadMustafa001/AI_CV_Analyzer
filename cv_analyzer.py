@@ -578,20 +578,265 @@ def run_interviewer_agent(cv_text: str, job_role: str) -> dict:
                 "recommendation_rationale": "Standard candidate profile meeting basic experience benchmarks. Recommend conducting a live technical interview."
             }
 
+def run_recruitment_test_agent(cv_text: str, job_role: str) -> dict:
+    """
+    Generates a customized take-home coding/practical project and target interview rubric
+    tailored specifically to the candidate's skills and potential missing gaps for the role.
+    """
+    prompt = f"""
+    You are an expert technical interviewer and syllabus designer. Analyze the candidate's CV and the target role '{job_role}'.
+    Identify potential technical skill gaps or areas that need validation, and generate:
+    1. A customized, practical Take-Home Coding Challenge or Technical Assessment tailored specifically to this candidate. It must test their main qualifications and probe their potential skill gaps. Provide clear instructions, requirements, and evaluation guidelines.
+    2. An Interview Evaluation Rubric for the hiring manager, including 2 specific technical or behavioral questions to ask, what to look/listen for in the candidate's answer, and grading criteria.
+    
+    Provide the output strictly in valid JSON format. Do not use any conversational text or markdown code blocks.
+    
+    JSON Schema:
+    {{
+        "custom_coding_test": {{
+            "title": "A short, engaging title for the test (e.g. 'Advanced React State Management Challenge')",
+            "duration": "Estimated time (e.g. '2-3 hours' or '48 hours')",
+            "problem_statement": "Description of the problem, context, and why it is tailored to this candidate.",
+            "requirements": ["List of 3-4 specific functional/technical requirements"],
+            "submission_guidelines": "Instructions on what to submit (e.g. GitHub link, code zip)"
+        }},
+        "interview_evaluation_rubric": [
+            {{
+                "question": "The specific question to ask the candidate.",
+                "what_to_look_for": "Key keywords, concepts, or architectural patterns to check in their response.",
+                "grading_criteria": "Evaluation criteria for grading (Excellent, Good, Poor)."
+            }}
+        ]
+    }}
+    
+    CV Text:
+    {cv_text}
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a precise JSON-only response model."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.1,
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(completion.choices[0].message.content)
+        
+        test_data = data.get("custom_coding_test", {})
+        rubric_data = data.get("interview_evaluation_rubric", [])
+        
+        if not isinstance(test_data, dict):
+            test_data = {}
+        if not isinstance(rubric_data, list):
+            rubric_data = []
+            
+        return {
+            "custom_coding_test": {
+                "title": str(test_data.get("title", f"{job_role} Coding Assessment")),
+                "duration": str(test_data.get("duration", "48 Hours")),
+                "problem_statement": str(test_data.get("problem_statement", "Build a small practical project to demonstrate your skills.")),
+                "requirements": list(test_data.get("requirements", ["Implement core logic", "Ensure error handling", "Provide clean documentation"])),
+                "submission_guidelines": str(test_data.get("submission_guidelines", "Upload to GitHub and send link."))
+            },
+            "interview_evaluation_rubric": rubric_data
+        }
+    except Exception as e:
+        print(f"AgentRecruitmentTest error: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            test_data = data.get("custom_coding_test", {})
+            rubric_data = data.get("interview_evaluation_rubric", [])
+            return {
+                "custom_coding_test": {
+                    "title": str(test_data.get("title", f"{job_role} Coding Assessment")),
+                    "duration": str(test_data.get("duration", "48 Hours")),
+                    "problem_statement": str(test_data.get("problem_statement", "Build a small practical project to demonstrate your skills.")),
+                    "requirements": list(test_data.get("requirements", ["Implement core logic", "Ensure error handling", "Provide clean documentation"])),
+                    "submission_guidelines": str(test_data.get("submission_guidelines", "Upload to GitHub and send link."))
+                },
+                "interview_evaluation_rubric": rubric_data
+            }
+        except Exception as e2:
+            print(f"AgentRecruitmentTest fallback failed: {e2}")
+            if "Software Engineer" in job_role:
+                return {
+                    "custom_coding_test": {
+                        "title": "Backend REST API & Database Optimization Challenge",
+                        "duration": "3 Hours",
+                        "problem_statement": "Design a secure, optimized backend REST API service utilizing Flask/Django with relational database endpoints. Implement query profiling and index configurations to address high concurrency requirements.",
+                        "requirements": [
+                            "Create at least 3 CRUD endpoints with validated input schemas.",
+                            "Implement database migration support and SQLite/PostgreSQL integrations.",
+                            "Write a test suite asserting API correctness under concurrent loads."
+                        ],
+                        "submission_guidelines": "Provide a clean git repository containing source code, README setup instructions, and database seeds."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": "How do you profile database query bottlenecks and implement secondary indexes in relational databases?",
+                            "what_to_look_for": "Mentions of EXPLAIN query plans, database logs, composite indices, query optimization practices.",
+                            "grading_criteria": "Excellent: Mentions specific EXPLAIN operators and index selection strategies. Good: Explains database indexing. Poor: Confuses indices with primary keys."
+                        },
+                        {
+                            "question": "Describe your strategy for secure API input validation and handling malformed payloads.",
+                            "what_to_look_for": "Mentions of schema validators like Pydantic, Marshmallow, custom middleware, and try-catch safety boundaries.",
+                            "grading_criteria": "Excellent: Comprehensive validation at API boundary with clear status codes. Good: Standard try-except validation. Poor: Relies on frontend validation only."
+                        }
+                    ]
+                }
+            elif "Data Analyst" in job_role:
+                return {
+                    "custom_coding_test": {
+                        "title": "Data Pipeline and Insights Visualization Dashboard",
+                        "duration": "3 Hours",
+                        "problem_statement": "Ingest a raw sales dataset, handle missing data/outliers, perform descriptive statistical analysis, and generate a dynamic dashboard rendering cohort analytics and business performance trends.",
+                        "requirements": [
+                            "Implement data cleaning using Python Pandas or SQL queries.",
+                            "Generate visual charts showing cohort retention and revenue trends.",
+                            "Produce a concise executive summary explaining 3 actionable data findings."
+                        ],
+                        "submission_guidelines": "Submit a Jupyter Notebook (.ipynb) or SQL script along with exported visual dashboard designs."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": "Explain how you identify and handle missing values, duplicates, and outliers in raw production data.",
+                            "what_to_look_for": "Pandas dropna/fillna, Z-score, IQR range, interpolation techniques, understanding business impact of outliers.",
+                            "grading_criteria": "Excellent: Demonstrates statistical depth and business alignment. Good: standard pandas methods. Poor: Suggests deletion of all missing rows."
+                        },
+                        {
+                            "question": "How do you design dashboards to ensure business stakeholders can easily derive key insights?",
+                            "what_to_look_for": "Data hierarchy, visual clarity, interactive filters, avoiding information overload.",
+                            "grading_criteria": "Excellent: Emphasizes user journey and actionable insight placement. Good: Focuses on choosing correct chart types. Poor: Focuses on aesthetic decoration only."
+                        }
+                    ]
+                }
+            elif "Flutter Developer" in job_role:
+                return {
+                    "custom_coding_test": {
+                        "title": "Dynamic Mobile App & State Management Task",
+                        "duration": "3 Hours",
+                        "problem_statement": "Develop a responsive, multi-page Flutter application that consumes a public REST API. Implement state management (Bloc/Provider/Riverpod) to support offline caching, loading indicators, and error banners.",
+                        "requirements": [
+                            "Implement smooth cross-platform navigation and responsive lists.",
+                            "Integrate standard state management for API fetch and caching lifecycle.",
+                            "Add a localized offline network banner using system connectivity status."
+                        ],
+                        "submission_guidelines": "Submit a GitHub repository link with the Flutter project. Include clean commit history."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": "Compare Bloc, Riverpod, and Provider state management paradigms in Flutter.",
+                            "what_to_look_for": "Unidirectional data flow, testability, separation of UI and business logic, dependency injection.",
+                            "grading_criteria": "Excellent: Deep understanding of architecture differences and rebuild lifecycles. Good: Standard usage differences. Poor: Cannot explain unidirectional data flow."
+                        },
+                        {
+                            "question": "How do you optimize rendering performance in complex Flutter ScrollViews containing media elements?",
+                            "what_to_look_for": "ListView.builder viewport caching, RepaintBoundary, cached_network_image, avoiding heavy build calculations.",
+                            "grading_criteria": "Excellent: Mentions profiling with devtools, RepaintBoundary, and asset caching. Good: Standard builder methods. Poor: Recommends rebuilding entire view hierarchy."
+                        }
+                    ]
+                }
+            elif "Graphic Designer" in job_role:
+                return {
+                    "custom_coding_test": {
+                        "title": "Interactive Brand Identity & Product UI Mockup",
+                        "duration": "4 Hours",
+                        "problem_statement": "Create a unified digital brand package including logo vectors, corporate color palettes, typography specs, and a high-fidelity interactive landing page design matching standard responsive constraints.",
+                        "requirements": [
+                            "Design 3 desktop and mobile viewports with auto-layout constraints.",
+                            "Establish a design system featuring typography, buttons, and form layouts.",
+                            "Build interactive transitions demonstrating prototype flows."
+                        ],
+                        "submission_guidelines": "Provide a link to a Figma project file containing the organized layers, components, and prototype."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": "Explain your process for translating user research insights into visual design decisions.",
+                            "what_to_look_for": "Persona alignment, moodboards, user journey mapping, design systems, visual hierarchy.",
+                            "grading_criteria": "Excellent: Structured user-centric rationale with branding alignment. Good: Focuses on client briefs. Poor: Relies on personal aesthetic preference only."
+                        },
+                        {
+                            "question": "How do you structure Figma layout grids and auto-layouts to handoff files smoothly to engineering?",
+                            "what_to_look_for": "Figma Auto-layout 3.0, component variants, style libraries, developer mode inspection.",
+                            "grading_criteria": "Excellent: Systemized component logic matching flexbox systems. Good: Clean file structure. Poor: Disorganized layers and absolute positioning."
+                        }
+                    ]
+                }
+            elif "HR Manager" in job_role:
+                return {
+                    "custom_coding_test": {
+                        "title": "Strategic Employee Onboarding & Retention Blueprint",
+                        "duration": "4 Hours",
+                        "problem_statement": "Develop a comprehensive 30-60-90 day onboarding framework for remote technical staff, and outline a strategic policy addressing key feedback loops to optimize team retention rates.",
+                        "requirements": [
+                            "Draft onboarding agenda detailing technical alignment, culture checkpoints, and evaluations.",
+                            "Create standard feedback loop checkpoints and KPIs measuring success.",
+                            "Outline a conflict resolution playbook for remote engineering teams."
+                        ],
+                        "submission_guidelines": "Submit a structured PDF document detailing policies, action lists, and execution timeline."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": "Describe your strategy for resolving persistent friction between engineering teams and product managers.",
+                            "what_to_look_for": "Active listening, objective indicators, structured team workshops, alignment meetings, defining clear boundaries.",
+                            "grading_criteria": "Excellent: Clear mediator framework focusing on structural issues. Good: General communication ideas. Poor: Suggests firing the parties involved immediately."
+                        },
+                        {
+                            "question": "How do you measure employee engagement and implement feedback-driven changes?",
+                            "what_to_look_for": "eNPS surveys, exit interviews, 1-on-1 programs, transparency, action-oriented policy implementation.",
+                            "grading_criteria": "Excellent: Details continuous loop of collection, analysis, feedback, and action. Good: Uses standard survey cycles. Poor: Suggests doing surveys without follow-up."
+                        }
+                    ]
+                }
+            else:
+                return {
+                    "custom_coding_test": {
+                        "title": f"Custom {job_role} Practical Evaluation",
+                        "duration": "3 Hours",
+                        "problem_statement": f"Complete a targeted project designed to validate core skills and methodologies required for the role of '{job_role}'.",
+                        "requirements": [
+                            "Address standard workflow scenarios and security practices.",
+                            "Provide documentation describing setup and operational guidelines.",
+                            "Implement clear input verification and test routines."
+                        ],
+                        "submission_guidelines": "Submit project source files in a zip directory containing a detailed setup README."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": f"What are the industry best practices and core methodologies in your domain for a role like {job_role}?",
+                            "what_to_look_for": "Standard frameworks, security/compliance, performance validation, and team collaboration.",
+                            "grading_criteria": "Excellent: Cites modern standards, frameworks, and business context. Good: Standard techniques. Poor: Basic description only."
+                        }
+                    ]
+                }
+
 def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
     """
     Queries Groq Cloud LLM using a parallelized multi-agent orchestration framework.
-    Runs 4 specialized expert agents concurrently:
+    Runs 5 specialized expert agents concurrently:
     - AgentAudit: evaluates layout & styling
     - AgentTechMatcher: assesses technical stack alignment
     - AgentPsychProfiler: projects Big Five personality fit
     - AgentInterviewer: determines seniority & hiring recommendation
+    - AgentRecruitmentTest: designs customized practical testing assignment and rubric
     """
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=5) as executor:
         future_audit = executor.submit(run_audit_agent, cv_text, job_role)
         future_tech = executor.submit(run_tech_matcher_agent, cv_text, job_role)
         future_psych = executor.submit(run_psych_agent, cv_text, job_role)
         future_interviewer = executor.submit(run_interviewer_agent, cv_text, job_role)
+        future_test = executor.submit(run_recruitment_test_agent, cv_text, job_role)
         
         try:
             audit_res = future_audit.result()
@@ -617,7 +862,7 @@ def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
                     "tools_platforms": [],
                     "soft_skills": []
                 },
-                "critical_gaps": ["Could not perform deep AI skills gap evaluation. Please review candidate profile manually."]
+                "critical_gaps": ["Could not identify specific skill gaps."]
             }
             
         try:
@@ -641,11 +886,64 @@ def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
                 "recommendation_rationale": "Standard candidate profile meeting basic experience benchmarks. Recommend conducting a live technical interview."
             }
             
+        try:
+            test_res = future_test.result()
+        except Exception as e:
+            print(f"Recruitment test agent future resolved with error: {e}")
+            if "Software Engineer" in job_role:
+                test_res = {
+                    "custom_coding_test": {
+                        "title": "Backend REST API & Database Optimization Challenge",
+                        "duration": "3 Hours",
+                        "problem_statement": "Design a secure, optimized backend REST API service utilizing Flask/Django with relational database endpoints. Implement query profiling and index configurations to address high concurrency requirements.",
+                        "requirements": [
+                            "Create at least 3 CRUD endpoints with validated input schemas.",
+                            "Implement database migration support and SQLite/PostgreSQL integrations.",
+                            "Write a test suite asserting API correctness under concurrent loads."
+                        ],
+                        "submission_guidelines": "Provide a clean git repository containing source code, README setup instructions, and database seeds."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": "How do you profile database query bottlenecks and implement secondary indexes in relational databases?",
+                            "what_to_look_for": "Mentions of EXPLAIN query plans, database logs, composite indices, query optimization practices.",
+                            "grading_criteria": "Excellent: Mentions specific EXPLAIN operators and index selection strategies. Good: Explains database indexing. Poor: Confuses indices with primary keys."
+                        },
+                        {
+                            "question": "Describe your strategy for secure API input validation and handling malformed payloads.",
+                            "what_to_look_for": "Mentions of schema validators like Pydantic, Marshmallow, custom middleware, and try-catch safety boundaries.",
+                            "grading_criteria": "Excellent: Comprehensive validation at API boundary with clear status codes. Good: Standard try-except validation. Poor: Relies on frontend validation only."
+                        }
+                    ]
+                }
+            else:
+                test_res = {
+                    "custom_coding_test": {
+                        "title": f"Custom {job_role} Practical Evaluation",
+                        "duration": "3 Hours",
+                        "problem_statement": f"Complete a targeted project designed to validate core skills and methodologies required for the role of '{job_role}'.",
+                        "requirements": [
+                            "Address standard workflow scenarios and security practices.",
+                            "Provide documentation describing setup and operational guidelines.",
+                            "Implement clear input verification and test routines."
+                        ],
+                        "submission_guidelines": "Submit project source files in a zip directory containing a detailed setup README."
+                    },
+                    "interview_evaluation_rubric": [
+                        {
+                            "question": f"What are the industry best practices and core methodologies in your domain for a role like {job_role}?",
+                            "what_to_look_for": "Standard frameworks, security/compliance, performance validation, and team collaboration.",
+                            "grading_criteria": "Excellent: Cites modern standards, frameworks, and business context. Good: Standard techniques. Poor: Basic description only."
+                        }
+                    ]
+                }
+            
     merged = {}
     merged.update(audit_res)
     merged.update(tech_res)
     merged.update(psych_res)
     merged.update(interviewer_res)
+    merged.update(test_res)
     
     return merged
 

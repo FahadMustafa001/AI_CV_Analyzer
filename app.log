@@ -1162,3 +1162,244 @@ TypeError: Object of type Undefined is not JSON serializable
 2026-06-20 18:52:12,406 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:52:12] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
 2026-06-20 18:53:46,480 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
 2026-06-20 18:53:47,150 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 18:53:48,944 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 18:53:48,952 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 18:53:52,883 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 18:53:52,888 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 18:53:52,892 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 18:57:57,295 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:57:57] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 18:57:58,480 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:57:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 18:57:58,481 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:57:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 18:58:10,906 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:10] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:12,557 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:12] "POST /delete_candidate/CV_10_Flutter_Developer HTTP/1.1" 200 -
+2026-06-20 18:58:13,568 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:13] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:14,726 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:14] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:15,981 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:15] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:17,592 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:17] "POST /delete_candidate/CV_2_Software_Engineer HTTP/1.1" 200 -
+2026-06-20 18:58:18,678 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:18] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:19,877 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:19] "POST /delete_candidate/CV_5_HR HTTP/1.1" 200 -
+2026-06-20 18:58:21,572 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:21] "POST /delete_candidate/CV_10_Flutter_Developer HTTP/1.1" 200 -
+2026-06-20 18:58:25,537 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:25] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:27,476 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:27] "POST /delete_candidate/CV_3_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:58:29,551 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:29] "POST /delete_candidate/CV_6_HR HTTP/1.1" 200 -
+2026-06-20 18:58:31,599 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:31] "POST /delete_candidate/CV_9_Flutter_Developer HTTP/1.1" 200 -
+2026-06-20 18:58:33,648 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:33] "POST /delete_candidate/CV_8_Data_Analyst HTTP/1.1" 200 -
+2026-06-20 18:58:37,002 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:58:37] "POST /delete_candidate/CV_4_Graphic_Designer HTTP/1.1" 200 -
+2026-06-20 18:59:01,236 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:59:01] "POST /delete_candidate/Reconstruct%20Test%20Candidate HTTP/1.1" 200 -
+2026-06-20 18:59:04,395 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:59:04] "POST /delete_candidate/MUHAMMAD%20FAHAD%20MUSTAFA HTTP/1.1" 200 -
+2026-06-20 18:59:09,601 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:59:09] "GET / HTTP/1.1" 200 -
+2026-06-20 18:59:09,643 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:59:09] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 18:59:09,644 INFO werkzeug Thread-24 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 18:59:09] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:01:37,132 INFO werkzeug Thread-25 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:37] "GET / HTTP/1.1" 200 -
+2026-06-20 19:01:37,488 INFO werkzeug Thread-26 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:37] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 19:01:37,510 INFO werkzeug Thread-27 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:37] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:01:37,943 INFO werkzeug Thread-28 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:37] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:01:46,576 INFO werkzeug Thread-29 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:46] "[32mPOST /analyze HTTP/1.1[0m" 302 -
+2026-06-20 19:01:46,586 INFO werkzeug Thread-30 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:46] "GET / HTTP/1.1" 200 -
+2026-06-20 19:01:46,627 INFO werkzeug Thread-31 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:01:46,630 INFO werkzeug Thread-32 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:01:46] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:01:57,163 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:01:57,165 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : API call failed on attempt 1: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98790, Requested 2331. Please try again in 16m8.544s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:01:57,165 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : Max retries exceeded. Total attempts: 1, Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98790, Requested 2331. Please try again in 16m8.544s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:01:58,975 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-06-20 19:01:59,457 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:01:59,705 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:01:59,810 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,084 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:02:00,172 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,241 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,256 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,262 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,263 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-20 19:02:00,266 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,323 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,324 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-20 19:02:00,343 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,343 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-20 19:02:00,351 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:00,352 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-20 19:02:05,411 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:05,412 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 15.000000 seconds
+2026-06-20 19:02:05,501 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:05,501 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 15.000000 seconds
+2026-06-20 19:02:05,710 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:02:06,539 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:06,539 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 15.000000 seconds
+2026-06-20 19:02:20,569 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:20,662 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:20,741 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:20,742 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 15.000000 seconds
+2026-06-20 19:02:21,328 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:02:21,627 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:35,899 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:35,900 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-20 19:02:37,985 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:02:38,060 INFO werkzeug Thread-33 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:02:38] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 19:02:38,106 INFO werkzeug Thread-34 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:02:38] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:02:38,108 INFO werkzeug Thread-35 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:02:38] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:07:48,552 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:48,572 ERROR instructor.v2.retry ThreadPoolExecutor-2_0 : API call failed on attempt 1: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98383, Requested 2331. Please try again in 10m16.896s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:07:48,578 ERROR instructor.v2.retry ThreadPoolExecutor-2_0 : Max retries exceeded. Total attempts: 1, Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98383, Requested 2331. Please try again in 10m16.896s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:07:50,385 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-06-20 19:07:52,869 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:07:52,957 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,190 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:07:53,269 INFO httpx ThreadPoolExecutor-3_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,391 INFO httpx ThreadPoolExecutor-3_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,395 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,398 INFO httpx ThreadPoolExecutor-3_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,471 INFO httpx ThreadPoolExecutor-3_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,472 INFO groq._base_client ThreadPoolExecutor-3_1 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-20 19:07:53,488 INFO httpx ThreadPoolExecutor-3_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,489 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:53,489 INFO groq._base_client ThreadPoolExecutor-3_3 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-20 19:07:53,489 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-20 19:07:53,758 INFO httpx ThreadPoolExecutor-3_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:07:58,572 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:58,573 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 3.000000 seconds
+2026-06-20 19:07:59,572 INFO httpx ThreadPoolExecutor-3_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:07:59,572 INFO groq._base_client ThreadPoolExecutor-3_3 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-20 19:08:00,542 INFO httpx ThreadPoolExecutor-3_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:00,676 INFO groq._base_client ThreadPoolExecutor-3_1 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-20 19:08:01,768 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:01,857 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:01,968 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:02,047 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 16.000000 seconds
+2026-06-20 19:08:02,251 INFO httpx ThreadPoolExecutor-3_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:08:02,769 INFO httpx ThreadPoolExecutor-3_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:08,090 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:08,091 ERROR instructor.v2.retry ThreadPoolExecutor-4_0 : API call failed on attempt 1: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99763, Requested 2341. Please try again in 30m17.856s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:08:08,091 ERROR instructor.v2.retry ThreadPoolExecutor-4_0 : Max retries exceeded. Total attempts: 1, Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99763, Requested 2341. Please try again in 30m17.856s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:08:08,183 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:08,184 INFO groq._base_client ThreadPoolExecutor-4_0 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-20 19:08:18,220 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:18,221 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-20 19:08:20,487 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:08:20,543 INFO werkzeug Thread-36 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:08:20] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 19:08:20,771 INFO werkzeug Thread-37 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:08:20] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 19:08:20,794 INFO werkzeug Thread-40 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:08:20] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:08:21,178 INFO werkzeug Thread-41 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:08:21] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:08:27,367 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:27,367 INFO groq._base_client ThreadPoolExecutor-4_0 : Retrying request to /openai/v1/chat/completions in 16.000000 seconds
+2026-06-20 19:08:45,134 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-06-20 19:08:45,468 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:45,576 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:45,576 INFO groq._base_client ThreadPoolExecutor-4_0 : Retrying request to /openai/v1/chat/completions in 13.000000 seconds
+2026-06-20 19:08:58,724 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:08:58,725 INFO groq._base_client ThreadPoolExecutor-4_0 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-20 19:09:00,015 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:09:00,096 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:00,172 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:00,172 INFO groq._base_client ThreadPoolExecutor-4_0 : Retrying request to /openai/v1/chat/completions in 14.000000 seconds
+2026-06-20 19:09:14,496 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:09:14,580 INFO httpx ThreadPoolExecutor-5_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,664 INFO httpx ThreadPoolExecutor-5_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,665 INFO groq._base_client ThreadPoolExecutor-5_0 : Retrying request to /openai/v1/chat/completions in 16.000000 seconds
+2026-06-20 19:09:14,682 INFO httpx ThreadPoolExecutor-5_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,773 INFO httpx ThreadPoolExecutor-5_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,774 INFO httpx ThreadPoolExecutor-5_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,774 INFO httpx ThreadPoolExecutor-5_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,775 INFO groq._base_client ThreadPoolExecutor-5_3 : Retrying request to /openai/v1/chat/completions in 14.000000 seconds
+2026-06-20 19:09:14,859 INFO httpx ThreadPoolExecutor-5_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,860 INFO groq._base_client ThreadPoolExecutor-5_1 : Retrying request to /openai/v1/chat/completions in 15.000000 seconds
+2026-06-20 19:09:14,860 INFO httpx ThreadPoolExecutor-5_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:14,861 INFO groq._base_client ThreadPoolExecutor-5_2 : Retrying request to /openai/v1/chat/completions in 13.000000 seconds
+2026-06-20 19:09:28,516 INFO httpx ThreadPoolExecutor-5_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:09:28,859 INFO httpx ThreadPoolExecutor-5_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:28,859 INFO groq._base_client ThreadPoolExecutor-5_3 : Retrying request to /openai/v1/chat/completions in 18.000000 seconds
+2026-06-20 19:09:29,935 INFO httpx ThreadPoolExecutor-5_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:29,936 INFO groq._base_client ThreadPoolExecutor-5_1 : Retrying request to /openai/v1/chat/completions in 16.000000 seconds
+2026-06-20 19:09:30,747 INFO httpx ThreadPoolExecutor-5_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:30,748 INFO groq._base_client ThreadPoolExecutor-5_0 : Retrying request to /openai/v1/chat/completions in 14.000000 seconds
+2026-06-20 19:09:45,338 INFO httpx ThreadPoolExecutor-5_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:09:46,014 INFO httpx ThreadPoolExecutor-5_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:46,935 INFO httpx ThreadPoolExecutor-5_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:09:46,946 INFO werkzeug Thread-38 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:09:46] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 19:09:47,439 INFO werkzeug Thread-42 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:09:47] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 19:09:47,440 INFO werkzeug Thread-43 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:09:47] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:09:47,581 INFO werkzeug Thread-44 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:09:47] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:12:22,630 INFO httpx Thread-45 (process_request_thread) : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:12:25,811 INFO httpx Thread-45 (process_request_thread) : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:12:25,830 INFO werkzeug Thread-45 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:12:25] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 19:12:38,497 INFO httpx Thread-46 (process_request_thread) : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:12:41,367 INFO httpx Thread-46 (process_request_thread) : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:12:41,380 INFO werkzeug Thread-46 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:12:41] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 19:12:49,401 INFO werkzeug Thread-47 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:12:49] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 19:15:58,153 INFO werkzeug Thread-48 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:15:58] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 19:15:58,391 INFO werkzeug Thread-49 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:15:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:15:58,392 INFO werkzeug Thread-50 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:15:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:16:11,497 INFO werkzeug Thread-51 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:16:11] "GET / HTTP/1.1" 200 -
+2026-06-20 19:16:11,564 INFO werkzeug Thread-52 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:16:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:16:11,580 INFO werkzeug Thread-53 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:16:11] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:18:21,149 INFO werkzeug Thread-55 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:21] "GET / HTTP/1.1" 200 -
+2026-06-20 19:18:21,238 INFO werkzeug Thread-54 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:21] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:18:21,249 INFO werkzeug Thread-56 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:21] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:18:21,527 INFO werkzeug Thread-57 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:21] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:18:23,118 INFO werkzeug Thread-58 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:23] "[35m[1mGET /ranking HTTP/1.1[0m" 500 -
+2026-06-20 19:18:23,257 INFO werkzeug Thread-59 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:23] "GET /ranking?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2026-06-20 19:18:23,257 INFO werkzeug Thread-60 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:23] "GET /ranking?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-06-20 19:18:23,361 INFO werkzeug Thread-61 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:23] "GET /ranking?__debugger__=yes&cmd=resource&f=console.png&s=DMG5rHAG2NyKHI836ClO HTTP/1.1" 200 -
+2026-06-20 19:18:23,428 INFO werkzeug Thread-62 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:23] "GET /ranking?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2026-06-20 19:18:24,701 INFO werkzeug Thread-63 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:24] "GET /ranking?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-06-20 19:18:26,870 INFO werkzeug Thread-64 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:26] "[35m[1mGET /ranking HTTP/1.1[0m" 500 -
+2026-06-20 19:18:26,916 INFO werkzeug Thread-65 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:26] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:18:26,921 INFO werkzeug Thread-66 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:26] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2026-06-20 19:18:26,977 INFO werkzeug Thread-67 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:26] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=console.png&s=DMG5rHAG2NyKHI836ClO HTTP/1.1[0m" 304 -
+2026-06-20 19:18:28,681 INFO werkzeug Thread-68 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:28] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2026-06-20 19:18:32,576 INFO werkzeug Thread-69 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:32] "[35m[1mGET /ranking HTTP/1.1[0m" 500 -
+2026-06-20 19:18:32,620 INFO werkzeug Thread-70 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:32] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:18:32,624 INFO werkzeug Thread-71 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:32] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2026-06-20 19:18:32,674 INFO werkzeug Thread-72 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:32] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2026-06-20 19:18:32,680 INFO werkzeug Thread-73 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:32] "[36mGET /ranking?__debugger__=yes&cmd=resource&f=console.png&s=DMG5rHAG2NyKHI836ClO HTTP/1.1[0m" 304 -
+2026-06-20 19:18:35,362 INFO werkzeug Thread-74 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:35] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 19:18:35,412 INFO werkzeug Thread-75 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:35] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:18:35,416 INFO werkzeug Thread-76 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:35] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:18:35,980 INFO werkzeug Thread-77 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:18:35] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:19:04,049 INFO werkzeug Thread-78 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:19:04] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 19:19:16,419 INFO werkzeug Thread-79 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:19:16] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 19:20:03,725 INFO werkzeug Thread-80 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:03] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 19:20:03,833 INFO werkzeug Thread-81 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:20:03,838 INFO werkzeug Thread-82 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:03] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:20:04,318 INFO werkzeug Thread-83 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:04] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:20:04,600 INFO werkzeug Thread-84 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:04] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:20:06,680 INFO werkzeug Thread-85 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:06] "GET / HTTP/1.1" 200 -
+2026-06-20 19:20:06,739 INFO werkzeug Thread-86 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:06] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:20:06,774 INFO werkzeug Thread-87 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:20:06] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:22:01,990 INFO werkzeug Thread-88 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:01] "GET / HTTP/1.1" 200 -
+2026-06-20 19:22:02,539 INFO werkzeug Thread-89 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:02] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:22:02,563 INFO werkzeug Thread-90 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:02] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:22:28,647 INFO werkzeug Thread-91 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:28] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 19:22:28,718 INFO werkzeug Thread-92 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:28] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:22:28,725 INFO werkzeug Thread-93 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:28] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:22:52,304 INFO werkzeug Thread-94 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:52] "GET / HTTP/1.1" 200 -
+2026-06-20 19:22:52,465 INFO werkzeug Thread-95 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:52] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:22:52,485 INFO werkzeug Thread-96 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:52] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:22:53,085 INFO werkzeug Thread-97 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:22:53] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:23:09,986 INFO httpx ThreadPoolExecutor-6_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:09,999 ERROR instructor.v2.retry ThreadPoolExecutor-6_0 : API call failed on attempt 1: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98719, Requested 1829. Please try again in 7m53.472s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:23:10,006 ERROR instructor.v2.retry ThreadPoolExecutor-6_0 : Max retries exceeded. Total attempts: 1, Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98719, Requested 1829. Please try again in 7m53.472s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 19:23:11,205 INFO httpx ThreadPoolExecutor-6_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 400 Bad Request"
+2026-06-20 19:23:11,210 ERROR instructor.v2.retry ThreadPoolExecutor-6_0 : API call failed on attempt 1: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=CVAnalysisSchema> {"full_name": "MUHAMMAD FAHAD MUSTAFA", "email": "mustafafahhad29@gmail.com", "phone": "+92 3164468643", "links": ["github.com/MuhammadFahad829"], "education": [{"degree": "Bachelor of Science in Computer Science (BS CS)", "gpa": "3.84 / 4.00", "institution": "COMSATS University Islamabad, Sahiwal", "passing_year": "06/2028"}, {"degree": "ICS (Intermediate in Computer Science)", "institution": "Punjab Group of Colleges (PGC)", "passing_year": "2024"}, {"degree": "Matriculation in Sciences", "institution": "Cathedral Christ Church School Okara", "passing_year": "2022"}], "experience_years": 0, "experience": [], "projects": [{"title": "AI-Driven Professional SaaS Product & Automation Pipeline", "description": "AI-Driven Professional SaaS Product & Automation Pipeline, In Progress\\nPython, Advanced RAG Pipelines & Codebase Security\\nDesigning and building a professional-grade SaaS product codebase engineered\\n•\\nvia advanced automated development workflows.\\nImplementing a comprehensive \\\\"}, {"title": "Smart Office IoT Network Architecture", "description": "Cisco Packet Tracer, Managed Firewalls & Enterprise Security\\nModeling and developing a highly secure corporate smart office IoT network\\n•\\ninfrastructure within a simulated network environment.\\nImplementing network protection layers by deploying edge routers, managed\\n•\\nfirewalls, and strict macro-segmentation mapping via customized VLAN profiles.\\nDebugging live network layout blocks, interface isolation mismatches, and packet\\n•\\nrouting anomalies to guarantee continuous enterprise uptime."}, {"title": "Pharmacy Management System", "description": "Built a robust client application utilizing pure Java Object-Oriented Programming\\n•\\n(OOP) methodologies including inheritance, polymorphism, and encapsulation\\nfor systematic data modularity.\\nDeveloped a reliable data persistence layer by establishing secure network\\n•\\nhandshakes directly to an Oracle Database instance using JDBC API structures."}, {"title": "Hospital Shortest Path Routing Project", "description": "Modeled and built a spatial navigation simulator mapped within a custom\\n•\\ndirectional graph layout using the native C++ compiler environment.\\nProgrammed an integration of Dijkstra\'s Shortest Path Algorithm to dynamically\\n•\\ncalculate minimum travel costs between clinical nodes with minimal execution\\nlatency."}, {"title": "School Management System", "description": "System Implementation: Developed a lightweight administrative software system\\n•\\nclient in C++ to capture, structure, and organize student record repositories.\\nCustom Data Structuring: Deployed custom Data Structures & Algorithms (DSA)\\n•\\nlogic maps to regulate running memory arrays and speed up data retrieval\\noperations."}], "certifications": [], "interests": [], "languages": [], "skills": ["Java (Advanced OOP)", "C++ (High-Performance Flutter Framework, Dart Language, Android App Systems)", "Python (Automation & AI Stack)", "HTML5", "CSS3", "WordPress (CMS Configuration)", "Retrieval-Augmented Generation (RAG)", "Automated Shopify (Store Setup & Administration) Pipelines", "VLAN Configuration", "Network Segmentation", "Data Structures & Algorithms (DSA)", "Graph Theory", "Dijkstra\'s Path Optimization", "Oracle DB (JDBC)"], "summary": null}'}}
+2026-06-20 19:23:11,219 ERROR instructor.v2.retry ThreadPoolExecutor-6_0 : Max retries exceeded. Total attempts: 1, Last error: Error code: 400 - {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '<function=CVAnalysisSchema> {"full_name": "MUHAMMAD FAHAD MUSTAFA", "email": "mustafafahhad29@gmail.com", "phone": "+92 3164468643", "links": ["github.com/MuhammadFahad829"], "education": [{"degree": "Bachelor of Science in Computer Science (BS CS)", "gpa": "3.84 / 4.00", "institution": "COMSATS University Islamabad, Sahiwal", "passing_year": "06/2028"}, {"degree": "ICS (Intermediate in Computer Science)", "institution": "Punjab Group of Colleges (PGC)", "passing_year": "2024"}, {"degree": "Matriculation in Sciences", "institution": "Cathedral Christ Church School Okara", "passing_year": "2022"}], "experience_years": 0, "experience": [], "projects": [{"title": "AI-Driven Professional SaaS Product & Automation Pipeline", "description": "AI-Driven Professional SaaS Product & Automation Pipeline, In Progress\\nPython, Advanced RAG Pipelines & Codebase Security\\nDesigning and building a professional-grade SaaS product codebase engineered\\n•\\nvia advanced automated development workflows.\\nImplementing a comprehensive \\\\"}, {"title": "Smart Office IoT Network Architecture", "description": "Cisco Packet Tracer, Managed Firewalls & Enterprise Security\\nModeling and developing a highly secure corporate smart office IoT network\\n•\\ninfrastructure within a simulated network environment.\\nImplementing network protection layers by deploying edge routers, managed\\n•\\nfirewalls, and strict macro-segmentation mapping via customized VLAN profiles.\\nDebugging live network layout blocks, interface isolation mismatches, and packet\\n•\\nrouting anomalies to guarantee continuous enterprise uptime."}, {"title": "Pharmacy Management System", "description": "Built a robust client application utilizing pure Java Object-Oriented Programming\\n•\\n(OOP) methodologies including inheritance, polymorphism, and encapsulation\\nfor systematic data modularity.\\nDeveloped a reliable data persistence layer by establishing secure network\\n•\\nhandshakes directly to an Oracle Database instance using JDBC API structures."}, {"title": "Hospital Shortest Path Routing Project", "description": "Modeled and built a spatial navigation simulator mapped within a custom\\n•\\ndirectional graph layout using the native C++ compiler environment.\\nProgrammed an integration of Dijkstra\'s Shortest Path Algorithm to dynamically\\n•\\ncalculate minimum travel costs between clinical nodes with minimal execution\\nlatency."}, {"title": "School Management System", "description": "System Implementation: Developed a lightweight administrative software system\\n•\\nclient in C++ to capture, structure, and organize student record repositories.\\nCustom Data Structuring: Deployed custom Data Structures & Algorithms (DSA)\\n•\\nlogic maps to regulate running memory arrays and speed up data retrieval\\noperations."}], "certifications": [], "interests": [], "languages": [], "skills": ["Java (Advanced OOP)", "C++ (High-Performance Flutter Framework, Dart Language, Android App Systems)", "Python (Automation & AI Stack)", "HTML5", "CSS3", "WordPress (CMS Configuration)", "Retrieval-Augmented Generation (RAG)", "Automated Shopify (Store Setup & Administration) Pipelines", "VLAN Configuration", "Network Segmentation", "Data Structures & Algorithms (DSA)", "Graph Theory", "Dijkstra\'s Path Optimization", "Oracle DB (JDBC)"], "summary": null}'}}
+2026-06-20 19:23:12,818 INFO httpx ThreadPoolExecutor-6_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:23:12,984 INFO httpx ThreadPoolExecutor-6_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:13,541 INFO httpx ThreadPoolExecutor-6_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:23:13,842 INFO httpx ThreadPoolExecutor-7_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:14,181 INFO httpx ThreadPoolExecutor-7_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:14,311 INFO httpx ThreadPoolExecutor-7_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:23:14,800 INFO httpx ThreadPoolExecutor-7_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:23:14,843 INFO httpx ThreadPoolExecutor-7_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:15,280 INFO httpx ThreadPoolExecutor-7_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:15,374 INFO httpx ThreadPoolExecutor-7_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:15,377 INFO groq._base_client ThreadPoolExecutor-7_3 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-20 19:23:15,563 INFO httpx ThreadPoolExecutor-7_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:23:22,976 INFO httpx ThreadPoolExecutor-7_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 19:23:22,977 INFO groq._base_client ThreadPoolExecutor-7_3 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-20 19:23:27,748 INFO httpx ThreadPoolExecutor-7_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 19:23:27,913 INFO werkzeug Thread-98 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:23:27] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 19:23:27,991 INFO werkzeug Thread-99 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:23:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 19:23:28,078 INFO werkzeug Thread-100 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 19:23:28] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 19:27:11,944 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 19:27:12,156 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 19:27:15,091 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 19:27:15,323 INFO werkzeug MainThread :  * Restarting with stat
