@@ -395,3 +395,18 @@ TypeError: Object of type Undefined is not JSON serializable
 2026-06-20 15:33:15,880 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
 2026-06-20 15:33:16,226 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 15:33:17,289 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:33:39,855 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:33:39] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:33:40,201 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:33:40] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 15:33:59,070 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:33:59] "GET / HTTP/1.1" 200 -
+2026-06-20 15:33:59,191 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:33:59] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:34:08,530 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:34:08] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:34:08,583 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:34:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:34:14,250 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:34:14] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:34:14,353 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:34:14] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 15:34:15,757 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:34:15] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-06-20 15:35:45,240 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:45] "GET / HTTP/1.1" 200 -
+2026-06-20 15:35:45,280 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:45] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:35:55,751 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:55] "GET / HTTP/1.1" 200 -
+2026-06-20 15:35:55,770 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:35:57,071 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:57] "GET / HTTP/1.1" 200 -
+2026-06-20 15:35:57,086 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:57] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -

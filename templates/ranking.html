@@ -317,8 +317,8 @@
                             </span>
                           </div>
                           <div class="personality-bar-container">
-                            <div class="personality-bar-actual" style="width: {{ val }}%;"></div>
-                            <div class="personality-bar-benchmark" style="left: {{ target[trait] }}%;">
+                            <div class="personality-bar-actual" style="--w: {{ val }}%; width: var(--w);"></div>
+                            <div class="personality-bar-benchmark" style="--l: {{ target[trait] }}%; left: var(--l);">
                               <span class="personality-bar-benchmark-label">Target</span>
                             </div>
                           </div>
