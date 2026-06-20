@@ -110,6 +110,11 @@ def init_db():
     add_col("personality_score", "REAL DEFAULT 0")
     add_col("ai_report", "TEXT")
     add_col("raw_text", "TEXT")
+    add_col("email", "TEXT")
+    add_col("links", "TEXT")
+    add_col("education", "TEXT")
+    add_col("experience", "TEXT")
+    add_col("projects", "TEXT")
     conn.commit()
     conn.close()
 
@@ -149,19 +154,31 @@ def process_single_cv(file_path, filename, job_role, job_desc, exp_target_map, p
         # 3. Fetch Deep Semantic AI Audit Report
         ai_report = get_ai_deep_analysis(raw_text, job_role)
 
-        # 4. Save Record to Database cleanly (independent thread connections)
+        # 4. Serialize parsed profile blocks safely (using Pydantic model_dump)
+        email_val = parsed_profile.email if parsed_profile else "Not Extracted"
+        links_json = json.dumps(parsed_profile.links) if parsed_profile else "[]"
+        if parsed_profile:
+            edu_json = json.dumps([edu.model_dump() for edu in parsed_profile.education])
+            exp_json = json.dumps([exp.model_dump() for exp in parsed_profile.experience])
+            proj_json = json.dumps([proj.model_dump() for proj in parsed_profile.projects])
+        else:
+            edu_json = "[]"
+            exp_json = "[]"
+            proj_json = "[]"
+
+        # 5. Save Record to Database cleanly (independent thread connections)
         conn = sqlite3.connect("candidates.db", timeout=30.0)
         try:
             cur = conn.cursor()
             cur.execute('''INSERT INTO candidates 
                            (name, filename, job_role, score, soft_skills, interests, certificates, final_score, exp_years, personality_score,
-                            personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism, ai_report, raw_text)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                            personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism, ai_report, raw_text, email, links, education, experience, projects)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                         (candidate_name, filename, job_role, job_score,
                          ", ".join(soft_skills), ", ".join(interests), ", ".join(certificates), final_score,
                          exp_years, personality_score_val,
                          est_traits.get('openness'), est_traits.get('conscientiousness'), est_traits.get('extraversion'), est_traits.get('agreeableness'), est_traits.get('neuroticism'),
-                         json.dumps(ai_report), raw_text))
+                         json.dumps(ai_report), raw_text, email_val, links_json, edu_json, exp_json, proj_json))
             conn.commit()
         finally:
             conn.close()
@@ -339,6 +356,47 @@ def optimize_cv(name: str):
     optimized_text = generate_optimized_resume(raw_text, job_role, ai_report)
     return {"optimized_cv": optimized_text}
 
+def deserialize_candidate(r):
+    try:
+        email = r[14] if (len(r) > 14 and r[14]) else "Not Extracted"
+        links = json.loads(r[15]) if (len(r) > 15 and r[15]) else []
+        education = json.loads(r[16]) if (len(r) > 16 and r[16]) else []
+        experience = json.loads(r[17]) if (len(r) > 17 and r[17]) else []
+        projects = json.loads(r[18]) if (len(r) > 18 and r[18]) else []
+        ai_report = json.loads(r[19]) if (len(r) > 19 and r[19]) else {}
+    except Exception:
+        email = "Not Extracted"
+        links = []
+        education = []
+        experience = []
+        projects = []
+        ai_report = {}
+        
+    return {
+        "name": r[0],
+        "job_role": r[1],
+        "job_score": r[2],
+        "exp_years": r[3],
+        "personality_score": r[4],
+        "soft_skills": r[5],
+        "interests": r[6],
+        "certificates": r[7],
+        "final_score": r[8],
+        "personality_traits": {
+            "openness": r[9] if len(r) > 9 else 50.0,
+            "conscientiousness": r[10] if len(r) > 10 else 50.0,
+            "extraversion": r[11] if len(r) > 11 else 50.0,
+            "agreeableness": r[12] if len(r) > 12 else 50.0,
+            "neuroticism": r[13] if len(r) > 13 else 50.0
+        },
+        "email": email,
+        "links": links,
+        "education": education,
+        "experience": experience,
+        "projects": projects,
+        "ai_report": ai_report
+    }
+
 @app.route('/ranking')
 def ranking():
     query = request.args.get('query', '').strip()
@@ -349,29 +407,13 @@ def ranking():
         cur = conn.cursor()
         cur.execute("""
             SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score,
-                   personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism
+                   personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism,
+                   email, links, education, experience, projects, ai_report
             FROM candidates
         """)
         candidates = []
         for r in cur.fetchall():
-            candidates.append({
-                "name": r[0],
-                "job_role": r[1],
-                "job_score": r[2],
-                "exp_years": r[3],
-                "personality_score": r[4],
-                "soft_skills": r[5],
-                "interests": r[6],
-                "certificates": r[7],
-                "final_score": r[8],
-                "personality_traits": {
-                    "openness": r[9],
-                    "conscientiousness": r[10],
-                    "extraversion": r[11],
-                    "agreeableness": r[12],
-                    "neuroticism": r[13]
-                }
-            })
+            candidates.append(deserialize_candidate(r))
         conn.close()
 
         # 2. Run Groq RAG Semantic Candidate Search
@@ -396,22 +438,14 @@ def ranking():
         conn = sqlite3.connect("candidates.db")
         cur = conn.cursor()
         cur.execute("""
-            SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score 
+            SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score,
+                   personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism,
+                   email, links, education, experience, projects, ai_report
             FROM candidates ORDER BY final_score DESC
         """)
         rows = []
         for r in cur.fetchall():
-            rows.append({
-                "name": r[0],
-                "job_role": r[1],
-                "job_score": r[2],
-                "exp_years": r[3],
-                "personality_score": r[4],
-                "soft_skills": r[5],
-                "interests": r[6],
-                "certificates": r[7],
-                "final_score": r[8]
-            })
+            rows.append(deserialize_candidate(r))
         conn.close()
         return render_template('ranking.html', rows=rows)
 

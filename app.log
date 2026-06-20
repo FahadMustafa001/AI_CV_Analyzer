@@ -201,3 +201,69 @@
 2026-06-20 15:07:09,716 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 15:07:11,262 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 15:07:43,970 INFO httpx MainThread : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:09:53,751 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:09:53,762 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:09:54,114 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:09:55,950 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:09:55,951 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:09:55,952 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:09:55,953 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:10:16,682 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:10:16,683 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:10:17,045 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:10:17,051 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:10:18,691 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:10:18,692 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:10:18,694 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:10:18,695 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:10:46,670 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:10:46,672 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:10:47,024 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:10:47,025 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:10:48,661 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:10:48,663 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:10:48,671 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:10:48,673 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:11:49,864 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:11:50,919 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:11:51,024 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:11:52,475 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:11:52,562 ERROR app MainThread : Exception on /ranking [GET]
+Traceback (most recent call last):
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\app.py", line 450, in ranking
+    return render_template('ranking.html', rows=rows)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\AI_CV_Analyzer\templates\ranking.html", line 549, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.
+2026-06-20 15:12:39,222 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:12:40,423 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:12:40,615 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:12:41,945 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:13:18,801 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:13:18] "GET / HTTP/1.1" 200 -
+2026-06-20 15:13:19,056 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:13:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
