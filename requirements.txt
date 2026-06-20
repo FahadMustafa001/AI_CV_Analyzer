@@ -7,4 +7,5 @@ groq
 instructor
 pydantic
 reportlab
+python-dotenv
 gunicorn
