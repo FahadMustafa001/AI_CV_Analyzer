@@ -2,6 +2,7 @@
 import os
 import re
 import json
+from concurrent.futures import ThreadPoolExecutor
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from groq import Groq
@@ -9,18 +10,82 @@ from groq import Groq
 # Initialize Groq Client securely from Environment Variables
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY", "YOUR_FALLBACK_API_KEY_HERE"))
 
+def compute_llm_similarity_score(job_desc: str, cv_text: str) -> float:
+    """
+    Queries Groq LLM to semantically grade the CV relevance against the Job Description.
+    """
+    prompt = f"""
+    You are an expert technical recruiter. Evaluate the semantic match between this candidate's resume (CV) and the Job Description (JD).
+    Grade the candidate's relevance on a scale of 0 to 100 based on technical stack alignment, conceptual skills match, projects, and seniority fit.
+    Be objective and strict. Return ONLY a valid JSON object. No conversational notes or markdown blocks.
+
+    JSON Schema:
+    {{
+        "score": 85.0
+    }}
+
+    Job Description:
+    {job_desc}
+
+    Candidate Resume:
+    {cv_text}
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a precise JSON-only response model."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.1,
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(completion.choices[0].message.content)
+        return float(data.get("score", 0.0))
+    except Exception as e:
+        print(f"LLM similarity scoring failed: {e}. Trying fallback model...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            return float(data.get("score", 0.0))
+        except Exception as e2:
+            print(f"LLM similarity scoring fallback failed: {e2}")
+            raise e2
+
 def compute_similarity(job_desc: str, cv_text: str) -> float:
     """
-    Computes semantic similarity score using TF-IDF and Cosine Similarity,
-    scaled to a realistic [0, 100] match range (0.35 cosine is mapped to 100%).
+    Computes hybrid similarity score using local TF-IDF cosine similarity (30% weight)
+    and Groq LLM deep semantic alignment (70% weight).
+    Falls back to 100% TF-IDF if LLM is unavailable.
     """
     if not cv_text.strip():
         return 0.0
-    vect = TfidfVectorizer(stop_words='english', ngram_range=(1, 2)).fit_transform([job_desc, cv_text])
-    sim_score = cosine_similarity(vect[0:1], vect[1:2])[0][0]
-    # Scale: raw cosine of 0.35 or higher is mapped to 100.0%
-    scaled_score = min((sim_score / 0.35) * 100.0, 100.0)
-    return round(scaled_score, 2)
+    
+    # 1. Compute TF-IDF
+    try:
+        vect = TfidfVectorizer(stop_words='english', ngram_range=(1, 2)).fit_transform([job_desc, cv_text])
+        sim_score = cosine_similarity(vect[0:1], vect[1:2])[0][0]
+        tfidf_score = min((sim_score / 0.35) * 100.0, 100.0)
+    except Exception as e:
+        print(f"Local TF-IDF matching failed: {e}")
+        tfidf_score = 0.0
+
+    # 2. Compute LLM Semantic Similarity
+    try:
+        llm_score = compute_llm_similarity_score(job_desc, cv_text)
+        final_score = 0.30 * tfidf_score + 0.70 * llm_score
+        return round(min(max(final_score, 0.0), 100.0), 2)
+    except Exception as e:
+        print(f"Reverting to pure local TF-IDF matching: {e}")
+        return round(tfidf_score, 2)
 
 def extract_keywords(cv_text: str, keywords_list: list) -> list:
     """
@@ -69,25 +134,100 @@ def experience_score(job_role: str, exp_years: float, target_experience_map: dic
     target = target_experience_map.get(job_role, 2)
     return round(min(exp_years / max(target, 0.1), 1.0) * 100.0, 2)
 
+def estimate_personality_llm(cv_text: str) -> dict:
+    """
+    Queries Groq LLM to estimate Big Five personality traits based on CV content and style.
+    """
+    prompt = f"""
+    You are an expert organizational psychologist. Analyze the candidate's CV text and estimate their Big Five personality trait scores as percentiles (0 to 100).
+    Evaluate:
+    - Openness: Creativity, technological curiosity, design, R&D.
+    - Conscientiousness: Attention to detail, planning, reliability, organization.
+    - Extraversion: Leadership, presentations, management, community work.
+    - Agreeableness: Collaboration, mentoring, support, teamwork.
+    - Neuroticism: High stress resilience, coping under pressure, debugging complex problems (low neuroticism = high resilience).
+    
+    Provide objective scores based on semantic cues, sentence structures, and achievements.
+    Return ONLY a valid JSON object. No conversational notes or markdown blocks.
+
+    JSON Schema:
+    {{
+        "openness": 75.0,
+        "conscientiousness": 80.0,
+        "extraversion": 55.0,
+        "agreeableness": 65.0,
+        "neuroticism": 35.0
+    }}
+
+    CV Text:
+    {cv_text}
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a precise JSON-only response model."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.1,
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(completion.choices[0].message.content)
+        return {
+            "openness": float(data.get("openness", 50.0)),
+            "conscientiousness": float(data.get("conscientiousness", 50.0)),
+            "extraversion": float(data.get("extraversion", 50.0)),
+            "agreeableness": float(data.get("agreeableness", 50.0)),
+            "neuroticism": float(data.get("neuroticism", 50.0))
+        }
+    except Exception as e:
+        print(f"LLM personality profiling failed: {e}. Trying fallback model...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            return {
+                "openness": float(data.get("openness", 50.0)),
+                "conscientiousness": float(data.get("conscientiousness", 50.0)),
+                "extraversion": float(data.get("extraversion", 50.0)),
+                "agreeableness": float(data.get("agreeableness", 50.0)),
+                "neuroticism": float(data.get("neuroticism", 50.0))
+            }
+        except Exception as e2:
+            print(f"LLM personality profiling fallback failed: {e2}")
+            raise e2
+
 def estimate_personality_from_cv(cv_text: str) -> dict:
     """
-    Heuristic personality profiling baseline derived directly from CV syntactic tokens.
+    Cognitive psychological profiling. Uses Groq LLM as primary assessor,
+    falling back to keyword heuristics if the AI service is unavailable.
     """
-    trait_map = {
-        "openness": ["creative", "innovation", "design", "research", "explore", "curious", "architecture", "ui", "ux"],
-        "conscientiousness": ["organized", "detail", "plan", "deadline", "reliable", "responsible", "optimization", "clean code"],
-        "extraversion": ["lead", "presented", "team lead", "community", "public", "network", "speaker", "management"],
-        "agreeableness": ["collaborated", "support", "mentor", "empathy", "customer", "stakeholder", "teamwork", "assisted"],
-        "neuroticism": ["stress", "pressure", "challenge", "resilient", "cope", "troubleshooting", "debugging"]
-    }
-    scores = {t: 50.0 for t in trait_map}
-    for trait, kws in trait_map.items():
-        cnt = sum(1 for k in kws if k in cv_text)
-        val = (min(cnt, 5) / 5.0) * 100.0
-        if trait == "neuroticism":
-            val = max(10.0, 50.0 - val)
-        scores[trait] = round(val if cnt > 0 else 50.0, 2)
-    return scores
+    try:
+        return estimate_personality_llm(cv_text)
+    except Exception as e:
+        print(f"Reverting to rule-based keyword counts for personality estimation: {e}")
+        trait_map = {
+            "openness": ["creative", "innovation", "design", "research", "explore", "curious", "architecture", "ui", "ux"],
+            "conscientiousness": ["organized", "detail", "plan", "deadline", "reliable", "responsible", "optimization", "clean code"],
+            "extraversion": ["lead", "presented", "team lead", "community", "public", "network", "speaker", "management"],
+            "agreeableness": ["collaborated", "support", "mentor", "empathy", "customer", "stakeholder", "teamwork", "assisted"],
+            "neuroticism": ["stress", "pressure", "challenge", "resilient", "cope", "troubleshooting", "debugging"]
+        }
+        scores = {t: 50.0 for t in trait_map}
+        for trait, kws in trait_map.items():
+            cnt = sum(1 for k in kws if k in cv_text.lower())
+            val = (min(cnt, 5) / 5.0) * 100.0
+            if trait == "neuroticism":
+                val = max(10.0, 50.0 - val)
+            scores[trait] = round(val if cnt > 0 else 50.0, 2)
+        return scores
 
 def score_personality_test(form_data: dict, questions_list: list) -> dict:
     """
@@ -136,25 +276,23 @@ def compute_final_score(job_role: str, job_score: float, soft_skills: list, cert
     )
     return round(final, 2)
 
-# ---------------------- AI Deep Semantic Engine ----------------------
-def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
+# ---------------------- AI Deep Semantic Engine (Multi-Agent) ----------------------
+
+def run_audit_agent(cv_text: str, job_role: str) -> dict:
     """
-    Queries Groq Cloud LLM to structurally audit the CV without strict keyword constraints,
-    identifying core missing skills, layout issues, and customized interview paths.
+    Evaluates CV layout, parser compatibility, spelling, and grammar.
     """
     prompt = f"""
-    You are an advanced AI Applicant Tracking System (ATS) auditor. Analyze this CV text for the role '{job_role}'.
+    You are an expert resume design auditor. Analyze the layout, structure, grammar, parser compatibility, and spelling of the following CV for the role '{job_role}'.
     Provide the output strictly in valid JSON format. Do not use any conversational text or markdown code blocks.
     
     JSON Schema:
     {{
-        "skills_found": ["list", "of", "detected", "skills"],
-        "critical_gaps": ["list", "of", "missing", "important", "skills", "for", "this", "role"],
-        "bullet_points_improvement": ["up to 3 actionable suggestions to improve weak bullets using metric-based impact"],
-        "interview_questions": ["3 direct technical or behavioral questions customized to this candidate"],
-        "formatting_feedback": "Short critique about resume parsing readability and structure"
+        "formatting_score": 85.0, // An integer/float from 0 to 100 assessing structure, layout, spelling, and grammar
+        "formatting_feedback": "Short critique about resume parsing readability, structure, grammar, and style.",
+        "bullet_points_improvement": ["up to 3 suggestions to improve achievements using metrics and business impact"]
     }}
-
+    
     CV Text:
     {cv_text}
     """
@@ -168,9 +306,14 @@ def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
             temperature=0.1,
             response_format={"type": "json_object"}
         )
-        return json.loads(completion.choices[0].message.content)
+        data = json.loads(completion.choices[0].message.content)
+        return {
+            "formatting_score": float(data.get("formatting_score", 70.0)),
+            "formatting_feedback": str(data.get("formatting_feedback", "Layout parsed with general compliance.")),
+            "bullet_points_improvement": list(data.get("bullet_points_improvement", ["Ensure experience bullet points emphasize business impact."]))
+        }
     except Exception as e:
-        print(f"Groq API Error in cv_analyzer module: {e}. Trying fallback model llama-3.1-8b-instant...")
+        print(f"AgentAudit error: {e}. Trying fallback model llama-3.1-8b-instant...")
         try:
             completion = groq_client.chat.completions.create(
                 messages=[
@@ -181,16 +324,330 @@ def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
                 temperature=0.1,
                 response_format={"type": "json_object"}
             )
-            return json.loads(completion.choices[0].message.content)
-        except Exception as e2:
-            print(f"Groq API fallback failed: {e2}")
+            data = json.loads(completion.choices[0].message.content)
             return {
-                "skills_found": [],
-                "critical_gaps": ["Could not parse missing skill gaps via AI"],
-                "bullet_points_improvement": ["Ensure your experience bullet points include clear technical scope"],
-                "interview_questions": ["Explain your core project and the architecture decisions you made."],
-                "formatting_feedback": "Standard formatting parsed successfully."
+                "formatting_score": float(data.get("formatting_score", 70.0)),
+                "formatting_feedback": str(data.get("formatting_feedback", "Layout parsed with general compliance.")),
+                "bullet_points_improvement": list(data.get("bullet_points_improvement", ["Ensure experience bullet points emphasize business impact."]))
             }
+        except Exception as e2:
+            print(f"AgentAudit fallback failed: {e2}")
+            return {
+                "formatting_score": 70.0,
+                "formatting_feedback": "Standard formatting parsed successfully. Ensure consistent font sizing and clear section headers to improve ATS compatibility.",
+                "bullet_points_improvement": ["Ensure your experience bullet points include clear technical scope and business outcomes."]
+            }
+
+def run_tech_matcher_agent(cv_text: str, job_role: str) -> dict:
+    """
+    Evaluates strict technical competence and framework matching.
+    """
+    prompt = f"""
+    You are an expert technical evaluator. Analyze the strict technical competency, technologies, frameworks, databases, tools, platforms, and soft skills mentioned in this CV against the expectations for the role '{job_role}'.
+    Provide the output strictly in valid JSON format. Do not use any conversational text or markdown code blocks.
+    
+    JSON Schema:
+    {{
+        "tech_alignment_score": 80.0, // An integer/float from 0 to 100 assessing tech stack alignment and tools proficiency
+        "skills_found": ["list", "of", "detected", "skills"],
+        "categorized_skills": {{
+            "programming_languages": ["Python", "Java", "JavaScript", "C++"],
+            "frameworks_libraries": ["Django", "React", "Flutter", "Angular"],
+            "databases": ["MySQL", "PostgreSQL", "MongoDB", "Oracle"],
+            "tools_platforms": ["Docker", "Git", "Kubernetes", "AWS"],
+            "soft_skills": ["Leadership", "Communication", "Teamwork"]
+        }},
+        "critical_gaps": ["list", "of", "missing", "important", "skills", "for", "this", "role"]
+    }}
+    
+    CV Text:
+    {cv_text}
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a precise JSON-only response model."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.1,
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(completion.choices[0].message.content)
+        cat = data.get("categorized_skills", {})
+        for k in ["programming_languages", "frameworks_libraries", "databases", "tools_platforms", "soft_skills"]:
+            if k not in cat:
+                cat[k] = []
+        return {
+            "tech_alignment_score": float(data.get("tech_alignment_score", 50.0)),
+            "skills_found": list(data.get("skills_found", [])),
+            "categorized_skills": cat,
+            "critical_gaps": list(data.get("critical_gaps", ["Could not identify specific skill gaps."]))
+        }
+    except Exception as e:
+        print(f"AgentTechMatcher error: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            cat = data.get("categorized_skills", {})
+            for k in ["programming_languages", "frameworks_libraries", "databases", "tools_platforms", "soft_skills"]:
+                if k not in cat:
+                    cat[k] = []
+            return {
+                "tech_alignment_score": float(data.get("tech_alignment_score", 50.0)),
+                "skills_found": list(data.get("skills_found", [])),
+                "categorized_skills": cat,
+                "critical_gaps": list(data.get("critical_gaps", ["Could not identify specific skill gaps."]))
+            }
+        except Exception as e2:
+            print(f"AgentTechMatcher fallback failed: {e2}")
+            programming_languages = extract_keywords(cv_text, ["python", "java", "javascript", "c++", "go", "ruby", "c#", "rust", "php", "typescript", "dart", "kotlin", "swift"])
+            frameworks_libraries = extract_keywords(cv_text, ["django", "flask", "react", "angular", "vue", "flutter", "spring", "laravel", "express", "next.js", "bootstrap", "tailwind"])
+            databases = extract_keywords(cv_text, ["mysql", "postgresql", "mongodb", "sqlite", "redis", "oracle", "mariadb", "dynamodb"])
+            tools_platforms = extract_keywords(cv_text, ["docker", "git", "kubernetes", "aws", "gcp", "azure", "jenkins", "linux", "firebase"])
+            soft_s = ["communication", "teamwork", "leadership", "problem-solving", "adaptability", "creativity", "collaboration", "critical thinking", "time management"]
+            soft_skills_matched = extract_keywords(cv_text, soft_s)
+            
+            return {
+                "tech_alignment_score": 50.0,
+                "skills_found": programming_languages + frameworks_libraries + databases + tools_platforms + soft_skills_matched,
+                "categorized_skills": {
+                    "programming_languages": programming_languages,
+                    "frameworks_libraries": frameworks_libraries,
+                    "databases": databases,
+                    "tools_platforms": tools_platforms,
+                    "soft_skills": soft_skills_matched
+                },
+                "critical_gaps": ["Could not perform deep AI skills gap evaluation. Please review candidate profile manually."]
+            }
+
+def run_psych_agent(cv_text: str, job_role: str) -> dict:
+    """
+    Assesses Big Five traits and alignment.
+    """
+    prompt = f"""
+    You are an expert organizational psychologist. Analyze the candidate's CV text and estimate their Big Five personality trait scores as percentiles (0 to 100) and explain how their projected traits align with target benchmarks for '{job_role}'.
+    Provide the output strictly in valid JSON format. Do not use any conversational text or markdown code blocks.
+    
+    JSON Schema:
+    {{
+        "personality_traits": {{
+            "openness": 75.0,
+            "conscientiousness": 80.0,
+            "extraversion": 55.0,
+            "agreeableness": 65.0,
+            "neuroticism": 35.0
+        }},
+        "personality_fit_explanation": "Concise psychological analysis of how their projected traits align with target benchmarks for '{job_role}'"
+    }}
+    
+    CV Text:
+    {cv_text}
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a precise JSON-only response model."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.1,
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(completion.choices[0].message.content)
+        traits = data.get("personality_traits", {})
+        return {
+            "personality_traits": {
+                "openness": float(traits.get("openness", 50.0)),
+                "conscientiousness": float(traits.get("conscientiousness", 50.0)),
+                "extraversion": float(traits.get("extraversion", 50.0)),
+                "agreeableness": float(traits.get("agreeableness", 50.0)),
+                "neuroticism": float(traits.get("neuroticism", 50.0))
+            },
+            "personality_fit_explanation": str(data.get("personality_fit_explanation", "Projected personality traits show general alignment with standard role profiles."))
+        }
+    except Exception as e:
+        print(f"AgentPsychProfiler error: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            traits = data.get("personality_traits", {})
+            return {
+                "personality_traits": {
+                    "openness": float(traits.get("openness", 50.0)),
+                    "conscientiousness": float(traits.get("conscientiousness", 50.0)),
+                    "extraversion": float(traits.get("extraversion", 50.0)),
+                    "agreeableness": float(traits.get("agreeableness", 50.0)),
+                    "neuroticism": float(traits.get("neuroticism", 50.0))
+                },
+                "personality_fit_explanation": str(data.get("personality_fit_explanation", "Projected personality traits show general alignment with standard role profiles."))
+            }
+        except Exception as e2:
+            print(f"AgentPsychProfiler fallback failed: {e2}")
+            scores = estimate_personality_from_cv(cv_text)
+            return {
+                "personality_traits": scores,
+                "personality_fit_explanation": "Projected personality traits show general alignment with standard role profiles."
+            }
+
+def run_interviewer_agent(cv_text: str, job_role: str) -> dict:
+    """
+    Decides seniority level, writes technical questions, and returns a hiring recommendation.
+    """
+    prompt = f"""
+    You are an expert technical interviewer and hiring manager. Evaluate the candidate's work history, seniority level, and write targeted technical questions. Determine a hiring recommendation ('Strong Hire', 'Hire', 'Interview', 'Reject') and provide a detailed justification/rationale.
+    Provide the output strictly in valid JSON format. Do not use any conversational text or markdown code blocks.
+    
+    JSON Schema:
+    {{
+        "seniority_level": "Junior | Mid-level | Senior | Lead",
+        "experience_quality_feedback": "Short professional evaluation of the candidate's professional career milestones",
+        "interview_questions": ["3 direct technical or behavioral questions customized to this candidate"],
+        "hiring_recommendation": "Strong Hire | Hire | Interview | Reject",
+        "recommendation_rationale": "Provide a comprehensive, high-quality hiring rationale explaining why this recommendation was made."
+    }}
+    
+    CV Text:
+    {cv_text}
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a precise JSON-only response model."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.1,
+            response_format={"type": "json_object"}
+        )
+        data = json.loads(completion.choices[0].message.content)
+        return {
+            "seniority_level": str(data.get("seniority_level", "Mid-level")),
+            "experience_quality_feedback": str(data.get("experience_quality_feedback", "Resume parsed with standard career milestones.")),
+            "interview_questions": list(data.get("interview_questions", ["Explain your core project."])),
+            "hiring_recommendation": str(data.get("hiring_recommendation", "Interview")),
+            "recommendation_rationale": str(data.get("recommendation_rationale", "Meeting minimum qualifications. Recommend scheduling an interview."))
+        }
+    except Exception as e:
+        print(f"AgentInterviewer error: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            return {
+                "seniority_level": str(data.get("seniority_level", "Mid-level")),
+                "experience_quality_feedback": str(data.get("experience_quality_feedback", "Resume parsed with standard career milestones.")),
+                "interview_questions": list(data.get("interview_questions", ["Explain your core project."])),
+                "hiring_recommendation": str(data.get("hiring_recommendation", "Interview")),
+                "recommendation_rationale": str(data.get("recommendation_rationale", "Meeting minimum qualifications. Recommend scheduling an interview."))
+            }
+        except Exception as e2:
+            print(f"AgentInterviewer fallback failed: {e2}")
+            return {
+                "seniority_level": "Mid-level",
+                "experience_quality_feedback": "Resume parsed with standard career milestones.",
+                "interview_questions": [
+                    "Explain your core project and the architecture decisions you made.",
+                    "How do you handle debugging complex production issues?",
+                    "Describe a challenging technical problem you solved recently."
+                ],
+                "hiring_recommendation": "Interview",
+                "recommendation_rationale": "Standard candidate profile meeting basic experience benchmarks. Recommend conducting a live technical interview."
+            }
+
+def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
+    """
+    Queries Groq Cloud LLM using a parallelized multi-agent orchestration framework.
+    Runs 4 specialized expert agents concurrently:
+    - AgentAudit: evaluates layout & styling
+    - AgentTechMatcher: assesses technical stack alignment
+    - AgentPsychProfiler: projects Big Five personality fit
+    - AgentInterviewer: determines seniority & hiring recommendation
+    """
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        future_audit = executor.submit(run_audit_agent, cv_text, job_role)
+        future_tech = executor.submit(run_tech_matcher_agent, cv_text, job_role)
+        future_psych = executor.submit(run_psych_agent, cv_text, job_role)
+        future_interviewer = executor.submit(run_interviewer_agent, cv_text, job_role)
+        
+        try:
+            audit_res = future_audit.result()
+        except Exception as e:
+            print(f"Audit agent future resolved with error: {e}")
+            audit_res = {
+                "formatting_score": 70.0,
+                "formatting_feedback": "Standard formatting parsed successfully. Ensure consistent font sizing and clear section headers to improve ATS compatibility.",
+                "bullet_points_improvement": ["Ensure your experience bullet points include clear technical scope and business outcomes."]
+            }
+            
+        try:
+            tech_res = future_tech.result()
+        except Exception as e:
+            print(f"Tech matcher agent future resolved with error: {e}")
+            tech_res = {
+                "tech_alignment_score": 50.0,
+                "skills_found": [],
+                "categorized_skills": {
+                    "programming_languages": [],
+                    "frameworks_libraries": [],
+                    "databases": [],
+                    "tools_platforms": [],
+                    "soft_skills": []
+                },
+                "critical_gaps": ["Could not perform deep AI skills gap evaluation. Please review candidate profile manually."]
+            }
+            
+        try:
+            psych_res = future_psych.result()
+        except Exception as e:
+            print(f"Psych agent future resolved with error: {e}")
+            psych_res = {
+                "personality_traits": {"openness": 50, "conscientiousness": 50, "extraversion": 50, "agreeableness": 50, "neuroticism": 50},
+                "personality_fit_explanation": "Projected personality traits show general alignment with standard role profiles."
+            }
+            
+        try:
+            interviewer_res = future_interviewer.result()
+        except Exception as e:
+            print(f"Interviewer agent future resolved with error: {e}")
+            interviewer_res = {
+                "seniority_level": "Mid-level",
+                "experience_quality_feedback": "Resume parsed with standard career milestones.",
+                "interview_questions": ["Explain your core project and the architecture decisions you made."],
+                "hiring_recommendation": "Interview",
+                "recommendation_rationale": "Standard candidate profile meeting basic experience benchmarks. Recommend conducting a live technical interview."
+            }
+            
+    merged = {}
+    merged.update(audit_res)
+    merged.update(tech_res)
+    merged.update(psych_res)
+    merged.update(interviewer_res)
+    
+    return merged
 
 # ---------------------- Custom JD & Talent RAG Search Engine ----------------------
 

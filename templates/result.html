@@ -58,7 +58,7 @@
 
   <div class="table-glass-container">
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
+      <table class="table table-hover align-middle mb-0 table-ranking">
         <thead>
           <tr>
             <th class="text-center" style="width: 70px;">Compare</th>
@@ -215,6 +215,33 @@
                     {% endif %}
                   </div>
 
+                  {% if r.ai_report.categorized_skills %}
+                  <div class="box-highlight rounded mb-3">
+                    <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-tags-fill icon-glow-indigo me-2"></i> Categorized Skills Inventory</h5>
+                    <div class="mt-3 d-flex flex-column gap-3 text-start">
+                      {% set cat_map = [
+                        ('programming_languages', 'Programming Languages', 'bi-code-slash', 'text-primary'),
+                        ('frameworks_libraries', 'Frameworks & Libraries', 'bi-box-seam', 'text-success'),
+                        ('databases', 'Databases & Storage', 'bi-database', 'text-info'),
+                        ('tools_platforms', 'Tools & DevOps Platforms', 'bi-tools', 'text-warning'),
+                        ('soft_skills', 'Core Professional Soft Skills', 'bi-chat-left-heart', 'text-danger')
+                      ] %}
+                      {% for key, label, icon, color in cat_map %}
+                        {% if r.ai_report.categorized_skills.get(key) %}
+                          <div>
+                            <small class="fw-semibold d-block mb-1.5" style="font-size: 11.5px; color: #a5b4fc;"><i class="bi {{ icon }} {{ color }} me-1"></i> {{ label }}:</small>
+                            <div class="d-flex flex-wrap gap-1.5">
+                              {% for skill in r.ai_report.categorized_skills.get(key) %}
+                                <span class="badge badge-soft" style="font-size: 10px; padding: 2.5px 7.5px;">{{ skill }}</span>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                  {% endif %}
+
                   <div class="box-highlight rounded mb-3">
                     <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-briefcase-fill icon-glow-indigo me-2"></i> Work History & Timeline</h5>
                     <div class="mt-3">
@@ -298,6 +325,14 @@
                         <span class="text-white small">{{ r.ai_report.formatting_feedback }}</span>
                       </div>
 
+                      {% if r.ai_report.seniority_level %}
+                      <div class="p-3 rounded mb-4" style="background: rgba(99, 102, 241, 0.05); border: 1px solid rgba(99, 102, 241, 0.15);">
+                        <small class="text-info fw-bold d-block mb-1"><i class="bi bi-person-workspace icon-glow-info me-1"></i> AI Career Calibration</small>
+                        <div class="text-white small mb-2">Estimated Level: <strong class="text-info">{{ r.ai_report.seniority_level }}</strong></div>
+                        <div class="text-muted small" style="font-size: 13px; line-height: 1.45;">{{ r.ai_report.experience_quality_feedback }}</div>
+                      </div>
+                      {% endif %}
+
                       {% if r.personality_traits %}
                       {% set current_role_norm = r.job_role|default(job_role) %}
                       {% set target = benchmarks.get(current_role_norm, {"openness": 50, "conscientiousness": 50, "extraversion": 50, "agreeableness": 50, "neuroticism": 50}) %}
@@ -322,6 +357,11 @@
                           </div>
                           {% endfor %}
                         </div>
+                        {% if r.ai_report.personality_fit_explanation %}
+                        <div class="mt-3 p-2.5 rounded text-start animate-fade-in" style="background: rgba(245, 158, 11, 0.05); border: 1px dashed rgba(245, 158, 11, 0.22);">
+                          <span class="text-warning small" style="font-size: 12px; line-height: 1.4;"><i class="bi bi-brain text-warning me-1"></i> <strong>Alignment Analysis:</strong> {{ r.ai_report.personality_fit_explanation }}</span>
+                        </div>
+                        {% endif %}
                       </div>
                       {% endif %}
 
@@ -384,153 +424,7 @@
   </div>
 </div>
 
-<!-- Bottom Comparison Shelf -->
-<div id="compare-shelf" class="compare-shelf">
-  <div class="compare-count">
-    Selected Candidates: <span id="selected-candidates-count" class="compare-pill">0</span>
-  </div>
-  <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="showComparisonModal()">
-    <i class="bi bi-arrow-left-right me-1"></i> Compare Side-by-Side
-  </button>
-  <button class="btn btn-sm btn-light rounded-pill px-3" onclick="clearComparison()">
-    Reset
-  </button>
-</div>
 
-<!-- Candidate Comparison Modal -->
-<div class="modal fade" id="comparisonModal" tabindex="-1" aria-labelledby="comparisonModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
-    <div class="modal-content text-white" style="background: #0d131f !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;">
-      <div class="modal-header border-bottom border-white-10">
-        <h5 class="modal-title fw-bold text-indigo-300" id="comparisonModalLabel"><i class="bi bi-arrow-left-right text-indigo-300 me-2" style="text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);"></i> Side-by-Side Candidate Comparison Matrix</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-4" style="overflow-x: auto;">
-        <table class="table table-bordered text-center align-middle" id="comparison-table" style="min-width: 800px; border-color: rgba(255,255,255,0.08) !important;">
-          <thead>
-            <tr id="compare-headers" style="background: rgba(15, 23, 42, 0.5) !important;">
-              <th class="text-start" style="width: 200px;">Metric \ Candidate</th>
-            </tr>
-          </thead>
-          <tbody id="compare-rows">
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer border-top border-white-10">
-        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Bootstrap 5 Modal for displaying the Optimized CV -->
-<div class="modal fade" id="optimizedCvModal" tabindex="-1" aria-labelledby="optimizedCvModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-    <div class="modal-content bg-dark border border-white-10 text-white" style="background: #0d131f !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;">
-      <div class="modal-header border-bottom border-white-10">
-        <h5 class="modal-title fw-bold text-indigo-300" id="optimizedCvModalLabel"><i class="bi bi-stars text-info me-2" style="text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);"></i> ATS Optimized & Perfected CV</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body p-4">
-        <div id="optimizer-loading" class="text-center py-5">
-          <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-          <p class="text-muted mt-3 mb-0">AI is rewriting and optimizing your CV. Please wait, this takes about 5-10 seconds...</p>
-        </div>
-        
-        <div id="optimizer-content" class="d-none">
-          <!-- Controls Panel -->
-          <div class="p-3 mb-3 box-highlight rounded border border-white-10 text-start">
-            <small class="text-indigo-300 fw-bold d-block mb-3">🛠️ Custom AI Re-Write Controls</small>
-            <div class="row g-2">
-              <div class="col-md-4">
-                <label class="form-label text-white-50" style="font-size: 11px;">Focus Area</label>
-                <select id="opt-focus" class="form-select form-select-sm bg-light-glass text-white border-white-10">
-                  <option value="all">Full Optimize (All Features)</option>
-                  <option value="achievements">Metric Achievements (Google X-Y-Z)</option>
-                  <option value="keywords">Technical Keyword Injection</option>
-                  <option value="formatting">ATS Readability Formatting</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label text-white-50" style="font-size: 11px;">Writing Tone</label>
-                <select id="opt-tone" class="form-select form-select-sm bg-light-glass text-white border-white-10">
-                  <option value="professional">Professional & Formal</option>
-                  <option value="bold">Bold & Tech-driven</option>
-                  <option value="academic">Academic & Detailed</option>
-                  <option value="minimalist">Minimalist & Crisp</option>
-                </select>
-              </div>
-              <div class="col-md-4">
-                <label class="form-label text-white-50" style="font-size: 11px;">Resume Length</label>
-                <select id="opt-length" class="form-select form-select-sm bg-light-glass text-white border-white-10">
-                  <option value="default">Default Length</option>
-                  <option value="concise">Concise 1-Page</option>
-                  <option value="detailed">Detailed 2-Pages</option>
-                </select>
-              </div>
-            </div>
-            <div class="mt-3 text-end">
-              <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="triggerRegenerate()">
-                🔄 Regenerate with AI
-              </button>
-            </div>
-          </div>
-
-          <!-- Multi-tab comparison layout -->
-          <ul class="nav nav-tabs border-bottom border-white-10 mb-3" role="tablist">
-            <li class="nav-item">
-              <button class="optimizer-tab-btn active" id="tab-optimized-btn" onclick="switchOptimizerTab('optimized')">✨ Optimized HTML</button>
-            </li>
-            <li class="nav-item">
-              <button class="optimizer-tab-btn" id="tab-edit-btn" onclick="switchOptimizerTab('edit')">✏️ Edit Markdown</button>
-            </li>
-            <li class="nav-item">
-              <button class="optimizer-tab-btn" id="tab-raw-btn" onclick="switchOptimizerTab('raw')">📄 Original Plain Text</button>
-            </li>
-            <li class="nav-item">
-              <button class="optimizer-tab-btn" id="tab-diff-btn" onclick="switchOptimizerTab('diff')">💡 Applied Upgrades</button>
-            </li>
-          </ul>
-
-          <!-- Tab Contents -->
-          <div id="pane-optimized" class="position-relative p-4 rounded text-white-50 border border-white-10 text-start" style="background: rgba(0, 0, 0, 0.35); max-height: 450px; overflow-y: auto; font-size: 14px; line-height: 1.6;">
-            <div id="optimized-html" class="optimized-markdown-body"></div>
-          </div>
-
-          <div id="pane-edit" class="d-none text-start">
-            <textarea id="optimized-markdown-editor" class="form-control bg-dark text-white border border-white-10" style="height: 450px; font-family: 'Courier New', Courier, monospace; font-size: 13.5px; resize: none; line-height: 1.5; padding: 15px;" oninput="updateOptimizedFromEditor()"></textarea>
-          </div>
-          
-          <div id="pane-raw" class="d-none comparison-pane text-start">
-            <pre id="raw-plain-text" class="text-white-50 m-0" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 13px;"></pre>
-          </div>
-          
-          <div id="pane-diff" class="d-none comparison-pane text-start">
-            <div class="mb-4">
-              <h6 class="text-success fw-bold">✓ Critical Keywords Injected:</h6>
-              <div id="diff-gaps-list" class="d-flex flex-wrap gap-2 mt-1"></div>
-            </div>
-            <div>
-              <h6 class="text-warning fw-bold">✓ Work Experience Metrics Upgraded:</h6>
-              <div id="diff-upgrades-list" class="d-flex flex-column gap-2 mt-2"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer border-top border-white-10 d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
-        <div class="d-flex gap-2 flex-wrap">
-          <button type="button" class="btn btn-outline-primary rounded-pill px-3" onclick="copyOptimizedText()">📋 Copy Text</button>
-          <button type="button" class="btn btn-outline-info rounded-pill px-3" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" onclick="printOptimizedResume()">🖨️ Print / PDF</button>
-          <button type="button" class="btn btn-outline-success rounded-pill px-3" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.4);" onclick="downloadOptimizedHtml()">📥 Download HTML</button>
-          <button type="button" class="btn btn-success rounded-pill px-3" id="btn-download-optimized" onclick="downloadOptimizedText()">📥 Download Markdown</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script>
 // Filter dashboard
@@ -710,7 +604,7 @@ function showComparisonModal() {
   }
 
   const modalEl = document.getElementById('comparisonModal');
-  const modal = new bootstrap.Modal(modalEl);
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
   
   // Headers row
   const headersRow = document.getElementById('compare-headers');
@@ -826,7 +720,7 @@ function updateOptimizedFromEditor() {
 function optimizeResume(candidateName) {
   currentCandidateName = candidateName;
   const modalEl = document.getElementById('optimizedCvModal');
-  const modal = new bootstrap.Modal(modalEl);
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
   modal.show();
 
   document.getElementById('optimizer-loading').classList.remove('d-none');
@@ -1122,4 +1016,154 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+{% endblock %}
+
+{% block modals %}
+<!-- Bottom Comparison Shelf -->
+<div id="compare-shelf" class="compare-shelf">
+  <div class="compare-count">
+    Selected Candidates: <span id="selected-candidates-count" class="compare-pill">0</span>
+  </div>
+  <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="showComparisonModal()">
+    <i class="bi bi-arrow-left-right me-1"></i> Compare Side-by-Side
+  </button>
+  <button class="btn btn-sm btn-light rounded-pill px-3" onclick="clearComparison()">
+    Reset
+  </button>
+</div>
+
+<!-- Candidate Comparison Modal -->
+<div class="modal fade" id="comparisonModal" tabindex="-1" aria-labelledby="comparisonModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+    <div class="modal-content text-white" style="background: #0d131f !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;">
+      <div class="modal-header border-bottom border-white-10">
+        <h5 class="modal-title fw-bold text-indigo-300" id="comparisonModalLabel"><i class="bi bi-arrow-left-right text-indigo-300 me-2" style="text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);"></i> Side-by-Side Candidate Comparison Matrix</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4" style="overflow-x: auto;">
+        <table class="table table-bordered text-center align-middle" id="comparison-table" style="min-width: 800px; border-color: rgba(255,255,255,0.08) !important;">
+          <thead>
+            <tr id="compare-headers" style="background: rgba(15, 23, 42, 0.5) !important;">
+              <th class="text-start" style="width: 200px;">Metric \ Candidate</th>
+            </tr>
+          </thead>
+          <tbody id="compare-rows">
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer border-top border-white-10">
+        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap 5 Modal for displaying the Optimized CV -->
+<div class="modal fade" id="optimizedCvModal" tabindex="-1" aria-labelledby="optimizedCvModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content bg-dark border border-white-10 text-white" style="background: #0d131f !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;">
+      <div class="modal-header border-bottom border-white-10">
+        <h5 class="modal-title fw-bold text-indigo-300" id="optimizedCvModalLabel"><i class="bi bi-stars text-info me-2" style="text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);"></i> ATS Optimized & Perfected CV</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div id="optimizer-loading" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="text-muted mt-3 mb-0">AI is rewriting and optimizing your CV. Please wait, this takes about 5-10 seconds...</p>
+        </div>
+        
+        <div id="optimizer-content" class="d-none">
+          <!-- Controls Panel -->
+          <div class="p-3 mb-3 box-highlight rounded border border-white-10 text-start">
+            <small class="text-indigo-300 fw-bold d-block mb-3">🛠️ Custom AI Re-Write Controls</small>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label text-white-50" style="font-size: 11px;">Focus Area</label>
+                <select id="opt-focus" class="form-select form-select-sm bg-light-glass text-white border-white-10">
+                  <option value="all">Full Optimize (All Features)</option>
+                  <option value="achievements">Metric Achievements (Google X-Y-Z)</option>
+                  <option value="keywords">Technical Keyword Injection</option>
+                  <option value="formatting">ATS Readability Formatting</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-white-50" style="font-size: 11px;">Writing Tone</label>
+                <select id="opt-tone" class="form-select form-select-sm bg-light-glass text-white border-white-10">
+                  <option value="professional">Professional & Formal</option>
+                  <option value="bold">Bold & Tech-driven</option>
+                  <option value="academic">Academic & Detailed</option>
+                  <option value="minimalist">Minimalist & Crisp</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-white-50" style="font-size: 11px;">Resume Length</label>
+                <select id="opt-length" class="form-select form-select-sm bg-light-glass text-white border-white-10">
+                  <option value="default">Default Length</option>
+                  <option value="concise">Concise 1-Page</option>
+                  <option value="detailed">Detailed 2-Pages</option>
+                </select>
+              </div>
+            </div>
+            <div class="mt-3 text-end">
+              <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="triggerRegenerate()">
+                🔄 Regenerate with AI
+              </button>
+            </div>
+          </div>
+
+          <!-- Multi-tab comparison layout -->
+          <ul class="nav nav-tabs border-bottom border-white-10 mb-3" role="tablist">
+            <li class="nav-item">
+              <button class="optimizer-tab-btn active" id="tab-optimized-btn" onclick="switchOptimizerTab('optimized')">✨ Optimized HTML</button>
+            </li>
+            <li class="nav-item">
+              <button class="optimizer-tab-btn" id="tab-edit-btn" onclick="switchOptimizerTab('edit')">✏️ Edit Markdown</button>
+            </li>
+            <li class="nav-item">
+              <button class="optimizer-tab-btn" id="tab-raw-btn" onclick="switchOptimizerTab('raw')">📄 Original Plain Text</button>
+            </li>
+            <li class="nav-item">
+              <button class="optimizer-tab-btn" id="tab-diff-btn" onclick="switchOptimizerTab('diff')">💡 Applied Upgrades</button>
+            </li>
+          </ul>
+
+          <!-- Tab Contents -->
+          <div id="pane-optimized" class="position-relative p-4 rounded text-white-50 border border-white-10 text-start" style="background: rgba(0, 0, 0, 0.35); max-height: 450px; overflow-y: auto; font-size: 14px; line-height: 1.6;">
+            <div id="optimized-html" class="optimized-markdown-body"></div>
+          </div>
+
+          <div id="pane-edit" class="d-none text-start">
+            <textarea id="optimized-markdown-editor" class="form-control bg-dark text-white border border-white-10" style="height: 450px; font-family: 'Courier New', Courier, monospace; font-size: 13.5px; resize: none; line-height: 1.5; padding: 15px;" oninput="updateOptimizedFromEditor()"></textarea>
+          </div>
+          
+          <div id="pane-raw" class="d-none comparison-pane text-start">
+            <pre id="raw-plain-text" class="text-white-50 m-0" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 13px;"></pre>
+          </div>
+          
+          <div id="pane-diff" class="d-none comparison-pane text-start">
+            <div class="mb-4">
+              <h6 class="text-success fw-bold">✓ Critical Keywords Injected:</h6>
+              <div id="diff-gaps-list" class="d-flex flex-wrap gap-2 mt-1"></div>
+            </div>
+            <div>
+              <h6 class="text-warning fw-bold">✓ Work Experience Metrics Upgraded:</h6>
+              <div id="diff-upgrades-list" class="d-flex flex-column gap-2 mt-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-top border-white-10 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+        <div class="d-flex gap-2 flex-wrap">
+          <button type="button" class="btn btn-outline-primary rounded-pill px-3" onclick="copyOptimizedText()">📋 Copy Text</button>
+          <button type="button" class="btn btn-outline-info rounded-pill px-3" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" onclick="printOptimizedResume()">🖨️ Print / PDF</button>
+          <button type="button" class="btn btn-outline-success rounded-pill px-3" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.4);" onclick="downloadOptimizedHtml()">📥 Download HTML</button>
+          <button type="button" class="btn btn-success rounded-pill px-3" id="btn-download-optimized" onclick="downloadOptimizedText()">📥 Download Markdown</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

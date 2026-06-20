@@ -353,13 +353,120 @@ def submit_test(name: str):
 def optimize_cv(name: str):
     conn = sqlite3.connect("candidates.db")
     cur = conn.cursor()
-    cur.execute("SELECT id, raw_text, job_role, ai_report, optimized_cv, optimized_cv_params FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+    cur.execute("SELECT id, raw_text, job_role, ai_report, optimized_cv, optimized_cv_params, filename, email, links, education, experience, projects, soft_skills, interests, certificates FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
     row = cur.fetchone()
     conn.close()
     if not row:
         return {"error": "Candidate not found"}, 404
     
-    cid, raw_text, job_role, ai_report_str, cached_cv, cached_params_str = row
+    (cid, raw_text, job_role, ai_report_str, cached_cv, cached_params_str, filename, 
+     email, links_str, education_str, experience_str, projects_str, soft_skills, interests, certificates) = row
+    if not raw_text or not raw_text.strip():
+        # Stage 1: File-based raw text healing
+        if filename:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            if os.path.exists(file_path):
+                try:
+                    extracted = extract_text(file_path)
+                    if extracted and extracted.strip():
+                        raw_text = extracted
+                        conn = sqlite3.connect("candidates.db")
+                        cur = conn.cursor()
+                        cur.execute("UPDATE candidates SET raw_text = ? WHERE id = ?", (raw_text, cid))
+                        conn.commit()
+                        conn.close()
+                        print(f"Healed missing raw_text for candidate '{name}' from file '{filename}' successfully.")
+                except Exception as e:
+                    print(f"Error healing raw_text for '{name}' from file: {e}")
+        
+        # Stage 2: Fallback database-reconstructed raw text healing
+        if not raw_text or not raw_text.strip():
+            try:
+                reconstructed_parts = []
+                if name:
+                    reconstructed_parts.append(f"Name: {name}")
+                if job_role:
+                    reconstructed_parts.append(f"Target Job Role: {job_role}")
+                if email:
+                    reconstructed_parts.append(f"Email: {email}")
+                if links_str:
+                    try:
+                        lnk = json.loads(links_str)
+                        if isinstance(lnk, list) and lnk:
+                            reconstructed_parts.append("Links: " + ", ".join(lnk))
+                    except Exception:
+                        reconstructed_parts.append(f"Links: {links_str}")
+                if soft_skills:
+                    reconstructed_parts.append(f"Skills: {soft_skills}")
+                if interests:
+                    reconstructed_parts.append(f"Interests: {interests}")
+                if certificates:
+                    reconstructed_parts.append(f"Certificates: {certificates}")
+                
+                if education_str:
+                    reconstructed_parts.append("\n## Education")
+                    try:
+                        edu_list = json.loads(education_str)
+                        if isinstance(edu_list, list):
+                            for edu in edu_list:
+                                inst = edu.get("institution", "Unknown")
+                                deg = edu.get("degree", "")
+                                y = edu.get("passing_year", "")
+                                g = edu.get("gpa", "")
+                                reconstructed_parts.append(f"- {deg} at {inst} (Year: {y}, GPA: {g})")
+                        else:
+                            reconstructed_parts.append(education_str)
+                    except Exception:
+                        reconstructed_parts.append(education_str)
+                
+                if experience_str:
+                    reconstructed_parts.append("\n## Experience")
+                    try:
+                        exp_list = json.loads(experience_str)
+                        if isinstance(exp_list, list):
+                            for exp in exp_list:
+                                comp = exp.get("company", "Unknown")
+                                r_title = exp.get("role", "")
+                                d = exp.get("duration", "")
+                                achs = exp.get("achievements", [])
+                                if isinstance(achs, list):
+                                    ach_bullets = "\n  * ".join(achs)
+                                else:
+                                    ach_bullets = str(achs)
+                                reconstructed_parts.append(f"- {r_title} at {comp} ({d})\n  * {ach_bullets}")
+                        else:
+                            reconstructed_parts.append(experience_str)
+                    except Exception:
+                        reconstructed_parts.append(experience_str)
+                
+                if projects_str:
+                    reconstructed_parts.append("\n## Projects")
+                    try:
+                        proj_list = json.loads(projects_str)
+                        if isinstance(proj_list, list):
+                            for proj in proj_list:
+                                title = proj.get("title", "")
+                                tech = proj.get("tech_stack", [])
+                                tech_str = ", ".join(tech) if isinstance(tech, list) else str(tech)
+                                desc = proj.get("description", "")
+                                reconstructed_parts.append(f"- {title} (Tech: {tech_str})\n  * {desc}")
+                        else:
+                            reconstructed_parts.append(projects_str)
+                    except Exception:
+                        reconstructed_parts.append(projects_str)
+                
+                reconstructed_text = "\n".join(reconstructed_parts).strip()
+                if reconstructed_text:
+                    raw_text = reconstructed_text
+                    conn = sqlite3.connect("candidates.db")
+                    cur = conn.cursor()
+                    cur.execute("UPDATE candidates SET raw_text = ? WHERE id = ?", (raw_text, cid))
+                    conn.commit()
+                    conn.close()
+                    print(f"Healed missing raw_text for candidate '{name}' by reconstructing it from structured JSON database fields.")
+            except Exception as e:
+                print(f"Error reconstructing raw_text for candidate '{name}': {e}")
+                    
     if not raw_text or not raw_text.strip():
         return {"error": "Original CV text is missing for this older record. Please re-upload the CV to optimize it!"}, 400
         

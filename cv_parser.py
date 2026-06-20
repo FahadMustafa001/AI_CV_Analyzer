@@ -38,6 +38,10 @@ class CVAnalysisSchema(BaseModel):
     experience: List[ExperienceSchema] = Field(description="Structured list of all professional work experiences")
     projects: List[ProjectSchema] = Field(description="Structured list of all personal or group projects showcased")
     experience_years: float = Field(default=0.0, description="Calculated total years of professional work experience represented as a float (e.g., 2.5 or 5.0).")
+    certifications: List[str] = Field(default=[], description="List of certifications, licenses, or professional credentials (e.g., AWS Certified, PMP)")
+    languages: List[str] = Field(default=[], description="Languages spoken by the candidate (e.g., English, Urdu, Spanish)")
+    summary: Optional[str] = Field(None, description="Professional or career summary statement from the resume")
+    interests: List[str] = Field(default=[], description="List of personal or professional interests and hobbies")
 
 # ---------------------- Extraction Utility Functions ----------------------
 
@@ -88,6 +92,67 @@ def extract_text(file_path: str) -> str:
         return extract_text_from_docx(file_path)
     return ""
 
+def extract_rule_based_fallback(raw_text: str) -> CVAnalysisSchema:
+    """
+    Robust rule-based regex fallback parser to extract resume info when LLM parsing is unavailable.
+    """
+    import re
+    
+    # 1. Extract Email
+    email_match = re.search(r'[\w\.-]+@[\w\.-]+\.\w+', raw_text)
+    email = email_match.group(0) if email_match else "Not Extracted"
+    
+    # 2. Extract Phone
+    phone_match = re.search(r'(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}', raw_text)
+    phone = phone_match.group(0) if phone_match else None
+    
+    # 3. Extract Links
+    links = re.findall(r'(https?://[^\s,\(\)]+)', raw_text)
+    socials = re.findall(r'\b(?:github\.com|linkedin\.com/in|twitter\.com)/[a-zA-Z0-9_\-\.\/]+', raw_text, re.IGNORECASE)
+    all_links = list(set(links + socials))
+    
+    # 4. Extract Name
+    lines = [line.strip() for line in raw_text.split('\n') if line.strip()]
+    full_name = "Candidate"
+    if lines:
+        candidate_line = lines[0]
+        if len(candidate_line) < 50 and not any(term in candidate_line.lower() for term in ["resume", "cv", "curriculum", "education", "experience"]):
+            full_name = candidate_line
+            
+    # 5. Extract Experience Years (Heuristic)
+    years = 0.0
+    explicit_matches = re.findall(r"(\d+(?:\.\d+)?)\s*(?:\+\s*)?(?:years|year|yrs|yr|y)\b", raw_text, re.IGNORECASE)
+    for m in explicit_matches:
+        try:
+            years = max(years, float(m))
+        except ValueError:
+            continue
+            
+    # 6. Structured Mock Lists
+    education = []
+    experience = []
+    projects = []
+    
+    edu_matches = re.findall(r'(?:bachelor|master|bs|ms|phd|b\.s\.|m\.s\.|diploma|degree|university|college|school|intermediate|matriculation)\b[^\n]*', raw_text, re.IGNORECASE)
+    for match in edu_matches[:3]:
+        education.append(EducationSchema(institution="Extracted Institution", degree=match.strip()[:100], passing_year=None, gpa=None))
+        
+    return CVAnalysisSchema(
+        full_name=full_name,
+        email=email,
+        phone=phone,
+        links=all_links,
+        skills=[],
+        education=education,
+        experience=experience,
+        projects=projects,
+        experience_years=years,
+        certifications=[],
+        languages=[],
+        summary=None,
+        interests=[]
+    )
+
 def parse_cv(file_path: str) -> Optional[CVAnalysisSchema]:
     """
     Transforms unstructured resume text into a strictly validated Pydantic JSON structure using Groq LLM.
@@ -99,8 +164,8 @@ def parse_cv(file_path: str) -> Optional[CVAnalysisSchema]:
         
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
-        print("Error: GROQ_API_KEY environment variable is missing.")
-        return None
+        print("Error: GROQ_API_KEY environment variable is missing. Running rule-based fallback...")
+        return extract_rule_based_fallback(raw_text)
 
     # Initialize Instructor patch over Groq client
     client = instructor.from_groq(Groq(api_key=api_key))
@@ -142,5 +207,9 @@ def parse_cv(file_path: str) -> Optional[CVAnalysisSchema]:
             )
             return structured_data
         except Exception as e2:
-            print(f"Instructor cognitive parsing failed on fallback model: {e2}")
-            return None
+            print(f"Instructor cognitive parsing failed on fallback model: {e2}. Reverting to rule-based fallback...")
+            try:
+                return extract_rule_based_fallback(raw_text)
+            except Exception as e3:
+                print(f"Fatal parser error in rule-based fallback: {e3}")
+                return None
