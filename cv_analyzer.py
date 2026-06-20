@@ -311,26 +311,54 @@ def semantic_search_candidates(candidates_list: list, query: str) -> list:
         fallback_results.sort(key=lambda x: x["relevance_score"], reverse=True)
         return fallback_results
 
-def generate_optimized_resume(raw_text: str, job_role: str, ai_report: dict) -> str:
+def generate_optimized_resume(raw_text: str, job_role: str, ai_report: dict, focus_area: str = "all", tone: str = "professional", target_length: str = "default") -> str:
     """
     Uses Groq LLM to rewrite the raw resume text into an ATS-optimized, high-impact version.
-    It integrates missing skills and fixes poor work achievements.
+    It integrates missing skills, fixes poor work achievements, and adjusts according to
+    focus_area, tone, and target_length specifications.
     """
     gaps = ai_report.get("critical_gaps", [])
     bullet_improvements = ai_report.get("bullet_points_improvement", [])
     improvements_str = "\n".join([f"- {imp}" for imp in bullet_improvements])
+    
+    focus_inst = ""
+    if focus_area == "achievements":
+        focus_inst = "Make the primary focus on rewriting the work experience achievements, phrasing each point clearly with metric-driven business outcomes."
+    elif focus_area == "keywords":
+        focus_inst = "Make the primary focus on injecting missing critical keywords and technical skills organically throughout all sections of the resume."
+    elif focus_area == "formatting":
+        focus_inst = "Make the primary focus on improving structure, formatting, parsing readability, and layout clarity for ATS parser software compatibility."
+    else:
+        focus_inst = "Optimize achievements, integrate missing keywords, and clean up general formatting/structure concurrently."
+
+    tone_inst = f"Write the resume in a {tone} tone."
+    if tone == "bold":
+        tone_inst = "Write the resume in a bold, high-impact, tech-driven executive tone that emphasizes leadership, innovation, and direct technical success."
+    elif tone == "academic":
+        tone_inst = "Write the resume in a structured, detail-oriented, academic tone suitable for research, credentials, and thorough technical explanations."
+    elif tone == "minimalist":
+        tone_inst = "Write the resume in a clean, crisp, minimalist tone that highlights facts, technologies, and clear bulleted metrics without fluff."
+
+    length_inst = ""
+    if target_length == "concise":
+        length_inst = "Keep the resume extremely concise, aiming for a tight, high-density single-page layout."
+    elif target_length == "detailed":
+        length_inst = "Provide a detailed, comprehensive resume, expanding fully on bullet points, projects, and educational coursework."
     
     prompt = f"""
     You are an elite professional resume writer and ATS optimization specialist.
     Your goal is to rewrite the candidate's CV text into a polished, high-impact, 100% perfect professional resume tailored for the role of '{job_role}'.
 
     Critical Requirements for the Rewrite:
-    1. Integrate the following missing critical skills naturally: {', '.join(gaps)}.
-    2. Upgrade the work experience description using the following metric-driven improvements:
+    1. Focus Instructions: {focus_inst}
+    2. Tone Instructions: {tone_inst}
+    3. Length Instructions: {length_inst}
+    4. Integrate the following missing critical skills naturally: {', '.join(gaps)}.
+    5. Upgrade the work experience description using the following metric-driven improvements:
     {improvements_str}
-    3. Rewrite the experience bullet points to follow the Google X-Y-Z formula: "Accomplished [X], as measured by [Y], by doing [Z]."
-    4. Keep the resume factual to the original content; do not invent completely fake employment dates or college degrees.
-    5. Output the result in clean, well-formatted Markdown with clear sections: Contact Info, Professional Summary, Core Skills, Work Experience, Projects, and Education.
+    6. Rewrite the experience bullet points to follow the Google X-Y-Z formula: "Accomplished [X], as measured by [Y], by doing [Z]."
+    7. Keep the resume factual to the original content; do not invent completely fake employment dates or college degrees.
+    8. Output the result in clean, well-formatted Markdown with clear sections: Contact Info, Professional Summary, Core Skills, Work Experience, Projects, and Education.
     
     Candidate's Original CV:
     {raw_text}

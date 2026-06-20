@@ -267,3 +267,131 @@ jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endblock'. You p
 2026-06-20 15:12:41,945 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 15:13:18,801 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:13:18] "GET / HTTP/1.1" 200 -
 2026-06-20 15:13:19,056 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:13:19] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:25:21,695 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 15:25:21,693 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 15:25:23,920 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:25:23,921 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:25:26,880 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:25:26,884 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:25:26,884 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:25:46,597 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:25:46,599 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:25:47,008 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:25:48,663 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:25:48,675 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:25:48,679 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:25:48,682 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:25:55,982 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:25:55,984 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:25:56,363 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:25:56,364 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:25:59,574 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:25:59,574 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:25:59,576 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:25:59,577 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:27:23,401 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:27:23,406 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:27:23,770 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:27:23,786 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:27:25,433 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:27:25,435 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:27:25,443 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:27:25,446 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:28:54,762 INFO httpx MainThread : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 15:29:55,878 INFO httpx MainThread : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:30:14,596 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:30:15,490 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:30:15,922 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:30:17,436 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:30:17,458 ERROR app MainThread : Exception on /analyze [POST]
+Traceback (most recent call last):
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\app.py", line 284, in analyze
+    return render_template('result.html', job_role=job_role, results=results, total=len(results), suitable=suitable_count, threshold=THRESHOLD)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    template = app.jinja_env.get_or_select_template(template_name_or_list)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 1087, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 1016, in get_template
+    return self._load_template(name, globals)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 975, in _load_template
+    template = self.loader.load(self, name, self.make_globals(globals))
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\loaders.py", line 138, in load
+    code = environment.compile(source, name, filename)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 771, in compile
+    self.handle_exception(source=source_hint)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\AI_CV_Analyzer\templates\result.html", line 181, in template
+    {% if ach|length > 10 and not any(c in ach for c in ['0','1','2','3','4','5','6','7','8','9','%','$']) %}
+    
+jinja2.exceptions.TemplateSyntaxError: expected token ',', got 'for'
+2026-06-20 15:31:47,402 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:31:48,508 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:31:48,852 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:31:50,272 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:31:50,358 ERROR app MainThread : Exception on /ranking [GET]
+Traceback (most recent call last):
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\app.py", line 479, in ranking
+    return render_template('ranking.html', rows=rows)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\AI_CV_Analyzer\templates\ranking.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "C:\AI_CV_Analyzer\templates\base.html", line 34, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\templates\ranking.html", line 108, in block 'content'
+    data-gaps='{{ row.ai_report.critical_gaps|tojson }}'
+    ~~~~^~
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\filters.py", line 1721, in do_tojson
+    return htmlsafe_json_dumps(value, dumps=dumps, **kwargs)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\jinja2\utils.py", line 669, in htmlsafe_json_dumps
+    dumps(obj, **kwargs)
+    ~~~~~^^^^^^^^^^^^^^^
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\fahad\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\json\__init__.py", line 242, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\fahad\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\json\encoder.py", line 202, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\fahad\AppData\Roaming\uv\python\cpython-3.14-windows-x86_64-none\Lib\json\encoder.py", line 263, in iterencode
+    return _iterencode(o, 0)
+  File "C:\AI_CV_Analyzer\.venv\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type Undefined is not JSON serializable
+2026-06-20 15:33:15,590 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 15:33:15,591 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : API call failed on attempt 1: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98508, Requested 3426. Please try again in 27m50.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 15:33:15,591 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : Max retries exceeded. Total attempts: 1, Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 98508, Requested 3426. Please try again in 27m50.976s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 15:33:15,880 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 15:33:16,226 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:33:17,289 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

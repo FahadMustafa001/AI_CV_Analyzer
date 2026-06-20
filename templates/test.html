@@ -1,60 +1,164 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="hero p-4 mb-4">
-  <h3 class="mb-1 text-white">🧠 Candidate Psychometric Audit</h3>
-  <p class="text-white-50 small mb-0">Refining Big Five alignment profile for: <strong class="text-white">{{ name }}</strong> ({{ job_role }})</p>
+<!-- Loading Screen when test is submitted -->
+<div id="test-submit-loader" class="d-none text-center py-5">
+  <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem; border-width: 0.25em;">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  <h4 class="text-white mt-4 mb-2">Analyzing Personality Matrix...</h4>
+  <p class="text-muted small">Computing Big Five traits, calculating job role fitness, and updating global rankings...</p>
 </div>
 
-<p class="text-muted small mb-4">Please answer each question honestly on a scale of 1 (Strongly Disagree) to 5 (Strongly Agree).</p>
-
-<form action="/submit_test/{{ name }}" method="post" class="mt-2">
-  {% for q in questions %}
-  <div class="mb-4 p-3 box-highlight rounded">
-    <label class="form-label text-white mb-2 fs-6">{{ loop.index }}. {{ q.text }}</label>
-    
-    <div class="psych-option-group">
-      <div class="psych-option-card">
-        <input type="radio" name="{{ q.id }}" id="{{ q.id }}-1" value="1" required>
-        <label class="psych-option-label" for="{{ q.id }}-1">
-          <span class="d-block fs-5 fw-bold">1</span>
-          <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Disagree</span>
-        </label>
-      </div>
-      <div class="psych-option-card">
-        <input type="radio" name="{{ q.id }}" id="{{ q.id }}-2" value="2">
-        <label class="psych-option-label" for="{{ q.id }}-2">
-          <span class="d-block fs-5 fw-bold">2</span>
-          <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Disagree</span>
-        </label>
-      </div>
-      <div class="psych-option-card">
-        <input type="radio" name="{{ q.id }}" id="{{ q.id }}-3" value="3">
-        <label class="psych-option-label" for="{{ q.id }}-3">
-          <span class="d-block fs-5 fw-bold">3</span>
-          <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Neutral</span>
-        </label>
-      </div>
-      <div class="psych-option-card">
-        <input type="radio" name="{{ q.id }}" id="{{ q.id }}-4" value="4">
-        <label class="psych-option-label" for="{{ q.id }}-4">
-          <span class="d-block fs-5 fw-bold">4</span>
-          <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Agree</span>
-        </label>
-      </div>
-      <div class="psych-option-card">
-        <input type="radio" name="{{ q.id }}" id="{{ q.id }}-5" value="5">
-        <label class="psych-option-label" for="{{ q.id }}-5">
-          <span class="d-block fs-5 fw-bold">5</span>
-          <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Agree</span>
-        </label>
-      </div>
+<div id="test-content">
+  <div class="hero p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+    <div>
+      <h3 class="mb-1 text-white">🧠 Candidate Psychometric Audit</h3>
+      <p class="text-white-50 small mb-0">Refining Big Five alignment profile for: <strong class="text-white">{{ name }}</strong> ({{ job_role }})</p>
+    </div>
+    <div class="text-sm-end">
+      <span class="badge bg-primary px-3 py-2" id="progress-text">Question 1 of {{ questions|length }}</span>
     </div>
   </div>
-  {% endfor %}
-  
-  <div class="d-flex gap-3 mt-4">
-    <a href="/ranking" class="btn btn-light px-4 py-2 rounded-pill fw-semibold flex-grow-1 text-center">Cancel & Back</a>
-    <button type="submit" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold flex-grow-1">Submit & Update Scores</button>
+
+  <div class="progress-container mb-4" style="height: 6px;">
+    <div id="psych-progress-bar" class="progress-bar-neon bg-info" role="progressbar" style="width: 10%;"></div>
   </div>
-</form>
+
+  <form id="psych-form" action="/submit_test/{{ name }}" method="post" class="mt-2" onsubmit="showSubmittingState()">
+    <div class="psych-wizard-container">
+      {% for q in questions %}
+      <div class="psych-step {% if loop.first %}active{% endif %}" data-step="{{ loop.index0 }}">
+        <div class="p-4 box-highlight rounded shadow">
+          <label class="form-label text-white mb-3 fs-5 fw-bold">{{ loop.index }}. {{ q.text }}</label>
+          
+          <div class="psych-option-group">
+            <div class="psych-option-card">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-1" value="1" required onclick="handleOptionSelect({{ loop.index0 }})">
+              <label class="psych-option-label" for="{{ q.id }}-1">
+                <span class="d-block fs-5 fw-bold">1</span>
+                <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Disagree</span>
+              </label>
+            </div>
+            <div class="psych-option-card">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-2" value="2" onclick="handleOptionSelect({{ loop.index0 }})">
+              <label class="psych-option-label" for="{{ q.id }}-2">
+                <span class="d-block fs-5 fw-bold">2</span>
+                <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Disagree</span>
+              </label>
+            </div>
+            <div class="psych-option-card">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-3" value="3" onclick="handleOptionSelect({{ loop.index0 }})">
+              <label class="psych-option-label" for="{{ q.id }}-3">
+                <span class="d-block fs-5 fw-bold">3</span>
+                <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Neutral</span>
+              </label>
+            </div>
+            <div class="psych-option-card">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-4" value="4" onclick="handleOptionSelect({{ loop.index0 }})">
+              <label class="psych-option-label" for="{{ q.id }}-4">
+                <span class="d-block fs-5 fw-bold">4</span>
+                <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Agree</span>
+              </label>
+            </div>
+            <div class="psych-option-card">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-5" value="5" onclick="handleOptionSelect({{ loop.index0 }})">
+              <label class="psych-option-label" for="{{ q.id }}-5">
+                <span class="d-block fs-5 fw-bold">5</span>
+                <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Agree</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    <div class="d-flex justify-content-between align-items-center mt-4 gap-3">
+      <button type="button" id="prev-btn" class="btn btn-light px-4 py-2 rounded-pill fw-semibold" style="visibility: hidden;" onclick="navigateStep(-1)">
+        ← Back
+      </button>
+      
+      <a href="/ranking" id="cancel-link" class="text-muted small text-decoration-none hover-underline">Cancel Test</a>
+      
+      <button type="button" id="next-btn" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold" onclick="navigateStep(1)">
+        Next →
+      </button>
+      <button type="submit" id="submit-btn" class="btn btn-success px-4 py-2 rounded-pill fw-semibold d-none">
+        Submit Test ✓
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+let currentStep = 0;
+const totalSteps = {{ questions|length }};
+const steps = document.querySelectorAll('.psych-step');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const submitBtn = document.getElementById('submit-btn');
+const progressText = document.getElementById('progress-text');
+const progressBar = document.getElementById('psych-progress-bar');
+
+function updateWizard() {
+  steps.forEach((s, idx) => {
+    s.classList.remove('active', 'fade-out');
+    if (idx === currentStep) {
+      s.classList.add('active');
+    }
+  });
+
+  // Buttons Visibility
+  prevBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+  if (currentStep === totalSteps - 1) {
+    nextBtn.classList.add('d-none');
+    submitBtn.classList.remove('d-none');
+  } else {
+    nextBtn.classList.remove('d-none');
+    submitBtn.classList.add('d-none');
+  }
+
+  // Progress update
+  progressText.textContent = `Question ${currentStep + 1} of ${totalSteps}`;
+  const pct = ((currentStep + 1) / totalSteps) * 100;
+  progressBar.style.width = `${pct}%`;
+}
+
+function navigateStep(direction) {
+  // Validate selection before moving forward
+  if (direction === 1) {
+    const activeStepRadioChecked = steps[currentStep].querySelector('input[type="radio"]:checked');
+    if (!activeStepRadioChecked) {
+      alert("Please select an answer option before moving to the next question.");
+      return;
+    }
+  }
+
+  // Visual slide out transition effect
+  steps[currentStep].classList.add('fade-out');
+  setTimeout(() => {
+    currentStep += direction;
+    updateWizard();
+  }, 200);
+}
+
+function handleOptionSelect(stepIndex) {
+  // Auto-advance with slight delay for delightful feedback
+  if (stepIndex < totalSteps - 1) {
+    setTimeout(() => {
+      if (currentStep === stepIndex) {
+        navigateStep(1);
+      }
+    }, 450);
+  }
+}
+
+function showSubmittingState() {
+  document.getElementById('test-content').classList.add('d-none');
+  document.getElementById('test-submit-loader').classList.remove('d-none');
+}
+
+// Initial setup
+updateWizard();
+</script>
 {% endblock %}

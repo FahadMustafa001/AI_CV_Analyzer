@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
+{% set benchmarks = {
+    "Software Engineer": {"openness": 65, "conscientiousness": 80, "extraversion": 45, "agreeableness": 60, "neuroticism": 35},
+    "Data Analyst": {"openness": 60, "conscientiousness": 85, "extraversion": 40, "agreeableness": 55, "neuroticism": 35},
+    "Flutter Developer": {"openness": 75, "conscientiousness": 75, "extraversion": 55, "agreeableness": 60, "neuroticism": 40},
+    "Graphic Designer": {"openness": 85, "conscientiousness": 65, "extraversion": 55, "agreeableness": 65, "neuroticism": 40},
+    "HR Manager": {"openness": 60, "conscientiousness": 75, "extraversion": 70, "agreeableness": 75, "neuroticism": 35}
+} %}
 
-<div class="container-fluid">
-  <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between p-3 rounded bg-light-glass border border-white-10 mb-5 gap-3">
+<div class="container-fluid text-start">
+  <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between p-3 rounded bg-light-glass border border-white-10 mb-4 gap-3">
     <div>
       <h3 class="mb-1 text-white">Analysis Results: <span class="text-indigo-400">{{ job_role }}</span></h3>
       <p class="text-muted small mb-0">System processed all resumes using hybrid semantic vector weights and cognitive AI models.</p>
     </div>
-    <div class="text-md-end">
+    <div class="text-md-end text-start">
       <span class="badge bg-success fs-6 px-3 py-2">Suitable: {{ suitable|default(0) }} / {{ total|default(0) }}</span>
       <div class="text-muted small mt-1">Passing Threshold: {{ threshold|default(50) }}%</div>
     </div>
@@ -24,18 +31,36 @@
   </div>
   {% endif %}
 
-  <div class="box-highlight rounded p-3 mb-4 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
-    <div class="input-group" style="max-width: 400px;">
-      <span class="input-group-text bg-light-glass border-white-10 text-muted">🔍</span>
-      <input type="text" id="live-search-input" class="form-control bg-light-glass border-white-10 text-white" placeholder="Live search candidates by name or email..." onkeyup="filterCandidates()">
+  <!-- Advanced Interactive Filters Panel -->
+  <div class="box-highlight rounded p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center cursor-pointer" onclick="toggleFilterPanel()" style="user-select: none;">
+      <span class="text-white fw-bold d-flex align-items-center gap-2">🎛️ Live Filtering & Sorting Dashboard</span>
+      <span id="filter-chevron" class="text-indigo-400 fw-bold">▼</span>
     </div>
-    <div class="d-flex align-items-center gap-2">
-      <span class="text-muted small" style="white-space: nowrap;">Sort by:</span>
-      <select id="sort-select" class="form-select bg-light-glass border-white-10 text-white" style="width: 230px;" onchange="sortCandidates()">
-        <option value="final_score">Final Score (High to Low)</option>
-        <option value="job_score">Job Match (High to Low)</option>
-        <option value="exp_years">Experience (High to Low)</option>
-      </select>
+    
+    <div id="filter-panel" class="filter-panel d-none">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+          <label class="form-label text-white-50 small">Candidate Search Keyword</label>
+          <input type="text" id="live-search-input" class="form-control bg-light-glass text-white border-white-10" placeholder="Search name or email..." onkeyup="applyFilters()">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label text-white-50 small">Sort Results By</label>
+          <select id="sort-select" class="form-select bg-light-glass text-white border-white-10" onchange="sortCandidates()">
+            <option value="final_score">Final Score (High to Low)</option>
+            <option value="job_score">Job Match (High to Low)</option>
+            <option value="exp_years">Experience (High to Low)</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label text-white-50 small">Min Final Score: <span id="val-min-score" class="text-indigo-400 fw-bold">0</span>%</label>
+          <input type="range" class="form-range" id="filter-min-score" min="0" max="100" value="0" oninput="document.getElementById('val-min-score').textContent=this.value; applyFilters();">
+        </div>
+        <div class="col-md-3">
+          <label class="form-label text-white-50 small">Min Experience: <span id="val-min-exp" class="text-indigo-400 fw-bold">0</span> Years</label>
+          <input type="range" class="form-range" id="filter-min-exp" min="0" max="15" value="0" step="0.5" oninput="document.getElementById('val-min-exp').textContent=this.value; applyFilters();">
+        </div>
+      </div>
     </div>
   </div>
 
@@ -44,6 +69,7 @@
       <table class="table table-hover align-middle mb-0">
         <thead>
           <tr>
+            <th class="text-center" style="width: 70px;">Compare</th>
             <th class="ps-4">Candidate Info</th>
             <th style="width: 180px">Semantic Match</th>
             <th style="width: 130px">Experience</th>
@@ -55,6 +81,17 @@
         <tbody>
           {% for r in results %}
           <tr class="fw-medium animate-fade-in" style="--delay: {{ loop.index0 * 0.05 }}s; animation-delay: var(--delay);">
+            <td class="text-center">
+              <input type="checkbox" class="compare-checkbox form-check-input mx-auto" 
+                     data-name="{{ r.name }}" 
+                     data-role="{{ r.job_role|default(job_role) }}" 
+                     data-score="{{ r.final_score }}" 
+                     data-exp="{{ r.exp_years }}" 
+                     data-match="{{ r.job_score }}" 
+                     data-traits='{{ (r.personality_traits|default({}))|tojson }}' 
+                     data-gaps='{{ (r.ai_report.critical_gaps|default([]))|tojson }}' 
+                     onclick="toggleCompareCandidate(this)">
+            </td>
             <td class="ps-4">
               <div class="d-flex align-items-center gap-2 flex-wrap">
                 <div class="fw-bold text-white fs-5">{{ r.name }}</div>
@@ -78,9 +115,9 @@
               <span class="badge bg-secondary px-2 py-1 fs-6">{{ r.exp_years }} yrs</span>
             </td>
             <td>
-              <span class="badge badge-soft me-1">🛠️ {{ r.skills|length }} Skills</span>
-              <span class="badge badge-cert me-1">🚀 {{ r.projects|length }} Projects</span>
-              <span class="badge badge-int">🎓 {{ r.education|length }} Edu</span>
+              <span class="badge badge-soft me-1 mb-1">🛠️ {{ r.skills|length }} Skills</span>
+              <span class="badge badge-cert me-1 mb-1">🚀 {{ r.projects|length }} Projects</span>
+              <span class="badge badge-int mb-1">🎓 {{ r.education|length }} Edu</span>
             </td>
             <td>
               <div class="d-flex align-items-center gap-2">
@@ -109,10 +146,10 @@
           </tr>
 
           <tr class="collapse" id="details-{{ loop.index }}">
-            <td colspan="6" class="bg-light-glass p-4 border-top border-bottom">
+            <td colspan="7" class="bg-light-glass p-4 border-top border-bottom">
               <div class="row g-4">
                 
-                <div class="col-md-6 col-lg-7">
+                <div class="col-md-6 col-lg-7 text-start">
                   <div class="box-highlight rounded mb-3">
                     <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold">🔗 Professional Footprints</h5>
                     {% if r.links %}
@@ -139,7 +176,7 @@
                             <div class="text-indigo-300 small mb-2">🏢 {{ exp.company }}</div>
                             <ul class="text-muted small ps-3 mb-0">
                               {% for ach in exp.achievements %}
-                                <li class="mb-1">{{ ach }}</li>
+                                <li class="achievement-bullet mb-1">{{ ach }}</li>
                               {% endfor %}
                             </ul>
                           </div>
@@ -197,7 +234,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6 col-lg-5">
+                <div class="col-md-6 col-lg-5 text-start">
                   <div class="card card-app border-0 h-100 audit-card">
                     <div class="card-body p-4">
                       <h5 class="card-title text-white fw-bold mb-4 d-flex align-items-center gap-2">
@@ -210,17 +247,25 @@
                       </div>
 
                       {% if r.personality_traits %}
+                      {% set current_role_norm = r.job_role|default(job_role) %}
+                      {% set target = benchmarks.get(current_role_norm, {"openness": 50, "conscientiousness": 50, "extraversion": 50, "agreeableness": 50, "neuroticism": 50}) %}
                       <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
                         <small class="text-warning fw-bold d-block mb-2">🎭 Projected Personality Alignment ({{ r.personality_score }}% Fit)</small>
                         <div class="row g-2">
                           {% for trait, val in r.personality_traits.items() %}
-                          <div class="col-12">
+                          <div class="col-12 mb-2">
                             <div class="d-flex justify-content-between text-white-50 small mb-1" style="font-size: 11px;">
                               <span class="text-capitalize">{{ trait }}</span>
-                              <span class="text-white fw-semibold">{{ val }}%</span>
+                              <span>
+                                <span class="text-white-50">Target: {{ target[trait] }}%</span> | 
+                                <strong class="text-white">Actual: {{ val }}%</strong>
+                              </span>
                             </div>
-                            <div class="progress-container" style="height: 4px;">
-                              <div class="progress-bar-neon bg-warning" role="progressbar" style="--w: {{ val }}%; width: var(--w);"></div>
+                            <div class="personality-bar-container">
+                              <div class="personality-bar-actual" style="width: {{ val }}%;"></div>
+                              <div class="personality-bar-benchmark" style="left: {{ target[trait] }}%;">
+                                <span class="personality-bar-benchmark-label">Target</span>
+                              </div>
                             </div>
                           </div>
                           {% endfor %}
@@ -246,7 +291,7 @@
                         </ul>
                       </div>
 
-                      <div>
+                      <div class="mb-4">
                         <small class="text-success fw-bold d-block mb-2">❓ Customized Technical Interview Paths</small>
                         <ol class="text-muted small ps-3 mb-0" style="font-style: italic;">
                           {% for question in r.ai_report.interview_questions %}
@@ -278,15 +323,54 @@
     </div>
   </div>
   {% else %}
-  <div class="alert bg-warning-subtle text-warning border-0 rounded p-4 mt-3 box-highlight">
-    <h5 class="fw-bold text-warning mb-2">⚠️ No Candidates Met Selection Threshold</h5>
-    <p class="mb-0 small text-white-50">None of the uploaded files achieved a cumulative metric matching percentage of {{ threshold|default(50) }}%. Try loosening qualifications or dropping standard profile benchmarks.</p>
+  <div class="alert bg-warning-subtle text-warning border-0 rounded p-4 mt-3 box-highlight text-center">
+    <h5 class="fw-bold text-warning mb-2">⚠️ No Candidate Records Found</h5>
+    <p class="mb-0 small text-white-50">No candidates have been uploaded or analyzed yet.</p>
   </div>
   {% endif %}
 
   <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-5 gap-3">
     <a href="/" class="btn btn-light px-4 py-2 rounded-pill fw-semibold w-100 w-sm-auto">🔄 Upload & Analyze Again</a>
     <a href="/ranking" class="btn btn-success px-4 py-2 rounded-pill fw-semibold w-100 w-sm-auto">🏆 Global Candidate Rankings</a>
+  </div>
+</div>
+
+<!-- Bottom Comparison Shelf -->
+<div id="compare-shelf" class="compare-shelf">
+  <div class="compare-count">
+    Selected Candidates: <span id="selected-candidates-count" class="compare-pill">0</span>
+  </div>
+  <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="showComparisonModal()">
+    ⚖️ Compare Side-by-Side
+  </button>
+  <button class="btn btn-sm btn-light rounded-pill px-3" onclick="clearComparison()">
+    Reset
+  </button>
+</div>
+
+<!-- Candidate Comparison Modal -->
+<div class="modal fade" id="comparisonModal" tabindex="-1" aria-labelledby="comparisonModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
+    <div class="modal-content text-white" style="background: #0d131f !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;">
+      <div class="modal-header border-bottom border-white-10">
+        <h5 class="modal-title fw-bold text-indigo-300" id="comparisonModalLabel">⚖️ Side-by-Side Candidate Comparison Matrix</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4" style="overflow-x: auto;">
+        <table class="table table-bordered text-center align-middle" id="comparison-table" style="min-width: 800px; border-color: rgba(255,255,255,0.08) !important;">
+          <thead>
+            <tr id="compare-headers" style="background: rgba(15, 23, 42, 0.5) !important;">
+              <th class="text-start" style="width: 200px;">Metric \\ Candidate</th>
+            </tr>
+          </thead>
+          <tbody id="compare-rows">
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer border-top border-white-10">
+        <button type="button" class="btn btn-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -305,12 +389,77 @@
           </div>
           <p class="text-muted mt-3 mb-0">AI is rewriting and optimizing your CV. Please wait, this takes about 5-10 seconds...</p>
         </div>
+        
         <div id="optimizer-content" class="d-none">
-          <div class="alert bg-success-subtle text-success border border-success-subtle rounded mb-4" style="background: rgba(16, 185, 129, 0.08) !important; border: 1px solid rgba(16, 185, 129, 0.2) !important;">
-             💡 <strong>Perfect CV Recommendations Applied:</strong> Critical skill gaps have been merged into your skills list, achievements have been rewritten using metric-driven templates, and formatting is optimized for ATS software parsing.
+          <!-- Controls Panel -->
+          <div class="p-3 mb-3 box-highlight rounded border border-white-10 text-start">
+            <small class="text-indigo-300 fw-bold d-block mb-3">🛠️ Custom AI Re-Write Controls</small>
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label text-white-50" style="font-size: 11px;">Focus Area</label>
+                <select id="opt-focus" class="form-select form-select-sm bg-light-glass text-white border-white-10">
+                  <option value="all">Full Optimize (All Features)</option>
+                  <option value="achievements">Metric Achievements (Google X-Y-Z)</option>
+                  <option value="keywords">Technical Keyword Injection</option>
+                  <option value="formatting">ATS Readability Formatting</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-white-50" style="font-size: 11px;">Writing Tone</label>
+                <select id="opt-tone" class="form-select form-select-sm bg-light-glass text-white border-white-10">
+                  <option value="professional">Professional & Formal</option>
+                  <option value="bold">Bold & Tech-driven</option>
+                  <option value="academic">Academic & Detailed</option>
+                  <option value="minimalist">Minimalist & Crisp</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label text-white-50" style="font-size: 11px;">Resume Length</label>
+                <select id="opt-length" class="form-select form-select-sm bg-light-glass text-white border-white-10">
+                  <option value="default">Default Length</option>
+                  <option value="concise">Concise 1-Page</option>
+                  <option value="detailed">Detailed 2-Pages</option>
+                </select>
+              </div>
+            </div>
+            <div class="mt-3 text-end">
+              <button class="btn btn-sm btn-primary rounded-pill px-3" onclick="triggerRegenerate()">
+                🔄 Regenerate with AI
+              </button>
+            </div>
           </div>
-          <div class="position-relative p-4 rounded text-white-50 border border-white-10" style="background: rgba(0, 0, 0, 0.35); max-height: 450px; overflow-y: auto; font-size: 14px; line-height: 1.6;">
+
+          <!-- Multi-tab comparison layout -->
+          <ul class="nav nav-tabs border-bottom border-white-10 mb-3" role="tablist">
+            <li class="nav-item">
+              <button class="optimizer-tab-btn active" id="tab-opt-btn" onclick="switchOptimizerTab('optimized')">✨ Optimized HTML</button>
+            </li>
+            <li class="nav-item">
+              <button class="optimizer-tab-btn" id="tab-raw-btn" onclick="switchOptimizerTab('raw')">📄 Original Plain Text</button>
+            </li>
+            <li class="nav-item">
+              <button class="optimizer-tab-btn" id="tab-diff-btn" onclick="switchOptimizerTab('diff')">💡 Applied Upgrades</button>
+            </li>
+          </ul>
+
+          <!-- Tab Contents -->
+          <div id="pane-optimized" class="position-relative p-4 rounded text-white-50 border border-white-10 text-start" style="background: rgba(0, 0, 0, 0.35); max-height: 450px; overflow-y: auto; font-size: 14px; line-height: 1.6;">
             <div id="optimized-html" class="optimized-markdown-body"></div>
+          </div>
+          
+          <div id="pane-raw" class="d-none comparison-pane text-start">
+            <pre id="raw-plain-text" class="text-white-50 m-0" style="white-space: pre-wrap; font-family: 'Inter', sans-serif; font-size: 13px;"></pre>
+          </div>
+          
+          <div id="pane-diff" class="d-none comparison-pane text-start">
+            <div class="mb-4">
+              <h6 class="text-success fw-bold">✓ Critical Keywords Injected:</h6>
+              <div id="diff-gaps-list" class="d-flex flex-wrap gap-2 mt-1"></div>
+            </div>
+            <div>
+              <h6 class="text-warning fw-bold">✓ Work Experience Metrics Upgraded:</h6>
+              <div id="diff-upgrades-list" class="d-flex flex-column gap-2 mt-2"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -327,19 +476,43 @@
 </div>
 
 <script>
-function filterCandidates() {
-  const input = document.getElementById('live-search-input');
-  const filter = input.value.toLowerCase();
+// Filter dashboard
+function toggleFilterPanel() {
+  const panel = document.getElementById('filter-panel');
+  const chevron = document.getElementById('filter-chevron');
+  if (panel.classList.contains('d-none')) {
+    panel.classList.remove('d-none');
+    chevron.textContent = '▲';
+  } else {
+    panel.classList.add('d-none');
+    chevron.textContent = '▼';
+  }
+}
+
+function applyFilters() {
+  const kwVal = document.getElementById('live-search-input').value.toLowerCase();
+  const minScore = parseFloat(document.getElementById('filter-min-score').value);
+  const minExp = parseFloat(document.getElementById('filter-min-exp').value);
+  
   const table = document.querySelector('.table tbody');
   const rows = table.querySelectorAll('tr:not(.collapse)');
   
   rows.forEach(row => {
     const name = row.querySelector('.fs-5').textContent.toLowerCase();
     const email = row.querySelector('.text-muted').textContent.toLowerCase();
+    
+    const checkbox = row.querySelector('.compare-checkbox');
+    const score = parseFloat(checkbox.getAttribute('data-score'));
+    const exp = parseFloat(checkbox.getAttribute('data-exp'));
+    
+    const kwMatch = (!kwVal || name.includes(kwVal) || email.includes(kwVal));
+    const scoreMatch = (score >= minScore);
+    const expMatch = (exp >= minExp);
+    
     const collapseId = row.querySelector('button').getAttribute('data-bs-target');
     const detailRow = document.querySelector(collapseId);
     
-    if (name.includes(filter) || email.includes(filter)) {
+    if (kwMatch && scoreMatch && expMatch) {
       row.style.display = '';
     } else {
       row.style.display = 'none';
@@ -364,11 +537,11 @@ function sortCandidates() {
     
     let val = 0;
     if (criterion === 'final_score') {
-      val = parseFloat(row.querySelector('.text-success.fw-bold').textContent);
+      val = parseFloat(row.querySelector('.compare-checkbox').getAttribute('data-score'));
     } else if (criterion === 'job_score') {
-      val = parseFloat(row.querySelector('.text-white.small.fw-bold').textContent);
+      val = parseFloat(row.querySelector('.compare-checkbox').getAttribute('data-match'));
     } else if (criterion === 'exp_years') {
-      val = parseFloat(row.querySelector('td:nth-child(3) span').textContent);
+      val = parseFloat(row.querySelector('.compare-checkbox').getAttribute('data-exp'));
     }
     
     pairs.push({ row, detailRow, val });
@@ -376,7 +549,6 @@ function sortCandidates() {
   
   pairs.sort((a, b) => b.val - a.val);
   
-  // Clear the table body and re-append in sorted order
   table.innerHTML = '';
   pairs.forEach(pair => {
     table.appendChild(pair.row);
@@ -384,8 +556,111 @@ function sortCandidates() {
   });
 }
 
+// Side-by-side Candidate Comparison logic
+let selectedCandidates = [];
+
+function toggleCompareCandidate(checkbox) {
+  const name = checkbox.getAttribute('data-name');
+  const role = checkbox.getAttribute('data-role');
+  const score = parseFloat(checkbox.getAttribute('data-score'));
+  const exp = parseFloat(checkbox.getAttribute('data-exp'));
+  const match = parseFloat(checkbox.getAttribute('data-match'));
+  const traits = JSON.parse(checkbox.getAttribute('data-traits'));
+  const gaps = JSON.parse(checkbox.getAttribute('data-gaps'));
+
+  if (checkbox.checked) {
+    if (selectedCandidates.length >= 4) {
+      alert("You can compare up to 4 candidates at a time.");
+      checkbox.checked = false;
+      return;
+    }
+    selectedCandidates.push({ name, role, score, exp, match, traits, gaps });
+  } else {
+    selectedCandidates = selectedCandidates.filter(c => c.name !== name);
+  }
+
+  updateCompareShelf();
+}
+
+function updateCompareShelf() {
+  const shelf = document.getElementById('compare-shelf');
+  const countSpan = document.getElementById('selected-candidates-count');
+  countSpan.textContent = selectedCandidates.length;
+
+  if (selectedCandidates.length > 0) {
+    shelf.classList.add('active');
+  } else {
+    shelf.classList.remove('active');
+  }
+}
+
+function clearComparison() {
+  selectedCandidates = [];
+  document.querySelectorAll('.compare-checkbox').forEach(cb => cb.checked = false);
+  updateCompareShelf();
+}
+
+function showComparisonModal() {
+  if (selectedCandidates.length < 2) {
+    alert("Please select at least 2 candidates to compare.");
+    return;
+  }
+
+  const modalEl = document.getElementById('comparisonModal');
+  const modal = new bootstrap.Modal(modalEl);
+  
+  // Headers row
+  const headersRow = document.getElementById('compare-headers');
+  headersRow.innerHTML = '<th class="text-start" style="width: 200px;">Candidate Detail</th>';
+  selectedCandidates.forEach(c => {
+    headersRow.innerHTML += `<th class="text-white fw-bold fs-5">${c.name}</th>`;
+  });
+
+  // Table rows
+  const rowsBody = document.getElementById('compare-rows');
+  rowsBody.innerHTML = '';
+
+  const addComparisonRow = (label, selectorFn) => {
+    let html = `<tr><td class="text-start fw-bold text-indigo-300">${label}</td>`;
+    selectedCandidates.forEach(c => {
+      html += `<td>${selectorFn(c)}</td>`;
+    });
+    html += '</tr>';
+    rowsBody.innerHTML += html;
+  };
+
+  addComparisonRow("Target Job Role", c => `💼 <strong class="text-white">${c.role}</strong>`);
+  addComparisonRow("Final ATS score", c => `<strong class="text-success fs-5">${c.score}%</strong>`);
+  addComparisonRow("Semantic Match score", c => `<span class="text-info fw-semibold">${c.match}%</span>`);
+  addComparisonRow("Work Experience", c => `<span class="badge bg-secondary">${c.exp} Years</span>`);
+  addComparisonRow("Critical Skill Gaps", c => {
+    if (!c.gaps || c.gaps.length === 0) return '<span class="text-success">No gaps detected!</span>';
+    return c.gaps.map(g => `<span class="badge badge-danger m-1">${g}</span>`).join('');
+  });
+
+  const traitsList = ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"];
+  traitsList.forEach(t => {
+    addComparisonRow(`Personality: ${t.charAt(0).toUpperCase() + t.slice(1)}`, c => {
+      const val = c.traits[t] !== undefined ? c.traits[t] : 50;
+      return `
+        <div class="d-flex flex-column align-items-center">
+          <span class="text-white mb-1 small fw-semibold">${val}%</span>
+          <div class="progress-container w-75" style="height: 5px;">
+            <div class="progress-bar-neon bg-warning" style="width: ${val}%;"></div>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+  modal.show();
+}
+
+// Resume Optimizer Modal & API Call logic
 let currentOptimizedText = "";
 let currentCandidateName = "";
+let originalText = "";
+let aiReportData = {};
 
 function parseMarkdownToHtml(markdown) {
   if (!markdown) return "";
@@ -401,10 +676,8 @@ function parseMarkdownToHtml(markdown) {
     .replace(/^\*\s+(.*$)/gim, '<li class="mb-1 text-white-50">$1</li>')
     .replace(/^\-\s+(.*$)/gim, '<li class="mb-1 text-white-50">$1</li>');
     
-  // Wrap list items nicely
   html = html.replace(/(<li.*?>.*?<\/li>)/gs, '<ul class="mb-3">$1</ul>');
   
-  // Convert line breaks and paragraph separations
   html = html.split('\n\n').map(p => {
     const trimmed = p.trim();
     if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li')) return p;
@@ -420,14 +693,29 @@ function optimizeResume(candidateName) {
   const modal = new bootstrap.Modal(modalEl);
   modal.show();
 
-  // Reset modal state
   document.getElementById('optimizer-loading').classList.remove('d-none');
   document.getElementById('optimizer-content').classList.add('d-none');
   document.getElementById('optimized-html').innerHTML = "";
-  currentOptimizedText = "";
+  
+  document.getElementById('opt-focus').value = "all";
+  document.getElementById('opt-tone').value = "professional";
+  document.getElementById('opt-length').value = "default";
+  
+  switchOptimizerTab('optimized');
 
-  // Call the optimization API endpoint
-  fetch(`/optimize_cv/${encodeURIComponent(candidateName)}`)
+  fetchOptimizedResume(candidateName, {});
+}
+
+function fetchOptimizedResume(candidateName, params) {
+  currentOptimizedText = "";
+  originalText = "";
+  aiReportData = {};
+
+  fetch(`/optimize_cv/${encodeURIComponent(candidateName)}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  })
     .then(response => {
       if (!response.ok) {
         return response.json().then(err => { throw new Error(err.error || 'Server error'); });
@@ -436,7 +724,32 @@ function optimizeResume(candidateName) {
     })
     .then(data => {
       currentOptimizedText = data.optimized_cv;
+      originalText = data.raw_text;
+      aiReportData = data.ai_report || {};
+
       document.getElementById('optimized-html').innerHTML = parseMarkdownToHtml(currentOptimizedText);
+      document.getElementById('raw-plain-text').textContent = originalText;
+      
+      const gapsDiv = document.getElementById('diff-gaps-list');
+      gapsDiv.innerHTML = '';
+      if (aiReportData.critical_gaps && aiReportData.critical_gaps.length > 0) {
+        aiReportData.critical_gaps.forEach(g => {
+          gapsDiv.innerHTML += `<span class="badge badge-soft">${g}</span>`;
+        });
+      } else {
+        gapsDiv.innerHTML = '<span class="text-muted">No key missing skill gaps reported.</span>';
+      }
+
+      const upgradesDiv = document.getElementById('diff-upgrades-list');
+      upgradesDiv.innerHTML = '';
+      if (aiReportData.bullet_points_improvement && aiReportData.bullet_points_improvement.length > 0) {
+        aiReportData.bullet_points_improvement.forEach(imp => {
+          upgradesDiv.innerHTML += `<div class="feedback-tip-box text-white-50">${imp}</div>`;
+        });
+      } else {
+        upgradesDiv.innerHTML = '<div class="text-muted">No custom metric updates requested.</div>';
+      }
+
       document.getElementById('optimizer-loading').classList.add('d-none');
       document.getElementById('optimizer-content').classList.remove('d-none');
     })
@@ -445,6 +758,36 @@ function optimizeResume(candidateName) {
       document.getElementById('optimizer-loading').classList.add('d-none');
       document.getElementById('optimizer-content').classList.remove('d-none');
     });
+}
+
+function triggerRegenerate() {
+  document.getElementById('optimizer-loading').classList.remove('d-none');
+  document.getElementById('optimizer-content').classList.add('d-none');
+
+  const focus = document.getElementById('opt-focus').value;
+  const tone = document.getElementById('opt-tone').value;
+  const length = document.getElementById('opt-length').value;
+
+  fetchOptimizedResume(currentCandidateName, {
+    focus_area: focus,
+    tone: tone,
+    target_length: length
+  });
+}
+
+function switchOptimizerTab(tabName) {
+  const tabs = ['optimized', 'raw', 'diff'];
+  tabs.forEach(t => {
+    const pane = document.getElementById(`pane-${t}`);
+    const btn = document.getElementById(`tab-${t}-btn`);
+    if (t === tabName) {
+      pane.classList.remove('d-none');
+      btn.classList.add('active');
+    } else {
+      pane.classList.add('d-none');
+      btn.classList.remove('active');
+    }
+  });
 }
 
 function copyOptimizedText() {
@@ -475,7 +818,6 @@ function printOptimizedResume() {
   if (!currentOptimizedText) return;
   const printWindow = window.open('', '_blank');
   
-  // Format Markdown raw text into printable HTML document
   let printableHtml = currentOptimizedText
     .replace(/^### (.*$)/gim, '<h4>$1</h4>')
     .replace(/^## (.*$)/gim, '<h3>$1</h3>')
@@ -525,6 +867,7 @@ function printOptimizedResume() {
           border-bottom: 2px solid #cbd5e1;
           padding-bottom: 10px;
           margin-bottom: 20px;
+          color: #0f172a;
         }
         h4 {
           font-size: 16px;
@@ -570,5 +913,20 @@ function printOptimizedResume() {
   `);
   printWindow.document.close();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.achievement-bullet').forEach(li => {
+    const text = li.textContent.trim();
+    const hasMetric = /[0-9%$]/.test(text);
+    if (text.length > 10 && !hasMetric) {
+      const tip = document.createElement('span');
+      tip.className = 'text-warning small d-block mt-1';
+      tip.style.fontSize = '10px';
+      tip.style.fontStyle = 'normal';
+      tip.innerHTML = '💡 Tip: Add key metrics or percentages to prove business impact.';
+      li.appendChild(tip);
+    }
+  });
+});
 </script>
 {% endblock %}

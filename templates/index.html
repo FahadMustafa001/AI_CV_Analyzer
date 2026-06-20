@@ -74,6 +74,22 @@
 </form>
 
 <script>
+const ROLE_TEMPLATES = {
+  "Software Engineer": "We are seeking a Software Engineer to design, build, and optimize backend and frontend services. Core skills should include: Python, Java, C++, Software Engineering, Debugging, Algorithms, Data Structures, OOP, and systems design.",
+  "Data Analyst": "We are seeking a Data Analyst to analyze large datasets, design dashboards, and compile reports. Core skills should include: Excel, SQL, Python, Pandas, Data Visualization, Tableau, PowerBI, Statistics, Analytics, and Data Cleaning.",
+  "Flutter Developer": "We are seeking a Flutter Developer to create responsive and modern mobile applications for iOS and Android. Core skills should include: Flutter, Dart, Firebase, API integration, UI/UX, BLoC/Provider state management, and mobile deployments.",
+  "Graphic Designer": "We are seeking a Graphic Designer to craft professional branding materials, logos, layouts, and digital designs. Core skills should include: Photoshop, Illustrator, Adobe Creative Suite, UI/UX, Figma, Vector illustration, and Typography.",
+  "HR Manager": "We are seeking a human resources professional to manage recruitment, employee relations, policy enforcement, and onboarding. Core skills should include: Talent Acquisition, Communication, HR Policies, Screening, and Leadership."
+};
+
+document.getElementById('job_role_select').addEventListener('change', function() {
+  const val = this.value;
+  const textarea = document.getElementById('custom_jd_textarea');
+  if (ROLE_TEMPLATES[val] && (!textarea.value.trim() || Object.values(ROLE_TEMPLATES).includes(textarea.value.trim()))) {
+    textarea.value = ROLE_TEMPLATES[val];
+  }
+});
+
 function toggleJDInput(type) {
   const predefinedContainer = document.getElementById('predefined-role-container');
   const customContainer = document.getElementById('custom-jd-container');
@@ -90,6 +106,12 @@ function toggleJDInput(type) {
     customContainer.style.display = 'block';
     roleSelect.removeAttribute('required');
     jdTextarea.setAttribute('required', 'required');
+    
+    // Auto fill if standard role is already selected
+    const currentRole = roleSelect.value;
+    if (currentRole && ROLE_TEMPLATES[currentRole] && !jdTextarea.value.trim()) {
+      jdTextarea.value = ROLE_TEMPLATES[currentRole];
+    }
   }
 }
 
@@ -97,6 +119,7 @@ function toggleJDInput(type) {
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('files-input');
 const fileList = document.getElementById('file-list');
+let dt = new DataTransfer();
 
 if (dropzone && fileInput) {
   dropzone.addEventListener('click', () => fileInput.click());
@@ -118,30 +141,71 @@ if (dropzone && fileInput) {
     dropzone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
     
     if (e.dataTransfer.files.length) {
-      fileInput.files = e.dataTransfer.files;
+      // Add new files to our dataTransfer list
+      for (let i = 0; i < e.dataTransfer.files.length; i++) {
+        dt.items.add(e.dataTransfer.files[i]);
+      }
+      fileInput.files = dt.files;
       updateFileList();
     }
   });
 
   fileInput.addEventListener('change', () => {
+    // Re-initialize dt with fileInput.files
+    dt = new DataTransfer();
+    for (let i = 0; i < fileInput.files.length; i++) {
+      dt.items.add(fileInput.files[i]);
+    }
     updateFileList();
   });
 }
 
 function updateFileList() {
-  const files = fileInput.files;
   fileList.innerHTML = '';
-  if (files.length) {
-    fileList.innerHTML = '<strong>Selected Files:</strong>';
-    const ul = document.createElement('ul');
-    ul.className = 'mb-0 mt-2 ps-3 text-indigo-200';
-    for (let i = 0; i < files.length; i++) {
-      const li = document.createElement('li');
-      li.textContent = files[i].name;
-      ul.appendChild(li);
+  if (dt.files.length) {
+    const title = document.createElement('strong');
+    title.className = 'text-white d-block mb-2';
+    title.textContent = 'Selected Resumes:';
+    fileList.appendChild(title);
+    
+    const wrapper = document.createElement('div');
+    wrapper.className = 'd-flex flex-column gap-2';
+    
+    for (let i = 0; i < dt.files.length; i++) {
+      const file = dt.files[i];
+      const isWord = file.name.toLowerCase().endsWith('.docx');
+      const icon = isWord ? '📝' : '📄';
+      const sizeStr = (file.size / 1024).toFixed(1) + ' KB';
+      
+      const fileCard = document.createElement('div');
+      fileCard.className = 'file-card animate-fade-in';
+      fileCard.innerHTML = `
+        <div class="file-card-info">
+          <span class="file-card-icon">${icon}</span>
+          <div style="min-width: 0;">
+            <div class="file-card-name" title="${file.name}">${file.name}</div>
+            <div class="file-card-size">${sizeStr}</div>
+          </div>
+        </div>
+        <span class="file-card-delete" onclick="removeFile(event, ${i})">×</span>
+      `;
+      wrapper.appendChild(fileCard);
     }
-    fileList.appendChild(ul);
+    fileList.appendChild(wrapper);
   }
+}
+
+function removeFile(event, index) {
+  event.stopPropagation(); // Stop click from bubbling to dropzone
+  const newDt = new DataTransfer();
+  for (let i = 0; i < dt.files.length; i++) {
+    if (i !== index) {
+      newDt.items.add(dt.files[i]);
+    }
+  }
+  dt = newDt;
+  fileInput.files = dt.files;
+  updateFileList();
 }
 </script>
 

@@ -5,12 +5,20 @@ import sqlite3
 import json
 import logging
 
-# Configure logging to save errors into a file
-logging.basicConfig(
-    filename='app.log',
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s'
-)
+# Configure logging to save errors into a file and output to console
+root_logger = logging.getLogger()
+root_logger.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+
+# File handler
+file_handler = logging.FileHandler('app.log')
+file_handler.setFormatter(formatter)
+root_logger.addHandler(file_handler)
+
+# Console handler
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+root_logger.addHandler(stream_handler)
 
 # Import modern components directly from your custom modules
 from cv_parser import parse_cv, extract_text
@@ -334,7 +342,7 @@ def submit_test(name: str):
     conn.close()
     return redirect(url_for('ranking'))
 
-@app.route('/optimize_cv/<name>')
+@app.route('/optimize_cv/<name>', methods=['GET', 'POST'])
 def optimize_cv(name: str):
     conn = sqlite3.connect("candidates.db")
     cur = conn.cursor()
@@ -353,8 +361,29 @@ def optimize_cv(name: str):
     except Exception:
         ai_report = {}
         
-    optimized_text = generate_optimized_resume(raw_text, job_role, ai_report)
-    return {"optimized_cv": optimized_text}
+    focus_area = "all"
+    tone = "professional"
+    target_length = "default"
+    
+    if request.method == 'POST':
+        data = request.get_json(silent=True) or {}
+        focus_area = data.get('focus_area', 'all')
+        tone = data.get('tone', 'professional')
+        target_length = data.get('target_length', 'default')
+    else:
+        focus_area = request.args.get('focus_area', 'all')
+        tone = request.args.get('tone', 'professional')
+        target_length = request.args.get('target_length', 'default')
+        
+    optimized_text = generate_optimized_resume(
+        raw_text, job_role, ai_report,
+        focus_area=focus_area, tone=tone, target_length=target_length
+    )
+    return {
+        "optimized_cv": optimized_text,
+        "raw_text": raw_text,
+        "ai_report": ai_report
+    }
 
 def deserialize_candidate(r):
     try:
