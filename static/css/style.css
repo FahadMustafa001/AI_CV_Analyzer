@@ -622,3 +622,17 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
     color: #000 !important;
   }
 }
+
+/* High contrast overrides for dark background readability */
+.text-muted {
+  color: #cbd5e1 !important;
+}
+.text-white-50 {
+  color: #e2e8f0 !important;
+}
+.text-indigo-300 {
+  color: #c7d2fe !important;
+}
+.text-indigo-200 {
+  color: #e0e7ff !important;
+}

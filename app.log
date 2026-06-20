@@ -410,3 +410,30 @@ TypeError: Object of type Undefined is not JSON serializable
 2026-06-20 15:35:55,770 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
 2026-06-20 15:35:57,071 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:57] "GET / HTTP/1.1" 200 -
 2026-06-20 15:35:57,086 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:35:57] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:38:13,246 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:38:13] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:38:13,339 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:38:13] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:40:11,929 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:40:11] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:40:11,995 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:40:11] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:42:08,342 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:42:08] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:42:08,428 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:42:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:49:37,270 INFO werkzeug Thread-24 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:49:37] "GET / HTTP/1.1" 200 -
+2026-06-20 15:49:37,656 INFO werkzeug Thread-25 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:49:37] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 15:49:39,223 INFO werkzeug Thread-26 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:49:39] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:49:39,301 INFO werkzeug Thread-27 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:49:39] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:49:56,437 INFO werkzeug Thread-28 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:49:56] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 15:49:56,521 INFO werkzeug Thread-29 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:49:56] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:52:17,371 INFO werkzeug Thread-30 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:17] "GET /test/CV_8_Data_Analyst HTTP/1.1" 200 -
+2026-06-20 15:52:17,484 INFO werkzeug Thread-31 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:17] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 15:52:17,494 INFO werkzeug Thread-32 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:17] "GET /static/images/logo.png HTTP/1.1" 200 -
+2026-06-20 15:52:25,108 INFO werkzeug Thread-33 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:25] "GET / HTTP/1.1" 200 -
+2026-06-20 15:52:25,141 INFO werkzeug Thread-34 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:52:25,145 INFO werkzeug Thread-35 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:25] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 15:52:27,044 INFO werkzeug Thread-36 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:27] "GET / HTTP/1.1" 200 -
+2026-06-20 15:52:27,093 INFO werkzeug Thread-37 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 15:52:27,099 INFO werkzeug Thread-38 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 15:52:27] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 15:52:52,348 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-20 15:52:52,350 ERROR instructor.v2.retry ThreadPoolExecutor-0_1 : API call failed on attempt 1: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99030, Requested 1129. Please try again in 2m17.376s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 15:52:52,351 ERROR instructor.v2.retry ThreadPoolExecutor-0_1 : Max retries exceeded. Total attempts: 1, Last error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kty5wwsdfw89vbfn5n7wjzha` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99030, Requested 1129. Please try again in 2m17.376s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-20 15:52:53,780 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:52:54,443 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:52:54,994 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"

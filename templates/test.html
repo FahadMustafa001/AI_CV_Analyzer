@@ -33,35 +33,35 @@
           
           <div class="psych-option-group">
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-1" value="1" required onclick="handleOptionSelect({{ loop.index0 }})">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-1" value="1" required onclick="handleOptionSelect(this)">
               <label class="psych-option-label" for="{{ q.id }}-1">
                 <span class="d-block fs-5 fw-bold">1</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Disagree</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-2" value="2" onclick="handleOptionSelect({{ loop.index0 }})">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-2" value="2" onclick="handleOptionSelect(this)">
               <label class="psych-option-label" for="{{ q.id }}-2">
                 <span class="d-block fs-5 fw-bold">2</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Disagree</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-3" value="3" onclick="handleOptionSelect({{ loop.index0 }})">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-3" value="3" onclick="handleOptionSelect(this)">
               <label class="psych-option-label" for="{{ q.id }}-3">
                 <span class="d-block fs-5 fw-bold">3</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Neutral</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-4" value="4" onclick="handleOptionSelect({{ loop.index0 }})">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-4" value="4" onclick="handleOptionSelect(this)">
               <label class="psych-option-label" for="{{ q.id }}-4">
                 <span class="d-block fs-5 fw-bold">4</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Agree</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-5" value="5" onclick="handleOptionSelect({{ loop.index0 }})">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-5" value="5" onclick="handleOptionSelect(this)">
               <label class="psych-option-label" for="{{ q.id }}-5">
                 <span class="d-block fs-5 fw-bold">5</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Agree</span>
@@ -92,7 +92,7 @@
 
 <script>
 let currentStep = 0;
-const totalSteps = {{ questions|length }};
+const totalSteps = parseInt("{{ questions|length }}");
 const steps = document.querySelectorAll('.psych-step');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
@@ -142,7 +142,10 @@ function navigateStep(direction) {
   }, 200);
 }
 
-function handleOptionSelect(stepIndex) {
+function handleOptionSelect(radioEl) {
+  const stepCard = radioEl.closest('.psych-step');
+  const stepIndex = parseInt(stepCard.getAttribute('data-step'));
+  
   // Auto-advance with slight delay for delightful feedback
   if (stepIndex < totalSteps - 1) {
     setTimeout(() => {
