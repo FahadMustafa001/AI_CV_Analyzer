@@ -1754,5 +1754,336 @@ body.light-theme .comparison-pane pre {
   color: var(--text-main) !important;
 }
 
+/* =====================================================
+   PHASE 3 & 4: NEW COMPONENT STYLES
+   ===================================================== */
+
+/* --- Toast Notification System --- */
+.cogni-toast {
+  min-width: 320px;
+  max-width: 420px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 4px solid var(--toast-color, #6366f1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  margin-bottom: 10px;
+  overflow: hidden;
+  animation: toastSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+.cogni-toast.toast-exit {
+  animation: toastSlideOut 0.4s ease forwards;
+}
+.cogni-toast-body {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+.cogni-toast-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.cogni-toast-msg {
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  flex: 1;
+}
+.cogni-toast-close {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.cogni-toast-close:hover {
+  color: #fff;
+}
+.cogni-toast-progress {
+  height: 3px;
+  background: var(--toast-color, #6366f1);
+  animation: toastProgress linear forwards;
+  opacity: 0.6;
+}
+
+@keyframes toastSlideIn {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes toastSlideOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
+}
+@keyframes toastProgress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+body.light-theme .cogni-toast {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+}
+body.light-theme .cogni-toast-msg {
+  color: var(--text-main) !important;
+}
+
+/* --- Sticky Table Header --- */
+.table-sticky-header thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+body.light-theme .table-sticky-header thead th {
+  background: rgba(241, 245, 249, 0.95) !important;
+}
+
+/* --- Bulk Action Toolbar --- */
+.bulk-toolbar {
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 12px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeInUp 0.3s ease forwards;
+}
+body.light-theme .bulk-toolbar {
+  background: rgba(99, 102, 241, 0.06) !important;
+}
+
+/* --- Keyboard Hint Badge --- */
+kbd {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-family: 'Inter', monospace;
+  color: #e2e8f0;
+}
+body.light-theme kbd {
+  background: rgba(0, 0, 0, 0.06) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: var(--text-main) !important;
+}
+
+/* --- Empty State --- */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+}
+.empty-state-icon {
+  font-size: 4rem;
+  color: rgba(99, 102, 241, 0.3);
+  margin-bottom: 1rem;
+}
+.empty-state h4 {
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+/* --- Enhanced Drag-and-Drop Upload Zone --- */
+#dropzone {
+  border: 2px dashed rgba(99, 102, 241, 0.3);
+  border-radius: 16px;
+  padding: 2.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+#dropzone:hover {
+  border-color: rgba(99, 102, 241, 0.5);
+  background: rgba(99, 102, 241, 0.05) !important;
+}
+#dropzone.dragover {
+  border-color: var(--primary) !important;
+  background: rgba(99, 102, 241, 0.12) !important;
+  transform: scale(1.01);
+}
+#dropzone .drop-icon {
+  font-size: 3rem;
+  color: rgba(99, 102, 241, 0.5);
+  transition: all 0.3s ease;
+}
+#dropzone:hover .drop-icon,
+#dropzone.dragover .drop-icon {
+  color: var(--primary);
+  transform: translateY(-4px);
+}
+
+/* --- Confirmation Modal --- */
+#confirmSubmitModal .modal-content {
+  border-radius: 16px !important;
+}
+
+/* --- Enhanced Print Styles --- */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .navbar-glass, .footer-glass, .compare-shelf, #toast-container,
+  .btn, button, .theme-toggle, #theme-toggle, .bulk-toolbar {
+    display: none !important;
+  }
+  .card-app {
+    background: #fff !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .table thead th {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .table td, .table th {
+    color: #0f172a !important;
+    border-color: #e2e8f0 !important;
+  }
+  .rating-badge-success { background: #d1fae5 !important; color: #065f46 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rating-badge-warning { background: #fef3c7 !important; color: #92400e !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rating-badge-danger { background: #ffe4e6 !important; color: #9f1239 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .badge-soft, .badge-cert, .badge-int {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .hero {
+    background: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .box-highlight {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+  a { color: #4f46e5 !important; }
+  .text-white { color: #0f172a !important; }
+  .text-white-50, .text-muted { color: #475569 !important; }
+}
+
+/* --- Light Mode Additional Overrides --- */
+body.light-theme .hero {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(168, 85, 247, 0.06) 100%) !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+}
+body.light-theme .navbar-glass .navbar-brand {
+  background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+body.light-theme .trust-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+}
+body.light-theme .psych-option-label {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+  color: var(--text-muted) !important;
+}
+body.light-theme .psych-option-label:hover {
+  background: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+  color: var(--text-main) !important;
+}
+body.light-theme .box-highlight {
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.06) !important;
+}
+body.light-theme ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+body.light-theme ::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.2);
+}
+body.light-theme ::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.35);
+}
+body.light-theme .text-gradient-indigo {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+body.light-theme .text-gradient-success {
+  background: linear-gradient(135deg, #047857 0%, #10b981 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+body.light-theme .text-gradient-info {
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+body.light-theme .text-gradient-warning {
+  background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+body.light-theme .compare-checkbox {
+  border-color: rgba(99, 102, 241, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+body.light-theme .file-card {
+  background: rgba(99, 102, 241, 0.04) !important;
+  border-color: rgba(99, 102, 241, 0.12) !important;
+}
+body.light-theme .file-card:hover {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+body.light-theme .progress-container {
+  background: rgba(99, 102, 241, 0.08) !important;
+}
+body.light-theme .personality-bar-container {
+  background: rgba(99, 102, 241, 0.06) !important;
+  border-color: rgba(99, 102, 241, 0.08) !important;
+}
+body.light-theme .table > :not(caption) > * > * {
+  border-bottom-color: rgba(99, 102, 241, 0.08) !important;
+}
+body.light-theme .table tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.04) !important;
+}
+body.light-theme .career-timeline::before {
+  background: rgba(99, 102, 241, 0.15) !important;
+}
+body.light-theme #processing-overlay {
+  background: rgba(241, 245, 249, 0.9) !important;
+}
+body.light-theme #processing-overlay .box-highlight {
+  background: #ffffff !important;
+  border-color: rgba(99, 102, 241, 0.15) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08) !important;
+}
+body.light-theme #processing-overlay h4,
+body.light-theme #processing-overlay .text-white {
+  color: var(--text-main) !important;
+}
+body.light-theme .option-select-pill {
+  background: rgba(79, 70, 229, 0.06) !important;
+  border-color: rgba(79, 70, 229, 0.2) !important;
+  color: #4f46e5 !important;
+}
+body.light-theme .option-select-pill:hover {
+  background: rgba(79, 70, 229, 0.12) !important;
+  color: #312e81 !important;
+}
+body.light-theme .option-select-pill.active {
+  background: var(--primary) !important;
+  color: #fff !important;
+}
 
 

@@ -3,6 +3,7 @@ import io
 import json
 import html
 import re
+from datetime import datetime
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, KeepTogether, PageBreak
@@ -47,8 +48,9 @@ class NumberedCanvas(canvas.Canvas):
         self.setLineWidth(0.5)
         self.line(36, 45, 576, 45)
         
-        # Draw footer info
-        self.drawString(36, 30, "CONFIDENTIAL - Internal Recruitment Review")
+        # Draw footer info with timestamp
+        gen_time = datetime.now().strftime("%Y-%m-%d %H:%M")
+        self.drawString(36, 30, f"CONFIDENTIAL - Generated {gen_time}")
         page_text = f"Page {self._pageNumber} of {page_count}"
         self.drawRightString(576, 30, page_text)
         self.restoreState()
@@ -188,6 +190,15 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         textColor=text_dark
     )
     
+    # Tag/badge style for skills
+    tag_style = ParagraphStyle(
+        'TagStyle',
+        fontName='Helvetica',
+        fontSize=8.5,
+        leading=12,
+        textColor=colors.HexColor("#4338ca"),
+    )
+    
     story = []
     
     # Safe score styling function
@@ -262,19 +273,23 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     if personality_score is None:
         personality_score = 0.0
     
+    seniority = clean_text_for_pdf(ai_report.get('seniority_level', 'N/A'))
+    
     metrics_data = [
         [
-            Paragraph("<b>Job Match Similarity</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
-            Paragraph("<b>Professional Experience</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
-            Paragraph("<b>Personality Benchmark Fit</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
+            Paragraph("<b>Job Match Score</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
+            Paragraph("<b>Experience</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
+            Paragraph("<b>Personality Fit</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
+            Paragraph("<b>Seniority Level</b>", ParagraphStyle('MetLabel', fontName='Helvetica', fontSize=8.5, textColor=text_muted, alignment=1)),
         ],
         [
             Paragraph(f"<font color='{get_score_color(job_score)}'><b>{job_score}%</b></font>", ParagraphStyle('MetVal1', fontName='Helvetica-Bold', fontSize=18, alignment=1)),
             Paragraph(f"<font color='#4f46e5'><b>{exp_years} Years</b></font>", ParagraphStyle('MetVal2', fontName='Helvetica-Bold', fontSize=18, alignment=1)),
             Paragraph(f"<font color='{get_score_color(personality_score)}'><b>{personality_score}%</b></font>", ParagraphStyle('MetVal3', fontName='Helvetica-Bold', fontSize=18, alignment=1)),
+            Paragraph(f"<font color='#4f46e5'><b>{seniority}</b></font>", ParagraphStyle('MetVal4', fontName='Helvetica-Bold', fontSize=14, alignment=1)),
         ]
     ]
-    metrics_table = Table(metrics_data, colWidths=[180, 180, 180])
+    metrics_table = Table(metrics_data, colWidths=[135, 135, 135, 135])
     metrics_table.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#f8fafc")),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#e2e8f0")),
@@ -293,6 +308,18 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         [Paragraph("Email Address:", meta_label_style), Paragraph(clean_text_for_pdf(candidate.get('email', 'Not Extracted')), meta_val_style)],
         [Paragraph("External Portfolios:", meta_label_style), Paragraph(clean_text_for_pdf(links_str), meta_val_style)],
     ]
+    
+    # Add soft skills, certs, interests
+    soft_str = candidate.get('soft_skills', '')
+    if soft_str:
+        contact_data.append([Paragraph("Soft Skills:", meta_label_style), Paragraph(clean_text_for_pdf(soft_str), meta_val_style)])
+    certs_str = candidate.get('certificates', '')
+    if certs_str:
+        contact_data.append([Paragraph("Certifications:", meta_label_style), Paragraph(clean_text_for_pdf(certs_str), meta_val_style)])
+    interests_str = candidate.get('interests', '')
+    if interests_str:
+        contact_data.append([Paragraph("Interests:", meta_label_style), Paragraph(clean_text_for_pdf(interests_str), meta_val_style)])
+    
     contact_table = Table(contact_data, colWidths=[110, 430])
     contact_table.setStyle(TableStyle([
         ('BOTTOMPADDING', (0,0), (-1,-1), 4),
@@ -319,7 +346,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     ]
     rec_box_table = Table(rec_box_data, colWidths=[540])
     rec_box_table.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#eff6ff")), # Light blue tint
+        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#eff6ff")),
         ('BOX', (0,0), (-1,-1), 1.5, colors.HexColor("#bfdbfe")),
         ('TOPPADDING', (0,0), (-1,-1), 8),
         ('BOTTOMPADDING', (0,0), (-1,-1), 8),
@@ -329,7 +356,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     story.append(rec_box_table)
     story.append(Spacer(1, 10))
     
-    # CV structure & layout feedback (Removed emoji ⚠️)
+    # CV structure & layout feedback
     formatting_score_val = ai_report.get('formatting_score', 70)
     formatting_feedback_val = clean_text_for_pdf(ai_report.get('formatting_feedback', 'Parsed successfully.'))
     story.append(Paragraph("CV Structure & Parser Readability Feedback", h2_style))
@@ -360,6 +387,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             ('frameworks_libraries', 'Frameworks'),
             ('databases', 'Databases'),
             ('tools_platforms', 'Tools/DevOps'),
+            ('soft_skills', 'Soft Skills'),
         ]
         skills_summary_parts = []
         for key, category_title in cat_map:
@@ -384,7 +412,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             story.append(skills_box_table)
             story.append(Spacer(1, 6))
             
-    # Critical Missing Gaps (Removed emoji ⚠️)
+    # Critical Missing Gaps
     gaps = ai_report.get('critical_gaps') or []
     if isinstance(gaps, str):
         gaps = [gaps]
@@ -393,7 +421,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         gaps_box_data = [[Paragraph(f"<b><font color='#f43f5e'>WARNING - Critical Gaps Detected:</font></b> {gaps_text}", body_style)]]
         gaps_box_table = Table(gaps_box_data, colWidths=[540])
         gaps_box_table.setStyle(TableStyle([
-            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#fff1f2")), # Light red tint
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#fff1f2")),
             ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#fecdd3")),
             ('TOPPADDING', (0,0), (-1,-1), 6),
             ('BOTTOMPADDING', (0,0), (-1,-1), 6),
@@ -402,7 +430,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         ]))
         story.append(gaps_box_table)
     
-    # Page break to keep the career timeline, psych profiling and recruiting kit organized on subsequent pages
+    # Page break to keep the career timeline organized
     story.append(PageBreak())
     
     # --- 6. CAREER HISTORY TIMELINE ---
@@ -416,7 +444,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     elif not isinstance(experiences, list) or not experiences:
         story.append(Paragraph("No detailed work experience structured in database.", body_style))
     else:
-        for idx, exp in enumerate(experiences[:4]):
+        for idx, exp in enumerate(experiences[:6]):
             if not isinstance(exp, dict):
                 story.append(Paragraph(clean_text_for_pdf(str(exp)), body_style))
                 continue
@@ -437,7 +465,6 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
                 exp_flowables.append(Paragraph(clean_text_for_pdf(str(achievements)), bullet_style))
                 
             exp_flowables.append(Spacer(1, 4))
-            # Wrap each experience entry in KeepTogether to prevent visual page splits
             story.append(KeepTogether(exp_flowables))
             
     # Add Education Milestones
@@ -458,6 +485,32 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
                 gpa = f" | GPA: {clean_text_for_pdf(edu.get('gpa'))}" if edu.get('gpa') else ""
                 edu_flowables.append(Paragraph(f"• <b>{degree_val}</b> at {inst_val}{passing}{gpa}", bullet_style))
         story.append(KeepTogether(edu_flowables))
+    
+    # --- 6b. PROJECTS SHOWCASE ---
+    proj_list = candidate.get('projects') or []
+    if isinstance(proj_list, list) and proj_list:
+        proj_flowables = []
+        proj_flowables.append(Spacer(1, 8))
+        proj_flowables.append(Paragraph("Projects Portfolio", h2_style))
+        for proj in proj_list[:5]:
+            if isinstance(proj, dict):
+                proj_title = clean_text_for_pdf(proj.get('title', 'Untitled Project'))
+                proj_tech = proj.get('tech_stack', [])
+                if isinstance(proj_tech, list):
+                    tech_str = clean_text_for_pdf(', '.join(proj_tech))
+                else:
+                    tech_str = clean_text_for_pdf(str(proj_tech))
+                proj_desc = clean_text_for_pdf(proj.get('description', ''))
+                
+                proj_flowables.append(Paragraph(f"<b>{proj_title}</b>", ParagraphStyle('ProjH', parent=body_style, fontSize=10, textColor=colors.HexColor("#1e1b4b"))))
+                if tech_str:
+                    proj_flowables.append(Paragraph(f"<i>Tech Stack:</i> {tech_str}", ParagraphStyle('ProjTech', parent=body_style, fontSize=9, textColor=colors.HexColor("#6366f1"))))
+                if proj_desc:
+                    proj_flowables.append(Paragraph(f"• {proj_desc}", bullet_style))
+                proj_flowables.append(Spacer(1, 4))
+            elif isinstance(proj, str):
+                proj_flowables.append(Paragraph(f"• {clean_text_for_pdf(proj)}", bullet_style))
+        story.append(KeepTogether(proj_flowables))
         
     story.append(Spacer(1, 10))
     
@@ -477,6 +530,9 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         "Flutter Developer": {"openness": 75, "conscientiousness": 75, "extraversion": 55, "agreeableness": 60, "neuroticism": 40},
         "Graphic Designer": {"openness": 85, "conscientiousness": 65, "extraversion": 55, "agreeableness": 65, "neuroticism": 40},
         "HR Manager": {"openness": 60, "conscientiousness": 75, "extraversion": 70, "agreeableness": 75, "neuroticism": 35},
+        "DevOps Engineer": {"openness": 60, "conscientiousness": 85, "extraversion": 40, "agreeableness": 55, "neuroticism": 30},
+        "Product Manager": {"openness": 75, "conscientiousness": 80, "extraversion": 70, "agreeableness": 65, "neuroticism": 35},
+        "UI/UX Designer": {"openness": 85, "conscientiousness": 70, "extraversion": 60, "agreeableness": 70, "neuroticism": 35},
     }
     benchmarks = benchmarks_map.get(candidate.get('job_role', 'Software Engineer'), {"openness": 60, "conscientiousness": 70, "extraversion": 50, "agreeableness": 60, "neuroticism": 40})
     
@@ -487,9 +543,20 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         bench_val = benchmarks.get(trait, 50.0)
         bench_str = f"{bench_val}%" if bench_val is not None else "50.0%"
         
+        # Color-code score based on deviation from benchmark
+        score_color = "#1e293b"
+        if score_val is not None:
+            diff = abs(float(score_val) - float(bench_val))
+            if diff <= 10:
+                score_color = "#10b981"  # Green - close match
+            elif diff <= 25:
+                score_color = "#f59e0b"  # Orange - moderate deviation
+            else:
+                score_color = "#f43f5e"  # Red - significant deviation
+        
         traits_rows.append([
             Paragraph(trait.capitalize(), body_style),
-            Paragraph(score_str, body_style),
+            Paragraph(f"<font color='{score_color}'><b>{score_str}</b></font>", body_style),
             Paragraph(bench_str, body_style)
         ])
         
@@ -513,7 +580,6 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     rubric = ai_report.get('interview_evaluation_rubric') or []
     
     if custom_test or rubric:
-        # Page break to keep the dynamic recruiting kit on a separate page
         story.append(PageBreak())
         story.append(Paragraph("Custom Candidate Recruitment Kit", h1_style))
         story.append(Paragraph("This assessment and evaluation rubric are custom generated based on the candidate's experience and detected gaps for direct recruiter use.", ParagraphStyle('RecSub', parent=body_style, fontName='Helvetica-Oblique', textColor=text_muted)))
@@ -526,7 +592,6 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             test_problem = clean_text_for_pdf(custom_test.get('problem_statement', 'Build a target project validating coding standards.'))
             test_submission = clean_text_for_pdf(custom_test.get('submission_guidelines', 'Host source on GitHub and mail instructions.'))
             
-            # Removed emoji 🛠️
             test_block.append(Paragraph(f"Practical Assessment: {test_title}", h2_style))
             test_block.append(Paragraph(f"<b>Estimated Time Duration:</b> {test_duration}", body_bold))
             test_block.append(Paragraph(f"<b>Problem Statement:</b> {test_problem}", body_style))
@@ -542,7 +607,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             
             test_table = Table([[test_block]], colWidths=[540])
             test_table.setStyle(TableStyle([
-                ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#faf5ff")), # Light purple tint
+                ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#faf5ff")),
                 ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#e9d5ff")),
                 ('TOPPADDING', (0,0), (-1,-1), 8),
                 ('BOTTOMPADDING', (0,0), (-1,-1), 8),
@@ -554,7 +619,6 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             
         if rubric and isinstance(rubric, list):
             rubric_block = []
-            # Removed emoji 📝
             rubric_block.append(Paragraph("Recruiter Live Interview Grading Rubric", h2_style))
             
             for idx, item in enumerate(rubric):
@@ -570,7 +634,7 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
                 
             rubric_table = Table([[rubric_block]], colWidths=[540])
             rubric_table.setStyle(TableStyle([
-                ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#f0fdf4")), # Light green tint
+                ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#f0fdf4")),
                 ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#bbf7d0")),
                 ('TOPPADDING', (0,0), (-1,-1), 8),
                 ('BOTTOMPADDING', (0,0), (-1,-1), 8),
@@ -705,7 +769,6 @@ def generate_optimized_cv_pdf(name, job_role, optimized_text) -> io.BytesIO:
         # Parse Markdown headers
         if line_str.startswith("# "):
             title_text = line_str[2:].strip()
-            # If the title text is just the candidate name, skip it since we already printed it at the top
             if title_text.lower() == name.lower() or title_text.lower() == display_name.lower():
                 continue
             story.append(Paragraph(clean_text_for_pdf(title_text), name_style))
@@ -723,7 +786,7 @@ def generate_optimized_cv_pdf(name, job_role, optimized_text) -> io.BytesIO:
         else:
             story.append(Paragraph(clean_text_for_pdf(line_str), body_style))
             
-    doc.build(story)
+    # Build with page numbering for the optimized CV too
+    doc.build(story, canvasmaker=NumberedCanvas)
     buffer.seek(0)
     return buffer
-

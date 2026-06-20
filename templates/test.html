@@ -15,7 +15,8 @@
       <h3 class="mb-1 text-white"><i class="bi bi-patch-question-fill text-indigo-400 me-2" style="text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);"></i> Candidate Psychometric Audit</h3>
       <p class="text-white-50 small mb-0">Refining Big Five alignment profile for: <strong class="text-white">{{ name }}</strong> ({{ job_role }})</p>
     </div>
-    <div class="text-sm-end">
+    <div class="text-sm-end d-flex align-items-center gap-2">
+      <span class="badge bg-dark text-muted px-3 py-2 small" id="timer-badge"><i class="bi bi-clock me-1"></i><span id="time-estimate">~2 min</span></span>
       <span class="badge bg-primary px-3 py-2" id="progress-text">Question 1 of {{ questions|length }}</span>
     </div>
   </div>
@@ -23,8 +24,15 @@
   <div class="progress-container mb-4" style="height: 6px;">
     <div id="psych-progress-bar" class="progress-bar-neon bg-info" role="progressbar" style="width: 10%;"></div>
   </div>
+  
+  <!-- Keyboard Shortcut Hint -->
+  <div class="text-center mb-3">
+    <span class="badge bg-dark text-muted small px-3 py-1" style="font-size: 10px;">
+      <i class="bi bi-keyboard me-1"></i> Use <kbd>1</kbd>-<kbd>5</kbd> to answer &bull; <kbd>←</kbd><kbd>→</kbd> to navigate
+    </span>
+  </div>
 
-  <form id="psych-form" action="/submit_test/{{ name }}" method="post" class="mt-2" onsubmit="showSubmittingState()">
+  <form id="psych-form" action="/submit_test/{{ name }}" method="post" class="mt-2">
     <div class="psych-wizard-container">
       {% for q in questions %}
       <div class="psych-step {% if loop.first %}active{% endif %}" data-step="{{ loop.index0 }}">
@@ -33,35 +41,35 @@
           
           <div class="psych-option-group">
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-1" value="1" required onclick="handleOptionSelect(this)">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-1" value="1" required>
               <label class="psych-option-label label-strongly-disagree" for="{{ q.id }}-1">
                 <span class="d-block fs-5 fw-bold">1</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Disagree</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-2" value="2" onclick="handleOptionSelect(this)">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-2" value="2">
               <label class="psych-option-label label-disagree" for="{{ q.id }}-2">
                 <span class="d-block fs-5 fw-bold">2</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Disagree</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-3" value="3" onclick="handleOptionSelect(this)">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-3" value="3">
               <label class="psych-option-label label-neutral" for="{{ q.id }}-3">
                 <span class="d-block fs-5 fw-bold">3</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Neutral</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-4" value="4" onclick="handleOptionSelect(this)">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-4" value="4">
               <label class="psych-option-label label-agree" for="{{ q.id }}-4">
                 <span class="d-block fs-5 fw-bold">4</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Agree</span>
               </label>
             </div>
             <div class="psych-option-card">
-              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-5" value="5" onclick="handleOptionSelect(this)">
+              <input type="radio" name="{{ q.id }}" id="{{ q.id }}-5" value="5">
               <label class="psych-option-label label-strongly-agree" for="{{ q.id }}-5">
                 <span class="d-block fs-5 fw-bold">5</span>
                 <span class="d-block text-muted" style="font-size: 10px; margin-top: 2px;">Strongly Agree</span>
@@ -74,20 +82,41 @@
     </div>
     
     <div class="d-flex justify-content-between align-items-center mt-4 gap-3">
-      <button type="button" id="prev-btn" class="btn btn-light px-4 py-2 rounded-pill fw-semibold" style="visibility: hidden;" onclick="navigateStep(-1)">
+      <button type="button" id="prev-btn" class="btn btn-light px-4 py-2 rounded-pill fw-semibold" style="visibility: hidden;">
         <i class="bi bi-arrow-left me-1"></i> Back
       </button>
       
       <a href="/ranking" id="cancel-link" class="text-muted small text-decoration-none hover-underline">Cancel Test</a>
       
-      <button type="button" id="next-btn" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold" onclick="navigateStep(1)">
+      <button type="button" id="next-btn" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold">
         Next <i class="bi bi-arrow-right ms-1"></i>
       </button>
-      <button type="submit" id="submit-btn" class="btn btn-success px-4 py-2 rounded-pill fw-semibold d-none">
+      <button type="button" id="submit-btn" class="btn btn-success px-4 py-2 rounded-pill fw-semibold d-none">
         <i class="bi bi-check-circle-fill me-1"></i> Submit Test
       </button>
     </div>
   </form>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmSubmitModal" tabindex="-1" aria-labelledby="confirmSubmitLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+      <div class="modal-body text-center p-4">
+        <div class="mb-3">
+          <i class="bi bi-clipboard-check-fill text-success" style="font-size: 2.5rem;"></i>
+        </div>
+        <h5 class="text-white fw-bold mb-2">Submit Personality Test?</h5>
+        <p class="text-muted small mb-4">Your answers will be scored and the candidate's rankings will be recalculated.</p>
+        <div class="d-flex gap-2 justify-content-center">
+          <button type="button" class="btn btn-light px-4 py-2 rounded-pill" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" id="confirm-submit-btn" class="btn btn-success px-4 py-2 rounded-pill fw-semibold">
+            <i class="bi bi-check-lg me-1"></i> Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -99,6 +128,8 @@ const nextBtn = document.getElementById('next-btn');
 const submitBtn = document.getElementById('submit-btn');
 const progressText = document.getElementById('progress-text');
 const progressBar = document.getElementById('psych-progress-bar');
+const timeEstimate = document.getElementById('time-estimate');
+const psychForm = document.getElementById('psych-form');
 
 function updateWizard() {
   steps.forEach((s, idx) => {
@@ -122,6 +153,15 @@ function updateWizard() {
   progressText.textContent = `Question ${currentStep + 1} of ${totalSteps}`;
   const pct = ((currentStep + 1) / totalSteps) * 100;
   progressBar.style.width = `${pct}%`;
+  
+  // Time estimate
+  const remaining = totalSteps - currentStep - 1;
+  if (remaining <= 0) {
+    timeEstimate.textContent = 'Almost done!';
+  } else {
+    const secs = remaining * 12; // ~12 sec per question
+    timeEstimate.textContent = secs >= 60 ? `~${Math.ceil(secs/60)} min` : `~${secs}s`;
+  }
 }
 
 function navigateStep(direction) {
@@ -129,7 +169,11 @@ function navigateStep(direction) {
   if (direction === 1) {
     const activeStepRadioChecked = steps[currentStep].querySelector('input[type="radio"]:checked');
     if (!activeStepRadioChecked) {
-      alert("Please select an answer option before moving to the next question.");
+      if (typeof showToast === 'function') {
+        showToast('Please select an answer option before continuing.', 'warning');
+      } else {
+        alert("Please select an answer option before moving to the next question.");
+      }
       return;
     }
   }
@@ -142,10 +186,7 @@ function navigateStep(direction) {
   }, 200);
 }
 
-function handleOptionSelect(radioEl) {
-  const stepCard = radioEl.closest('.psych-step');
-  const stepIndex = parseInt(stepCard.getAttribute('data-step'));
-  
+function handleOptionSelect(stepIndex) {
   // Auto-advance with slight delay for delightful feedback
   if (stepIndex < totalSteps - 1) {
     setTimeout(() => {
@@ -160,6 +201,66 @@ function showSubmittingState() {
   document.getElementById('test-content').classList.add('d-none');
   document.getElementById('test-submit-loader').classList.remove('d-none');
 }
+
+// ---- Event Listeners (no inline onclick) ----
+prevBtn.addEventListener('click', () => navigateStep(-1));
+nextBtn.addEventListener('click', () => navigateStep(1));
+
+// Submit button → show confirmation modal
+submitBtn.addEventListener('click', () => {
+  const confirmModal = new bootstrap.Modal(document.getElementById('confirmSubmitModal'));
+  confirmModal.show();
+});
+
+// Confirm submission
+document.getElementById('confirm-submit-btn').addEventListener('click', () => {
+  showSubmittingState();
+  psychForm.submit();
+});
+
+// Radio option click → auto advance
+document.querySelectorAll('.psych-option-card input[type="radio"]').forEach(radio => {
+  radio.addEventListener('change', function() {
+    const stepCard = this.closest('.psych-step');
+    const stepIndex = parseInt(stepCard.getAttribute('data-step'));
+    handleOptionSelect(stepIndex);
+  });
+});
+
+// ---- Keyboard Navigation ----
+document.addEventListener('keydown', (e) => {
+  // Number keys 1-5 select options
+  if (e.key >= '1' && e.key <= '5') {
+    const activeStep = steps[currentStep];
+    if (activeStep) {
+      const radio = activeStep.querySelector(`input[value="${e.key}"]`);
+      if (radio) {
+        radio.checked = true;
+        radio.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+  }
+  
+  // Arrow keys navigate
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (currentStep < totalSteps - 1) {
+      navigateStep(1);
+    }
+  }
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (currentStep > 0) {
+      navigateStep(-1);
+    }
+  }
+  
+  // Enter on last step → show confirmation
+  if (e.key === 'Enter' && currentStep === totalSteps - 1) {
+    e.preventDefault();
+    submitBtn.click();
+  }
+});
 
 // Initial setup
 updateWizard();

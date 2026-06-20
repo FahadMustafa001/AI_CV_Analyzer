@@ -299,7 +299,7 @@
               {% if row.filename %}
               <a href="/download_cv/{{ row.name|urlencode }}" class="btn btn-sm btn-outline-secondary px-3 rounded-pill text-white" style="border-color: rgba(255,255,255,0.15);" download><i class="bi bi-download me-1"></i> Original CV</a>
               {% endif %}
-              <button class="btn btn-sm btn-outline-danger px-2.5 rounded-pill" onclick="deleteCandidate(event, {{ row.name|tojson|safe }}, this)"><i class="bi bi-trash3-fill"></i></button>
+              <button class="btn btn-sm btn-outline-danger px-2.5 rounded-pill" data-name="{{ row.name }}" onclick="deleteCandidate(event, this)"><i class="bi bi-trash3-fill"></i></button>
             </div>
           </td>
         </tr>
@@ -607,7 +607,7 @@
                     <div class="p-3 rounded text-center" style="background: rgba(99, 102, 241, 0.08); border: 1px dashed rgba(99, 102, 241, 0.3);">
                       <h6 class="text-white fw-bold mb-2"><i class="bi bi-stars icon-glow-info me-1"></i> ATS Resume Optimizer (100% Fit)</h6>
                       <p class="text-muted small mb-3">Our AI will automatically rewrite this candidate's CV to address formatting issues, fill missing critical skill gaps, and optimize achievements using Google's X-Y-Z formula.</p>
-                      <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="optimizeResume({{ row.name|tojson|safe }})">
+                      <button class="btn btn-sm btn-primary rounded-pill px-4" data-name="{{ row.name }}" onclick="optimizeResume(this)">
                         <i class="bi bi-rocket-takeoff-fill me-1"></i> Generate Perfected Resume
                       </button>
                     </div>
@@ -1221,7 +1221,8 @@ function updateOptimizedFromEditor() {
   document.getElementById('optimized-html').innerHTML = parseMarkdownToHtml(currentOptimizedText);
 }
 
-function optimizeResume(candidateName) {
+function optimizeResume(element) {
+  const candidateName = element.getAttribute('data-name');
   currentCandidateName = candidateName;
   const exportPdfBtn = document.getElementById('btn-export-optimized-pdf');
   if (exportPdfBtn) {
@@ -1393,8 +1394,9 @@ function downloadOptimizedHtml() {
   URL.revokeObjectURL(url);
 }
 
-function deleteCandidate(event, name, button) {
+function deleteCandidate(event, button) {
   event.stopPropagation();
+  const name = button.getAttribute('data-name');
   if (!confirm(`Are you sure you want to permanently delete candidate "${name}" from the database?`)) {
     return;
   }

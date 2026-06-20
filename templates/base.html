@@ -4,7 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CogniCV - AI CV Analyzer & Profiler</title>
+  <meta name="description" content="CogniCV is a next-generation AI-powered resume analyzer, personality profiler, and applicant tracking system. Streamline recruitment with LLM analysis and Big Five psychometric evaluation." />
+  <meta name="keywords" content="AI resume analyzer, ATS system, CV parser, personality profiler, recruitment AI, talent acquisition" />
+  <meta property="og:title" content="CogniCV - AI CV Analyzer & Profiler" />
+  <meta property="og:description" content="Streamline your recruitment pipeline using advanced LLM analysis, semantic matching, and Big Five psychometric evaluation." />
+  <meta property="og:type" content="website" />
   <link rel="icon" type="image/png" href="/static/images/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/static/css/style.css">
@@ -20,6 +27,10 @@
       }
     })();
   </script>
+
+<!-- Global Toast Notification Container -->
+<div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>
+
 <nav class="navbar navbar-expand-lg navbar-dark navbar-glass shadow-sm py-2 sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold d-flex align-items-center gap-2.5 fs-4" href="/">
@@ -32,16 +43,16 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto gap-2 align-items-center mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link py-2 px-3 rounded" href="/">Analyze CVs</a>
+          <a class="nav-link py-2 px-3 rounded" href="/"><i class="bi bi-cpu me-1"></i>Analyze CVs</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link py-2 px-3 rounded" href="/#features">Features</a>
+          <a class="nav-link py-2 px-3 rounded" href="/#features"><i class="bi bi-grid-1x2 me-1"></i>Features</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link py-2 px-3 rounded" href="/#faq">FAQ</a>
+          <a class="nav-link py-2 px-3 rounded" href="/#faq"><i class="bi bi-question-circle me-1"></i>FAQ</a>
         </li>
         <li class="nav-item">
-          <a class="btn btn-primary btn-sm px-4 py-2 rounded-pill ms-2" href="/ranking">Global Rankings</a>
+          <a class="btn btn-primary btn-sm px-4 py-2 rounded-pill ms-2" href="/ranking"><i class="bi bi-trophy me-1"></i>Global Rankings</a>
         </li>
         <li class="nav-item ms-lg-2">
           <button id="theme-toggle" class="btn btn-sm btn-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;" onclick="toggleTheme()" title="Toggle Light/Dark Theme">
@@ -54,9 +65,18 @@
 </nav>
 
 <div class="container my-5 animate-fade-in">
+  {% if error_code %}
+  <div class="card card-app shadow p-5 text-center">
+    <h1 class="display-1 fw-bold text-primary mb-3">{{ error_code }}</h1>
+    <h4 class="text-white mb-3">{{ error_msg }}</h4>
+    <p class="text-muted mb-4">The page you're looking for doesn't exist or an error occurred.</p>
+    <a href="/" class="btn btn-primary px-4 py-2 rounded-pill"><i class="bi bi-house me-2"></i>Back to Home</a>
+  </div>
+  {% else %}
   <div class="card card-app shadow p-4 p-md-5">
     {% block content %}{% endblock %}
   </div>
+  {% endif %}
 </div>
 
 <footer class="footer-glass mt-5 py-5 text-white-50 border-top border-white-10">
@@ -104,6 +124,7 @@
   {% block modals %}{% endblock %}
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // ---- Theme Toggle ----
     function toggleTheme() {
       const isLight = document.body.classList.toggle('light-theme');
       localStorage.setItem('theme', isLight ? 'light' : 'dark');
@@ -125,6 +146,99 @@
       const isLight = document.body.classList.contains('light-theme');
       updateThemeIcon(isLight);
     })();
+    
+    // ---- Global Toast Notification System ----
+    function showToast(message, type = 'success', duration = 4000) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      
+      const iconMap = {
+        success: 'bi-check-circle-fill',
+        error: 'bi-x-circle-fill',
+        warning: 'bi-exclamation-triangle-fill',
+        info: 'bi-info-circle-fill'
+      };
+      const colorMap = {
+        success: '#10b981',
+        error: '#f43f5e',
+        warning: '#f59e0b',
+        info: '#6366f1'
+      };
+      
+      const id = 'toast-' + Date.now();
+      const toastHTML = `
+        <div id="${id}" class="cogni-toast" style="--toast-color: ${colorMap[type] || colorMap.info}">
+          <div class="cogni-toast-body">
+            <i class="bi ${iconMap[type] || iconMap.info} cogni-toast-icon" style="color: ${colorMap[type]}"></i>
+            <span class="cogni-toast-msg">${message}</span>
+            <button class="cogni-toast-close" onclick="dismissToast('${id}')">&times;</button>
+          </div>
+          <div class="cogni-toast-progress" style="animation-duration: ${duration}ms"></div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', toastHTML);
+      
+      // Auto dismiss
+      setTimeout(() => dismissToast(id), duration);
+    }
+    
+    function dismissToast(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.add('toast-exit');
+        setTimeout(() => el.remove(), 400);
+      }
+    }
+    
+    // ---- Animated Counter for Stats ----
+    function animateCounter(el, target, duration = 1500) {
+      const isDecimal = String(target).includes('.');
+      const suffix = el.dataset.suffix || '';
+      const prefix = el.dataset.prefix || '';
+      let start = 0;
+      const startTime = performance.now();
+      
+      function step(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Eased progress (ease-out cubic)
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        const current = start + (target - start) * easedProgress;
+        
+        if (isDecimal) {
+          el.textContent = prefix + current.toFixed(1) + suffix;
+        } else {
+          el.textContent = prefix + Math.floor(current).toLocaleString() + suffix;
+        }
+        
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = prefix + (isDecimal ? target.toFixed(1) : Math.floor(target).toLocaleString()) + suffix;
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    
+    // Intersection Observer for counter animation
+    function initCounterAnimations() {
+      const counters = document.querySelectorAll('[data-counter]');
+      if (!counters.length) return;
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.dataset.counted) {
+            entry.target.dataset.counted = 'true';
+            const target = parseFloat(entry.target.dataset.counter);
+            animateCounter(entry.target, target);
+          }
+        });
+      }, { threshold: 0.3 });
+      
+      counters.forEach(c => observer.observe(c));
+    }
+    
+    document.addEventListener('DOMContentLoaded', initCounterAnimations);
   </script>
 </body>
 </html>
