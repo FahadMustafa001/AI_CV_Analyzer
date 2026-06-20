@@ -123,6 +123,8 @@ def init_db():
     add_col("education", "TEXT")
     add_col("experience", "TEXT")
     add_col("projects", "TEXT")
+    add_col("optimized_cv", "TEXT")
+    add_col("optimized_cv_params", "TEXT")
     conn.commit()
     conn.close()
 
@@ -351,13 +353,13 @@ def submit_test(name: str):
 def optimize_cv(name: str):
     conn = sqlite3.connect("candidates.db")
     cur = conn.cursor()
-    cur.execute("SELECT raw_text, job_role, ai_report FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+    cur.execute("SELECT id, raw_text, job_role, ai_report, optimized_cv, optimized_cv_params FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
     row = cur.fetchone()
     conn.close()
     if not row:
         return {"error": "Candidate not found"}, 404
     
-    raw_text, job_role, ai_report_str = row
+    cid, raw_text, job_role, ai_report_str, cached_cv, cached_params_str = row
     if not raw_text or not raw_text.strip():
         return {"error": "Original CV text is missing for this older record. Please re-upload the CV to optimize it!"}, 400
         
@@ -380,10 +382,54 @@ def optimize_cv(name: str):
         tone = request.args.get('tone', 'professional')
         target_length = request.args.get('target_length', 'default')
         
+    requested_params = {
+        "focus_area": focus_area,
+        "tone": tone,
+        "target_length": target_length
+    }
+    
+    # Check if cached resume exists and matches parameter criteria
+    use_cache = False
+    if cached_cv and cached_cv.strip():
+        if cached_params_str:
+            try:
+                cached_params = json.loads(cached_params_str)
+                if (cached_params.get("focus_area") == focus_area and 
+                    cached_params.get("tone") == tone and 
+                    cached_params.get("target_length") == target_length):
+                    use_cache = True
+            except Exception:
+                pass
+        else:
+            # If no cached params exist but defaults are requested, we can use it
+            if focus_area == "all" and tone == "professional" and target_length == "default":
+                use_cache = True
+                
+    if use_cache:
+        print(f"Serving optimized CV for {name} from persistent database cache.")
+        return {
+            "optimized_cv": cached_cv,
+            "raw_text": raw_text,
+            "ai_report": ai_report
+        }
+        
+    # Generate new optimized resume
     optimized_text = generate_optimized_resume(
         raw_text, job_role, ai_report,
         focus_area=focus_area, tone=tone, target_length=target_length
     )
+    
+    # Save back to database
+    if optimized_text and not optimized_text.startswith("### Error"):
+        conn = sqlite3.connect("candidates.db")
+        cur = conn.cursor()
+        cur.execute(
+            "UPDATE candidates SET optimized_cv = ?, optimized_cv_params = ? WHERE id = ?",
+            (optimized_text, json.dumps(requested_params), cid)
+        )
+        conn.commit()
+        conn.close()
+        
     return {
         "optimized_cv": optimized_text,
         "raw_text": raw_text,
@@ -482,6 +528,18 @@ def ranking():
             rows.append(deserialize_candidate(r))
         conn.close()
         return render_template('ranking.html', rows=rows)
+
+@app.route('/delete_candidate/<name>', methods=['POST'])
+def delete_candidate(name: str):
+    try:
+        conn = sqlite3.connect("candidates.db")
+        cur = conn.cursor()
+        cur.execute("DELETE FROM candidates WHERE name = ?", (name,))
+        conn.commit()
+        conn.close()
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}, 500
 
 if __name__ == '__main__':
     app.run(debug=True)

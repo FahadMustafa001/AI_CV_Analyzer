@@ -71,10 +71,10 @@
           <tr>
             <th class="text-center" style="width: 70px;">Compare</th>
             <th class="ps-4">Candidate Info</th>
-            <th style="width: 180px">Semantic Match</th>
-            <th style="width: 130px">Experience</th>
-            <th>Extracted Metrics</th>
-            <th style="width: 180px">Final Rank Score</th>
+            <th class="text-center" style="width: 180px">Semantic Match</th>
+            <th class="text-center" style="width: 130px">Experience</th>
+            <th class="ps-3">Extracted Metrics</th>
+            <th class="text-center" style="width: 180px">Final Rank Score</th>
             <th class="text-center" style="width: 280px">Actions</th>
           </tr>
         </thead>
@@ -118,23 +118,23 @@
                 </div>
               </div>
             </td>
-            <td>
+            <td class="text-center">
               {% set match_badge_class = 'rating-badge-success' if r.job_score >= 70 else ('rating-badge-warning' if r.job_score >= 45 else 'rating-badge-danger') %}
-              <div class="rating-badge {{ match_badge_class }}">
+              <div class="rating-badge {{ match_badge_class }} mx-auto">
                 {{ r.job_score }}%
               </div>
             </td>
-            <td>
+            <td class="text-center">
               <span class="badge bg-secondary px-2 py-1 fs-6">{{ r.exp_years }} yrs</span>
             </td>
-            <td>
+            <td class="ps-3">
               <span class="badge badge-soft me-1 mb-1"><i class="bi bi-wrench-adjustable me-1"></i> {{ r.skills|length }} Skills</span>
               <span class="badge badge-cert me-1 mb-1"><i class="bi bi-rocket-takeoff-fill me-1"></i> {{ r.projects|length }} Projects</span>
               <span class="badge badge-int mb-1"><i class="bi bi-mortarboard-fill me-1"></i> {{ r.education|length }} Edu</span>
             </td>
-            <td>
+            <td class="text-center">
               {% set score_badge_class = 'rating-badge-success' if r.final_score >= threshold else 'rating-badge-warning' %}
-              <div class="rating-badge {{ score_badge_class }} fs-5 py-2">
+              <div class="rating-badge {{ score_badge_class }} fs-5 py-2 mx-auto">
                 {{ r.final_score }}%
               </div>
             </td>
@@ -432,7 +432,10 @@
           <!-- Multi-tab comparison layout -->
           <ul class="nav nav-tabs border-bottom border-white-10 mb-3" role="tablist">
             <li class="nav-item">
-              <button class="optimizer-tab-btn active" id="tab-opt-btn" onclick="switchOptimizerTab('optimized')">✨ Optimized HTML</button>
+              <button class="optimizer-tab-btn active" id="tab-optimized-btn" onclick="switchOptimizerTab('optimized')">✨ Optimized HTML</button>
+            </li>
+            <li class="nav-item">
+              <button class="optimizer-tab-btn" id="tab-edit-btn" onclick="switchOptimizerTab('edit')">✏️ Edit Markdown</button>
             </li>
             <li class="nav-item">
               <button class="optimizer-tab-btn" id="tab-raw-btn" onclick="switchOptimizerTab('raw')">📄 Original Plain Text</button>
@@ -445,6 +448,10 @@
           <!-- Tab Contents -->
           <div id="pane-optimized" class="position-relative p-4 rounded text-white-50 border border-white-10 text-start" style="background: rgba(0, 0, 0, 0.35); max-height: 450px; overflow-y: auto; font-size: 14px; line-height: 1.6;">
             <div id="optimized-html" class="optimized-markdown-body"></div>
+          </div>
+
+          <div id="pane-edit" class="d-none text-start">
+            <textarea id="optimized-markdown-editor" class="form-control bg-dark text-white border border-white-10" style="height: 450px; font-family: 'Courier New', Courier, monospace; font-size: 13.5px; resize: none; line-height: 1.5; padding: 15px;" oninput="updateOptimizedFromEditor()"></textarea>
           </div>
           
           <div id="pane-raw" class="d-none comparison-pane text-start">
@@ -661,9 +668,11 @@ let currentOptimizedText = "";
 let currentCandidateName = "";
 let originalText = "";
 let aiReportData = {};
-
 function parseMarkdownToHtml(markdown) {
   if (!markdown) return "";
+  if (typeof marked !== 'undefined') {
+    return marked.parse(markdown);
+  }
   let html = markdown
     // Format headers
     .replace(/^### (.*$)/gim, '<h5 class="text-white fw-bold mt-4 mb-2 pb-1" style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc !important;">$1</h5>')
@@ -676,8 +685,10 @@ function parseMarkdownToHtml(markdown) {
     .replace(/^\*\s+(.*$)/gim, '<li class="mb-1 text-white-50">$1</li>')
     .replace(/^\-\s+(.*$)/gim, '<li class="mb-1 text-white-50">$1</li>');
     
+  // Wrap list items nicely
   html = html.replace(/(<li.*?>.*?<\/li>)/gs, '<ul class="mb-3">$1</ul>');
   
+  // Convert line breaks and paragraph separations
   html = html.split('\n\n').map(p => {
     const trimmed = p.trim();
     if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li')) return p;
@@ -685,6 +696,11 @@ function parseMarkdownToHtml(markdown) {
   }).join('\n');
   
   return html;
+}
+
+function updateOptimizedFromEditor() {
+  currentOptimizedText = document.getElementById('optimized-markdown-editor').value;
+  document.getElementById('optimized-html').innerHTML = parseMarkdownToHtml(currentOptimizedText);
 }
 
 function optimizeResume(candidateName) {
@@ -776,18 +792,21 @@ function triggerRegenerate() {
 }
 
 function switchOptimizerTab(tabName) {
-  const tabs = ['optimized', 'raw', 'diff'];
+  const tabs = ['optimized', 'raw', 'diff', 'edit'];
   tabs.forEach(t => {
     const pane = document.getElementById(`pane-${t}`);
     const btn = document.getElementById(`tab-${t}-btn`);
     if (t === tabName) {
-      pane.classList.remove('d-none');
-      btn.classList.add('active');
+      if (pane) pane.classList.remove('d-none');
+      if (btn) btn.classList.add('active');
     } else {
-      pane.classList.add('d-none');
-      btn.classList.remove('active');
+      if (pane) pane.classList.add('d-none');
+      if (btn) btn.classList.remove('active');
     }
   });
+  if (tabName === 'edit') {
+    document.getElementById('optimized-markdown-editor').value = currentOptimizedText;
+  }
 }
 
 function copyOptimizedText() {
@@ -818,22 +837,7 @@ function printOptimizedResume() {
   if (!currentOptimizedText) return;
   const printWindow = window.open('', '_blank');
   
-  let printableHtml = currentOptimizedText
-    .replace(/^### (.*$)/gim, '<h4>$1</h4>')
-    .replace(/^## (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^# (.*$)/gim, '<h2>$1</h2>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/^\*\s+(.*$)/gim, '<li>$1</li>')
-    .replace(/^\-\s+(.*$)/gim, '<li>$1</li>');
-    
-  printableHtml = printableHtml.replace(/(<li.*?>.*?<\/li>)/gs, '<ul>$1</ul>');
-  
-  printableHtml = printableHtml.split('\n\n').map(p => {
-    const trimmed = p.trim();
-    if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li')) return p;
-    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
-  }).join('\n');
+  const printableHtml = parseMarkdownToHtml(currentOptimizedText);
   
   printWindow.document.write(`
     <!DOCTYPE html>

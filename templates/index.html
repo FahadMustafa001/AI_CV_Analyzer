@@ -54,7 +54,22 @@
   </div>
 </div>
 
-<form action="/analyze" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+<!-- Full-screen Processing Overlay -->
+<div id="processing-overlay" class="position-fixed top-0 start-0 w-100 h-100 d-none justify-content-center align-items-center" style="z-index: 2000;">
+  <div class="text-center p-5 rounded box-highlight" style="max-width: 500px;">
+    <div class="spinner-border text-primary mb-4" role="status" style="width: 4rem; height: 4rem;">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <h4 class="text-white fw-bold mb-2"><i class="bi bi-cpu-fill text-indigo-300 me-2"></i> CogniCV AI Parser Active</h4>
+    <p class="text-white-50 small mb-3">Extracting candidate contact info, educational background, work milestones, and computing cognitive alignment...</p>
+    <div class="progress bg-dark mb-3" style="height: 8px; border-radius: 4px; overflow: hidden;">
+      <div id="processing-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;"></div>
+    </div>
+    <div id="processing-status" class="text-indigo-200 small fw-bold">Reading uploaded document files...</div>
+  </div>
+</div>
+
+<form action="/analyze" method="post" enctype="multipart/form-data" class="needs-validation" novalidate id="analyze-form">
   <div class="row g-4">
     <!-- JD Selection Card -->
     <div class="col-md-12">
@@ -253,6 +268,59 @@ function removeFile(event, index) {
   dt = newDt;
   fileInput.files = dt.files;
   updateFileList();
+}
+
+// Processing overlay triggering and ticking
+const form = document.getElementById('analyze-form');
+if (form) {
+  form.addEventListener('submit', function(e) {
+    if (!form.checkValidity() || dt.files.length === 0) {
+      return;
+    }
+    
+    // Show overlay
+    const overlay = document.getElementById('processing-overlay');
+    overlay.classList.remove('d-none');
+    overlay.classList.add('d-flex');
+    
+    // Animate progress bar
+    let width = 0;
+    const bar = document.getElementById('processing-bar');
+    const statusText = document.getElementById('processing-status');
+    
+    const statuses = [
+      { t: 0, s: "Reading uploaded document files..." },
+      { t: 2, s: "Extracting raw resume plain text streams..." },
+      { t: 4, s: "Tokenizing profiles & formatting structural schemas..." },
+      { t: 7, s: "Analyzing professional timelines & tenure..." },
+      { t: 10, s: "Matching skills and certifications semantically..." },
+      { t: 13, s: "Estimating candidate Big Five personality fit benchmarks..." },
+      { t: 16, s: "Evaluating custom requirements & final rank weight scoring..." },
+      { t: 19, s: "Retrieving deep AI audit reports from Groq cloud engines..." },
+      { t: 22, s: "Saving candidates and aligning data indexes..." }
+    ];
+    
+    const timer = setInterval(() => {
+      if (width >= 94) {
+        clearInterval(timer);
+      } else {
+        width += (94 - width) * 0.12; // Slow down decay
+        bar.style.width = width + '%';
+      }
+    }, 450);
+    
+    let sec = 0;
+    const statusTimer = setInterval(() => {
+      sec++;
+      const current = statuses.find(x => x.t === sec);
+      if (current) {
+        statusText.textContent = current.s;
+      }
+      if (width >= 94) {
+        clearInterval(statusTimer);
+      }
+    }, 1000);
+  });
 }
 </script>
 
