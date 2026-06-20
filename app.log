@@ -1678,3 +1678,89 @@ TypeError: Object of type Undefined is not JSON serializable
 2026-06-20 20:25:51,366 WARNING werkzeug MainThread :  * Debugger is active!
 2026-06-20 20:25:51,370 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
 2026-06-20 20:25:51,371 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:46:28,907 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:46:29,714 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:46:31,855 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:46:32,309 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:46:36,174 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:46:36,179 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:46:36,183 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:46:46,928 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:46:46,934 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:46:47,633 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:46:47,662 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:46:50,513 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:46:50,513 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:46:50,518 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:46:50,519 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:47:13,003 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:47:13,022 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:47:13,697 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:47:13,788 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:47:16,628 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:47:16,633 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:47:17,134 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:47:17,137 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:47:39,921 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:47:40,445 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:47:40,560 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:47:41,180 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:47:44,092 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:47:44,097 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:47:44,686 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:47:44,690 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:47:55,405 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:47:55,859 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:47:55,981 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:47:56,330 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:47:59,436 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:47:59,440 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:47:59,445 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:47:59,450 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:50:05,394 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:05] "GET / HTTP/1.1" 200 -
+2026-06-20 20:50:05,885 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:05] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:50:05,923 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:05] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:50:06,784 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:06] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:50:07,948 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:07] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:50:08,063 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:08] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:50:08,079 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:50:08] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:56:13,243 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:56:13,279 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:56:15,733 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:56:15,736 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:56:20,705 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:56:20,705 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:56:20,712 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:56:20,714 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:56:54,800 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:56:54,818 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:56:55,550 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:56:55,585 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:56:58,415 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:56:58,420 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:56:58,424 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:56:58,429 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:58:11,767 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:58:11,791 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:58:12,471 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:58:12,488 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:58:15,530 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:58:15,536 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:58:15,558 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:58:15,562 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:58:51,518 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:58:52,115 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:58:52,188 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:58:52,811 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:58:55,944 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:58:55,945 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:58:55,950 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:58:55,956 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:59:24,694 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:59:24,702 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 20:59:25,348 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:59:25,439 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:59:28,274 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:59:28,282 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:59:28,331 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:59:28,338 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995

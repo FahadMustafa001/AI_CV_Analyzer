@@ -70,10 +70,14 @@ def clean_text_for_pdf(text):
     escaped = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', escaped)
     escaped = re.sub(r'\*(.*?)\*', r'<i>\1</i>', escaped)
     
-    # 3. Replace newlines with <br/> for ReportLab line breaks
+    # 3. Convert list items (* or -) at the start of lines to bullets
+    escaped = re.sub(r'^\s*[\*\-]\s+', r'• ', escaped, flags=re.MULTILINE)
+    
+    # 4. Replace newlines with <br/> for ReportLab line breaks
     escaped = escaped.replace("\n", "<br/>")
     
     return escaped
+
 
 def generate_candidate_pdf(candidate) -> io.BytesIO:
     """
@@ -196,11 +200,26 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         if val_float >= 45: return "#f59e0b" # Orange
         return "#f43f5e" # Red
         
-    ai_report = candidate.get('ai_report') or {}
+    ai_report = candidate.get('ai_report')
+    if not isinstance(ai_report, dict):
+        ai_report = {}
     
     # --- 1. HEADER BANNER BLOCK ---
-    candidate_name = clean_text_for_pdf(candidate.get('name', 'UNKNOWN'))
-    final_score = candidate.get('final_score', 0.0)
+    raw_name = candidate.get('name', 'UNKNOWN')
+    display_name = raw_name
+    for ext in ['.pdf', '.docx', '.PDF', '.DOCX']:
+        if display_name.lower().endswith(ext):
+            display_name = display_name[:-len(ext)]
+    if '_' in display_name or '-' in display_name:
+        display_name = display_name.replace('_', ' ').replace('-', ' ')
+    display_name = " ".join(display_name.split())
+    if display_name.isupper() or display_name.islower():
+        display_name = display_name.title()
+    candidate_name = clean_text_for_pdf(display_name)
+    
+    final_score = candidate.get('final_score')
+    if final_score is None:
+        final_score = 0.0
     job_role_val = clean_text_for_pdf(candidate.get('job_role', 'Not Specified'))
     hiring_rec = clean_text_for_pdf(ai_report.get('hiring_recommendation', 'N/A'))
     
@@ -233,9 +252,15 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     story.append(Spacer(1, 12))
     
     # --- 2. SUMMARY METRICS CARD GRID ---
-    job_score = candidate.get('job_score', 0.0)
-    exp_years = candidate.get('exp_years', 0.0)
-    personality_score = candidate.get('personality_score', 0.0)
+    job_score = candidate.get('job_score')
+    if job_score is None:
+        job_score = 0.0
+    exp_years = candidate.get('exp_years')
+    if exp_years is None:
+        exp_years = 0.0
+    personality_score = candidate.get('personality_score')
+    if personality_score is None:
+        personality_score = 0.0
     
     metrics_data = [
         [
@@ -312,6 +337,8 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     
     # Bullet points upgrades
     bullet_improvements = ai_report.get('bullet_points_improvement') or []
+    if isinstance(bullet_improvements, str):
+        bullet_improvements = [bullet_improvements]
     if bullet_improvements:
         story.append(Paragraph("<b>Suggested Resume Upgrades (Google X-Y-Z Formula):</b>", body_bold))
         for bullet in bullet_improvements[:3]:
@@ -324,7 +351,9 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     story.append(Paragraph(f"<b>Core Technical Match Alignment:</b> {tech_align_score}%", body_bold))
     
     # Render categorized skills inventory
-    cat_skills = ai_report.get('categorized_skills') or {}
+    cat_skills = ai_report.get('categorized_skills')
+    if not isinstance(cat_skills, dict):
+        cat_skills = {}
     if cat_skills:
         cat_map = [
             ('programming_languages', 'Languages'),
@@ -335,6 +364,8 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
         skills_summary_parts = []
         for key, category_title in cat_map:
             skills_list = cat_skills.get(key, [])
+            if isinstance(skills_list, str):
+                skills_list = [skills_list]
             if skills_list:
                 cleaned_skills = clean_text_for_pdf(', '.join(skills_list))
                 skills_summary_parts.append(f"<b>{category_title}:</b> {cleaned_skills}")
@@ -355,6 +386,8 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             
     # Critical Missing Gaps (Removed emoji ⚠️)
     gaps = ai_report.get('critical_gaps') or []
+    if isinstance(gaps, str):
+        gaps = [gaps]
     if gaps:
         gaps_text = clean_text_for_pdf(", ".join(gaps))
         gaps_box_data = [[Paragraph(f"<b><font color='#f43f5e'>WARNING - Critical Gaps Detected:</font></b> {gaps_text}", body_style)]]
@@ -375,15 +408,18 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     # --- 6. CAREER HISTORY TIMELINE ---
     story.append(Paragraph("Extracted Career Milestones & Work Experience", h1_style))
     experiences = candidate.get('experience') or []
-    if not experiences:
-        # Fallback to display raw experience if json list is empty
-        raw_exp = candidate.get('experience')
-        if isinstance(raw_exp, str) and raw_exp.strip():
-            story.append(Paragraph(clean_text_for_pdf(raw_exp), body_style))
+    if isinstance(experiences, str):
+        if experiences.strip():
+            story.append(Paragraph(clean_text_for_pdf(experiences), body_style))
         else:
             story.append(Paragraph("No detailed work experience structured in database.", body_style))
+    elif not isinstance(experiences, list) or not experiences:
+        story.append(Paragraph("No detailed work experience structured in database.", body_style))
     else:
         for idx, exp in enumerate(experiences[:4]):
+            if not isinstance(exp, dict):
+                story.append(Paragraph(clean_text_for_pdf(str(exp)), body_style))
+                continue
             exp_flowables = []
             
             exp_role = clean_text_for_pdf(exp.get('role', 'Developer'))
@@ -406,7 +442,9 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
             
     # Add Education Milestones
     edu_list = candidate.get('education') or []
-    if edu_list:
+    if isinstance(edu_list, str):
+        edu_list = [edu_list]
+    if isinstance(edu_list, list) and edu_list:
         edu_flowables = []
         edu_flowables.append(Spacer(1, 6))
         edu_flowables.append(Paragraph("Education Milestones", h2_style))
@@ -546,3 +584,146 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
     
     buffer.seek(0)
     return buffer
+
+def generate_optimized_cv_pdf(name, job_role, optimized_text) -> io.BytesIO:
+    """
+    Generates a professional, print-ready PDF resume from the AI-optimized
+    markdown text and returns it as an in-memory BytesIO buffer.
+    """
+    buffer = io.BytesIO()
+    
+    # Standard 0.75 inch margins (54pt) for resume layout
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=letter,
+        leftMargin=54,
+        rightMargin=54,
+        topMargin=54,
+        bottomMargin=54
+    )
+    
+    styles = getSampleStyleSheet()
+    
+    # Custom color palette matching a sleek corporate theme
+    primary_color = colors.HexColor("#1e3a8a")  # Dark Blue
+    text_dark = colors.HexColor("#0f172a")     # Slate 900
+    text_muted = colors.HexColor("#475569")    # Slate 600
+    
+    # Define ParagraphStyles
+    name_style = ParagraphStyle(
+        'CVName',
+        fontName='Helvetica-Bold',
+        fontSize=20,
+        leading=24,
+        textColor=primary_color,
+        alignment=1, # Center
+        spaceAfter=4
+    )
+    
+    role_style = ParagraphStyle(
+        'CVRole',
+        fontName='Helvetica-Oblique',
+        fontSize=11,
+        leading=15,
+        textColor=text_muted,
+        alignment=1, # Center
+        spaceAfter=12
+    )
+    
+    h1_style = ParagraphStyle(
+        'CVH1',
+        fontName='Helvetica-Bold',
+        fontSize=12,
+        leading=16,
+        textColor=primary_color,
+        spaceBefore=12,
+        spaceAfter=4,
+        keepWithNext=True
+    )
+    
+    h2_style = ParagraphStyle(
+        'CVH2',
+        fontName='Helvetica-Bold',
+        fontSize=10,
+        leading=14,
+        textColor=text_dark,
+        spaceBefore=8,
+        spaceAfter=3,
+        keepWithNext=True
+    )
+    
+    body_style = ParagraphStyle(
+        'CVBody',
+        fontName='Helvetica',
+        fontSize=9,
+        leading=13,
+        textColor=text_dark,
+        spaceAfter=4
+    )
+    
+    bullet_style = ParagraphStyle(
+        'CVBullet',
+        parent=body_style,
+        leftIndent=15,
+        firstLineIndent=-10,
+        spaceAfter=3
+    )
+    
+    story = []
+    
+    # Clean name for display header
+    display_name = name
+    for ext in ['.pdf', '.docx', '.PDF', '.DOCX']:
+        if display_name.lower().endswith(ext):
+            display_name = display_name[:-len(ext)]
+    if '_' in display_name or '-' in display_name:
+        display_name = display_name.replace('_', ' ').replace('-', ' ')
+    display_name = " ".join(display_name.split())
+    if display_name.isupper() or display_name.islower():
+        display_name = display_name.title()
+        
+    story.append(Paragraph(clean_text_for_pdf(display_name), name_style))
+    story.append(Paragraph(clean_text_for_pdf(job_role), role_style))
+    
+    # Simple horizontal rule helper
+    def get_hr():
+        hr_table = Table([[""]], colWidths=[504])
+        hr_table.setStyle(TableStyle([
+            ('LINEBELOW', (0,0), (-1,-1), 1, primary_color),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 0),
+            ('TOPPADDING', (0,0), (-1,-1), 0),
+        ]))
+        return hr_table
+        
+    lines = optimized_text.split('\n')
+    
+    for line in lines:
+        line_str = line.strip()
+        if not line_str:
+            continue
+            
+        # Parse Markdown headers
+        if line_str.startswith("# "):
+            title_text = line_str[2:].strip()
+            # If the title text is just the candidate name, skip it since we already printed it at the top
+            if title_text.lower() == name.lower() or title_text.lower() == display_name.lower():
+                continue
+            story.append(Paragraph(clean_text_for_pdf(title_text), name_style))
+        elif line_str.startswith("## "):
+            sec_text = line_str[3:].strip()
+            story.append(Paragraph(clean_text_for_pdf(sec_text), h1_style))
+            story.append(get_hr())
+            story.append(Spacer(1, 4))
+        elif line_str.startswith("### "):
+            subsec_text = line_str[4:].strip()
+            story.append(Paragraph(clean_text_for_pdf(subsec_text), h2_style))
+        elif line_str.startswith("- ") or line_str.startswith("* ") or line_str.startswith("• "):
+            bullet_text = line_str[2:].strip()
+            story.append(Paragraph(f"• {clean_text_for_pdf(bullet_text)}", bullet_style))
+        else:
+            story.append(Paragraph(clean_text_for_pdf(line_str), body_style))
+            
+    doc.build(story)
+    buffer.seek(0)
+    return buffer
+

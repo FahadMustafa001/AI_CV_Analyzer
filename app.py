@@ -4,7 +4,7 @@ import os
 import sqlite3
 import json
 import logging
-from pdf_generator import generate_candidate_pdf
+from pdf_generator import generate_candidate_pdf, generate_optimized_cv_pdf
 
 # Configure logging to save errors into a file and output to console
 root_logger = logging.getLogger()
@@ -545,20 +545,35 @@ def optimize_cv(name: str):
     }
 
 def deserialize_candidate(r):
+    email = r[14] if (len(r) > 14 and r[14]) else "Not Extracted"
+    
     try:
-        email = r[14] if (len(r) > 14 and r[14]) else "Not Extracted"
         links = json.loads(r[15]) if (len(r) > 15 and r[15]) else []
+    except Exception:
+        links = []
+        
+    try:
         education = json.loads(r[16]) if (len(r) > 16 and r[16]) else []
+    except Exception:
+        education = []
+        
+    try:
         experience = json.loads(r[17]) if (len(r) > 17 and r[17]) else []
+    except Exception:
+        # If experience is stored as raw text, wrap it or keep it as is
+        experience = r[17] if (len(r) > 17 and r[17]) else []
+        
+    try:
         projects = json.loads(r[18]) if (len(r) > 18 and r[18]) else []
+    except Exception:
+        projects = []
+        
+    try:
         ai_report = json.loads(r[19]) if (len(r) > 19 and r[19]) else {}
     except Exception:
-        email = "Not Extracted"
-        links = []
-        education = []
-        experience = []
-        projects = []
         ai_report = {}
+        
+    filename_val = r[20] if (len(r) > 20 and r[20]) else ""
         
     return {
         "name": r[0],
@@ -582,7 +597,8 @@ def deserialize_candidate(r):
         "education": education,
         "experience": experience,
         "projects": projects,
-        "ai_report": ai_report
+        "ai_report": ai_report,
+        "filename": filename_val
     }
 
 @app.route('/ranking')
@@ -596,7 +612,7 @@ def ranking():
         cur.execute("""
             SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score,
                    personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism,
-                   email, links, education, experience, projects, ai_report
+                   email, links, education, experience, projects, ai_report, filename
             FROM candidates
         """)
         candidates = []
@@ -628,7 +644,7 @@ def ranking():
         cur.execute("""
             SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score,
                    personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism,
-                   email, links, education, experience, projects, ai_report
+                   email, links, education, experience, projects, ai_report, filename
             FROM candidates ORDER BY final_score DESC
         """)
         rows = []
@@ -645,7 +661,7 @@ def export_pdf(name: str):
         cur.execute("""
             SELECT name, job_role, score, exp_years, personality_score, soft_skills, interests, certificates, final_score,
                    personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism,
-                   email, links, education, experience, projects, ai_report
+                   email, links, education, experience, projects, ai_report, filename
             FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1
         """, (name,))
         row = cur.fetchone()
@@ -667,6 +683,60 @@ def export_pdf(name: str):
     except Exception as e:
         logging.error(f"Error exporting PDF for {name}: {e}", exc_info=True)
         return f"Error generating PDF report: {str(e)}", 500
+
+@app.route('/download_cv/<name>')
+def download_cv(name: str):
+    try:
+        conn = sqlite3.connect("candidates.db")
+        cur = conn.cursor()
+        cur.execute("SELECT filename FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+        row = cur.fetchone()
+        conn.close()
+        
+        if not row or not row[0]:
+            return "CV file not found", 404
+            
+        filename = row[0]
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        if not os.path.exists(file_path):
+            return f"CV file '{filename}' does not exist on server", 404
+            
+        return send_file(
+            file_path,
+            as_attachment=True,
+            download_name=filename
+        )
+    except Exception as e:
+        logging.error(f"Error downloading original CV for {name}: {e}", exc_info=True)
+        return f"Error downloading CV: {str(e)}", 500
+
+@app.route('/export_optimized_pdf/<name>')
+def export_optimized_pdf(name: str):
+    try:
+        conn = sqlite3.connect("candidates.db")
+        cur = conn.cursor()
+        cur.execute("SELECT optimized_cv, job_role FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+        row = cur.fetchone()
+        conn.close()
+        
+        if not row or not row[0]:
+            return "Optimized CV not generated yet. Please optimize first!", 400
+            
+        optimized_text = row[0]
+        job_role = row[1]
+        
+        pdf_buffer = generate_optimized_cv_pdf(name, job_role, optimized_text)
+        
+        filename = f"{name.replace(' ', '_')}_Optimized_Resume.pdf"
+        return send_file(
+            pdf_buffer,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=filename
+        )
+    except Exception as e:
+        logging.error(f"Error exporting optimized PDF for {name}: {e}", exc_info=True)
+        return f"Error generating optimized PDF: {str(e)}", 500
 
 @app.route('/delete_candidate/<name>', methods=['POST'])
 def delete_candidate(name: str):

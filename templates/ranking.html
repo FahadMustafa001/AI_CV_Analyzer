@@ -294,9 +294,12 @@
               <button class="btn btn-sm btn-primary px-3 rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#details-{{ loop.index }}" aria-expanded="false">
                 <i class="bi bi-eye-fill me-1"></i> Profile Audit
               </button>
-              <a href="/test/{{ row.name }}" class="btn btn-sm btn-outline-primary px-3 rounded-pill"><i class="bi bi-clipboard2-pulse me-1"></i> Psych Test</a>
-              <a href="/export_pdf/{{ row.name }}" class="btn btn-sm btn-outline-info px-3 rounded-pill" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" download><i class="bi bi-file-earmark-pdf me-1"></i> PDF Report</a>
-              <button class="btn btn-sm btn-outline-danger px-2.5 rounded-pill" onclick="deleteCandidate(event, '{{ row.name }}', this)"><i class="bi bi-trash3-fill"></i></button>
+              <a href="/test/{{ row.name|urlencode }}" class="btn btn-sm btn-outline-primary px-3 rounded-pill"><i class="bi bi-clipboard2-pulse me-1"></i> Psych Test</a>
+              <a href="/export_pdf/{{ row.name|urlencode }}" class="btn btn-sm btn-outline-info px-3 rounded-pill" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" download><i class="bi bi-file-earmark-pdf me-1"></i> PDF Report</a>
+              {% if row.filename %}
+              <a href="/download_cv/{{ row.name|urlencode }}" class="btn btn-sm btn-outline-secondary px-3 rounded-pill text-white" style="border-color: rgba(255,255,255,0.15);" download><i class="bi bi-download me-1"></i> Original CV</a>
+              {% endif %}
+              <button class="btn btn-sm btn-outline-danger px-2.5 rounded-pill" onclick="deleteCandidate(event, {{ row.name|tojson|safe }}, this)"><i class="bi bi-trash3-fill"></i></button>
             </div>
           </td>
         </tr>
@@ -604,7 +607,7 @@
                     <div class="p-3 rounded text-center" style="background: rgba(99, 102, 241, 0.08); border: 1px dashed rgba(99, 102, 241, 0.3);">
                       <h6 class="text-white fw-bold mb-2"><i class="bi bi-stars icon-glow-info me-1"></i> ATS Resume Optimizer (100% Fit)</h6>
                       <p class="text-muted small mb-3">Our AI will automatically rewrite this candidate's CV to address formatting issues, fill missing critical skill gaps, and optimize achievements using Google's X-Y-Z formula.</p>
-                      <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="optimizeResume('{{ row.name }}')">
+                      <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="optimizeResume({{ row.name|tojson|safe }})">
                         <i class="bi bi-rocket-takeoff-fill me-1"></i> Generate Perfected Resume
                       </button>
                     </div>
@@ -1220,6 +1223,10 @@ function updateOptimizedFromEditor() {
 
 function optimizeResume(candidateName) {
   currentCandidateName = candidateName;
+  const exportPdfBtn = document.getElementById('btn-export-optimized-pdf');
+  if (exportPdfBtn) {
+    exportPdfBtn.href = `/export_optimized_pdf/${encodeURIComponent(candidateName)}`;
+  }
   const modalEl = document.getElementById('optimizedCvModal');
   const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
   modal.show();
@@ -1682,6 +1689,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="d-flex gap-2 flex-wrap">
           <button type="button" class="btn btn-outline-primary rounded-pill px-3" onclick="copyOptimizedText()">📋 Copy Text</button>
           <button type="button" class="btn btn-outline-info rounded-pill px-3" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" onclick="printOptimizedResume()">🖨️ Print / PDF</button>
+          <a href="#" id="btn-export-optimized-pdf" class="btn btn-outline-danger rounded-pill px-3" style="color: #f43f5e; border-color: rgba(244, 63, 94, 0.4);" download><i class="bi bi-file-earmark-pdf-fill me-1"></i> Export PDF</a>
           <button type="button" class="btn btn-outline-success rounded-pill px-3" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.4);" onclick="downloadOptimizedHtml()">📥 Download HTML</button>
           <button type="button" class="btn btn-success rounded-pill px-3" id="btn-download-optimized" onclick="downloadOptimizedText()">📥 Download Markdown</button>
         </div>
