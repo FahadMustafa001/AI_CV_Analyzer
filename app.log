@@ -1403,3 +1403,278 @@ TypeError: Object of type Undefined is not JSON serializable
 2026-06-20 19:27:12,156 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
 2026-06-20 19:27:15,091 INFO werkzeug MainThread :  * Restarting with stat
 2026-06-20 19:27:15,323 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 19:55:04,960 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:04,962 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,081 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,094 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,346 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,347 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,655 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,655 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,785 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,786 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,843 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,846 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:05,850 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,076 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,077 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,078 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,079 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,079 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,080 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,080 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,081 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,082 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,083 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,188 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,194 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,197 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,199 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,218 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,263 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,281 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,346 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:55:06,386 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,708 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,710 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,791 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,799 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,881 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,891 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,959 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:08,984 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,063 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,086 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,101 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,102 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,117 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,141 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,144 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,147 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,157 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,160 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,168 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,173 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,194 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,200 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,203 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,228 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,237 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,240 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,245 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,247 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,279 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,328 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,368 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:58:09,411 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 19:59:49,069 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 19:59:49,070 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 19:59:49,079 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 19:59:51,853 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 19:59:51,860 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:00:01,885 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:01] "HEAD /ranking HTTP/1.1" 200 -
+2026-06-20 20:00:01,940 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:01] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:00:26,204 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 20:00:26,205 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 20:00:26,208 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:00:29,151 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:00:29,168 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:00:38,294 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:38] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:00:39,018 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:39] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 20:00:39,031 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:39] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:00:40,324 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:40] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:00:46,249 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:46] "GET / HTTP/1.1" 200 -
+2026-06-20 20:00:46,563 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:00:46,566 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:00:46] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:03:02,658 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:03:02] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:03:02,800 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:03:02] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:03:02,803 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:03:02] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:04:15,408 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:04:15] "HEAD / HTTP/1.1" 200 -
+2026-06-20 20:04:15,416 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:04:15] "GET / HTTP/1.1" 200 -
+2026-06-20 20:12:03,660 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:03] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:12:04,194 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:04] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 20:12:04,196 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:04] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:12:05,043 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:05] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:12:23,027 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:23] "GET / HTTP/1.1" 200 -
+2026-06-20 20:12:23,260 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:12:23,279 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:12:23] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:12:59,616 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,617 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,693 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,698 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,777 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,778 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,859 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:12:59,866 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,038 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,086 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,092 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,115 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,123 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,136 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,164 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,165 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,164 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,166 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,171 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,173 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,172 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,200 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,224 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,245 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,249 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,261 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,262 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,262 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,277 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,325 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,331 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:13:00,408 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:09,935 INFO werkzeug Thread-24 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:09] "GET / HTTP/1.1" 200 -
+2026-06-20 20:15:10,027 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:10] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 20:15:10,036 INFO werkzeug Thread-25 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:15:10,096 INFO werkzeug Thread-26 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:15:40,409 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,589 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,696 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,773 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,853 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,946 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,961 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,972 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,977 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:40,978 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,046 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,063 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,063 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,069 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,129 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,225 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:15:41,389 INFO werkzeug Thread-27 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:41] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 20:15:41,453 INFO werkzeug Thread-28 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:41] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:15:41,456 INFO werkzeug Thread-29 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:41] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:15:52,938 INFO werkzeug Thread-30 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:15:52] "GET /export_pdf/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 20:16:08,713 INFO httpx Thread-31 (process_request_thread) : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:09,054 INFO httpx Thread-31 (process_request_thread) : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:09,058 INFO werkzeug Thread-31 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:09] "POST /optimize_cv/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 20:16:32,428 INFO werkzeug Thread-32 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:32] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:16:32,473 INFO werkzeug Thread-33 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:32] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:16:32,492 INFO werkzeug Thread-34 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:32] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:16:45,805 INFO werkzeug Thread-35 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:45] "GET /export_pdf/MUHAMMAD%20FAHAD%20MUSTAFA HTTP/1.1" 200 -
+2026-06-20 20:16:50,157 INFO werkzeug Thread-36 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:50] "GET / HTTP/1.1" 200 -
+2026-06-20 20:16:50,896 INFO werkzeug Thread-37 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:50] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 20:16:51,113 INFO werkzeug Thread-38 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:51] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:16:51,292 INFO werkzeug Thread-39 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:51] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:16:52,108 INFO werkzeug Thread-40 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:16:52] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:16:59,446 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,454 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,519 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,544 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,614 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,619 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,688 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,701 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,764 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,779 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,818 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,818 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,826 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,831 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,834 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,837 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,850 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,850 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,855 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,856 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,893 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,901 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,902 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,902 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,922 INFO httpx ThreadPoolExecutor-2_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,931 INFO httpx ThreadPoolExecutor-2_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,937 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,940 INFO httpx ThreadPoolExecutor-2_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:16:59,982 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:17:00,009 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:17:00,056 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:17:00,079 INFO httpx ThreadPoolExecutor-2_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2026-06-20 20:17:25,236 INFO werkzeug Thread-41 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:25] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:17:25,306 INFO werkzeug Thread-42 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:25] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:17:25,311 INFO werkzeug Thread-43 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:25] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:17:27,803 INFO werkzeug Thread-44 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:27] "GET / HTTP/1.1" 200 -
+2026-06-20 20:17:27,968 INFO werkzeug Thread-45 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:27] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:17:27,970 INFO werkzeug Thread-46 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:27] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:17:29,740 INFO werkzeug Thread-47 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:29] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:17:29,784 INFO werkzeug Thread-48 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:29] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:17:29,787 INFO werkzeug Thread-49 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:17:29] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:18:30,632 INFO werkzeug Thread-50 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:18:30] "GET / HTTP/1.1" 200 -
+2026-06-20 20:18:30,905 INFO werkzeug Thread-51 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:18:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:18:30,913 INFO werkzeug Thread-52 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:18:30] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:19:53,416 INFO werkzeug Thread-53 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:19:53] "GET / HTTP/1.1" 200 -
+2026-06-20 20:19:53,470 INFO werkzeug Thread-54 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:19:53] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:19:53,479 INFO werkzeug Thread-55 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:19:53] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:19:55,032 INFO werkzeug Thread-56 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:19:55] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:19:55,088 INFO werkzeug Thread-57 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:19:55] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:19:55,095 INFO werkzeug Thread-58 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:19:55] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:20:23,273 INFO werkzeug Thread-59 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:23] "GET /test/CV_1_Software_Engineer HTTP/1.1" 200 -
+2026-06-20 20:20:23,480 INFO werkzeug Thread-60 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:20:23,482 INFO werkzeug Thread-61 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:23] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:20:30,395 INFO werkzeug Thread-62 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:30] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:20:30,630 INFO werkzeug Thread-63 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:20:30,638 INFO werkzeug Thread-64 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:30] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:20:36,734 INFO werkzeug Thread-65 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:36] "GET / HTTP/1.1" 200 -
+2026-06-20 20:20:36,959 INFO werkzeug Thread-66 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:36] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:20:36,961 INFO werkzeug Thread-67 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:20:36] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:21:15,804 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_test_pdf.py', reloading
+2026-06-20 20:21:16,295 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_test_pdf.py', reloading
+2026-06-20 20:21:18,535 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:21:18,905 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:21:21,456 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:21:21,462 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:21:21,703 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:21:21,711 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:22:33,990 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:33] "GET / HTTP/1.1" 200 -
+2026-06-20 20:22:34,185 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:34] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:22:34,189 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:34] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:22:34,237 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:34] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:22:36,209 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:36] "GET / HTTP/1.1" 200 -
+2026-06-20 20:22:36,278 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:36] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:22:36,288 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:36] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:22:37,615 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:37] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 20:22:37,658 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:37] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 20:22:37,666 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:37] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 20:22:45,356 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 20:22:45] "GET /export_pdf/MUHAMMAD%20FAHAD%20MUSTAFA HTTP/1.1" 200 -
+2026-06-20 20:24:12,744 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_check_candidate.py', reloading
+2026-06-20 20:24:13,393 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_check_candidate.py', reloading
+2026-06-20 20:24:14,369 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:24:14,499 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:24:19,159 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:24:19,159 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:24:19,165 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:24:19,165 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:24:33,145 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_check_candidate.py', reloading
+2026-06-20 20:24:33,151 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_check_candidate.py', reloading
+2026-06-20 20:24:33,832 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:24:33,858 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:24:36,810 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:24:36,815 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:24:36,838 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:24:36,842 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:24:59,224 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_test_pdf.py', reloading
+2026-06-20 20:24:59,254 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\scratch_test_pdf.py', reloading
+2026-06-20 20:25:00,110 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:25:00,133 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:25:03,022 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:25:03,027 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:25:03,087 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:25:03,093 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:25:47,798 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:25:47,806 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\pdf_generator.py', reloading
+2026-06-20 20:25:48,509 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:25:48,524 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 20:25:51,365 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:25:51,366 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 20:25:51,370 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 20:25:51,371 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995

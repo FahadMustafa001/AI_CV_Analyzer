@@ -117,8 +117,7 @@
       <div class="p-4 box-highlight rounded">
         <label class="form-label mb-3 d-block text-white fw-bold"><i class="bi bi-file-earmark-arrow-up-fill text-primary me-2"></i> Upload Resumes (PDF / DOCX)</label>
         
-        <div id="dropzone" class="p-5 border border-dashed rounded text-center cursor-pointer transition" 
-             style="border-color: rgba(255,255,255,0.2) !important; background: rgba(15,23,42,0.2); transition: all 0.3s ease;">
+        <div id="dropzone" class="p-5 border border-dashed rounded text-center cursor-pointer transition">
           <input type="file" name="files" id="files-input" class="d-none" multiple accept=".pdf,.docx" required>
           <div class="fs-1 mb-3 text-indigo-400"><i class="bi bi-cloud-arrow-up-fill fs-2"></i></div>
           <h5 class="text-white mb-2">Drag and drop candidate resumes here</h5>
@@ -188,19 +187,16 @@ if (dropzone && fileInput) {
 
   dropzone.addEventListener('dragover', (e) => {
     e.preventDefault();
-    dropzone.style.background = 'rgba(99, 102, 241, 0.15)';
-    dropzone.style.borderColor = 'var(--primary)';
+    dropzone.classList.add('dragover');
   });
 
   dropzone.addEventListener('dragleave', () => {
-    dropzone.style.background = 'rgba(15, 23, 42, 0.2)';
-    dropzone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+    dropzone.classList.remove('dragover');
   });
 
   dropzone.addEventListener('drop', (e) => {
     e.preventDefault();
-    dropzone.style.background = 'rgba(15, 23, 42, 0.2)';
-    dropzone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+    dropzone.classList.remove('dragover');
     
     if (e.dataTransfer.files.length) {
       // Add new files to our dataTransfer list
