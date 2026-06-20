@@ -11,13 +11,16 @@ groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY", "YOUR_FALLBACK_API_KEY
 
 def compute_similarity(job_desc: str, cv_text: str) -> float:
     """
-    Computes semantic similarity score using TF-IDF and Cosine Similarity.
+    Computes semantic similarity score using TF-IDF and Cosine Similarity,
+    scaled to a realistic [0, 100] match range (0.35 cosine is mapped to 100%).
     """
     if not cv_text.strip():
         return 0.0
     vect = TfidfVectorizer(stop_words='english').fit_transform([job_desc, cv_text])
     sim_score = cosine_similarity(vect[0:1], vect[1:2])[0][0]
-    return round(sim_score * 100, 2)
+    # Scale: raw cosine of 0.35 or higher is mapped to 100.0%
+    scaled_score = min((sim_score / 0.35) * 100.0, 100.0)
+    return round(scaled_score, 2)
 
 def extract_keywords(cv_text: str, keywords_list: list) -> list:
     """
@@ -287,4 +290,23 @@ def semantic_search_candidates(candidates_list: list, query: str) -> list:
         return []
     except Exception as e:
         print(f"Groq Semantic Talent Search Error: {e}")
-        return []
+        # Fallback to keyword-based local search if Groq fails (crash-proof)
+        fallback_results = []
+        keywords = [k.lower().strip() for k in query.split() if len(k.strip()) > 2]
+        for c in candidates_list:
+            score = 0
+            matches = []
+            c_text = f"{c['name']} {c['job_role']} {c['soft_skills']} {c['certificates']} {c['interests']}".lower()
+            for kw in keywords:
+                if kw in c_text:
+                    score += 25
+                    matches.append(kw)
+            if score > 0:
+                fallback_results.append({
+                    "name": c["name"],
+                    "relevance_score": min(score, 100),
+                    "match_explanation": f"Keyword match for: {', '.join(matches)} (Local search fallback)."
+                })
+        # Sort fallback results by score descending
+        fallback_results.sort(key=lambda x: x["relevance_score"], reverse=True)
+        return fallback_results

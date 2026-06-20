@@ -53,11 +53,17 @@
     <!-- File Upload Card -->
     <div class="col-md-12">
       <div class="p-4 box-highlight rounded">
-        <label class="form-label mb-2 d-flex align-items-center gap-2 text-white fw-bold">
-          <span>📁 Upload Resumes (PDF / DOCX)</span>
-        </label>
-        <input type="file" name="files" multiple accept=".pdf,.docx" class="form-control" required>
-        <div class="form-text mt-2">Batch process multiple candidate profiles concurrently. Supported extensions: .pdf, .docx</div>
+        <label class="form-label mb-3 d-block text-white fw-bold">📁 Upload Resumes (PDF / DOCX)</label>
+        
+        <div id="dropzone" class="p-5 border border-dashed rounded text-center cursor-pointer transition" 
+             style="border-color: rgba(255,255,255,0.2) !important; background: rgba(15,23,42,0.2); transition: all 0.3s ease;">
+          <input type="file" name="files" id="files-input" class="d-none" multiple accept=".pdf,.docx" required>
+          <div class="fs-1 mb-3 text-indigo-400">📤</div>
+          <h5 class="text-white mb-2">Drag and drop candidate resumes here</h5>
+          <p class="text-muted small mb-0">or click to browse local files (PDF & DOCX formats only)</p>
+          <div id="file-list" class="mt-3 text-start small text-indigo-300"></div>
+        </div>
+        <div class="form-text mt-2">Batch process multiple candidate resumes concurrently. Supported formats: .pdf, .docx</div>
       </div>
     </div>
   </div>
@@ -84,6 +90,57 @@ function toggleJDInput(type) {
     customContainer.style.display = 'block';
     roleSelect.removeAttribute('required');
     jdTextarea.setAttribute('required', 'required');
+  }
+}
+
+// Drag & Drop Functionality Hook
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('files-input');
+const fileList = document.getElementById('file-list');
+
+if (dropzone && fileInput) {
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.style.background = 'rgba(99, 102, 241, 0.15)';
+    dropzone.style.borderColor = 'var(--primary)';
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.style.background = 'rgba(15, 23, 42, 0.2)';
+    dropzone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.style.background = 'rgba(15, 23, 42, 0.2)';
+    dropzone.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+    
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      updateFileList();
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    updateFileList();
+  });
+}
+
+function updateFileList() {
+  const files = fileInput.files;
+  fileList.innerHTML = '';
+  if (files.length) {
+    fileList.innerHTML = '<strong>Selected Files:</strong>';
+    const ul = document.createElement('ul');
+    ul.className = 'mb-0 mt-2 ps-3 text-indigo-200';
+    for (let i = 0; i < files.length; i++) {
+      const li = document.createElement('li');
+      li.textContent = files[i].name;
+      ul.appendChild(li);
+    }
+    fileList.appendChild(ul);
   }
 }
 </script>

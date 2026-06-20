@@ -7,3 +7,138 @@
 2026-06-20 13:42:26,884 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 13:42:28,308 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 13:42:28,427 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:13:56,857 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 14:13:56,878 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 14:13:56,887 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:13:58,808 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:13:58,813 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:16:50,560 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 14:16:50,561 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 14:16:50,564 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:16:52,793 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:16:52,810 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:19:14,682 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 14:19:14,682 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 14:19:14,684 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:19:16,312 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:19:16,315 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:19:16,361 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:19:16] "GET / HTTP/1.1" 200 -
+2026-06-20 14:19:16,552 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:19:16] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 14:19:17,642 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:19:17] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-06-20 14:21:02,864 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 14:21:02,864 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 14:21:02,865 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:21:04,554 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:21:04,556 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:22:03,477 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:22:03,652 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:22:03,977 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:22:04,112 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:22:05,914 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:22:05,916 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:22:05,923 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:22:05,927 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:22:19,450 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:22:19,454 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:22:19,916 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:22:19,939 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:22:21,734 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:22:21,736 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:22:21,771 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:22:21,773 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:22:41,348 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:22:41,377 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:22:41,769 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:22:41,813 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:22:43,647 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:22:43,649 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:22:43,672 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:22:43,675 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:23:04,320 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:23:04,320 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:23:04,708 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:23:04,729 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:23:06,436 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:23:06,436 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:23:06,439 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:23:06,444 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:24:06,346 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:24:06,360 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:24:06,830 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:24:06,853 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:24:08,632 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:24:08,632 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:24:08,639 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:24:08,640 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:37:06,150 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:37:06,174 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:37:07,264 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:37:07,411 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:38:08,560 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 14:38:08,561 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 14:38:08,563 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:38:09,887 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:38:09] "GET / HTTP/1.1" 200 -
+2026-06-20 14:38:10,241 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:38:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:38:10,675 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:38:10,684 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:39:01,983 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:39:03,819 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:39:03,858 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:39:03] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 14:39:03,954 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:39:03] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:39:44,794 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:39:44] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 14:39:44,889 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:39:44] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:40:29,595 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:40:30,516 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:40:30,585 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:40:33,365 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:40:34,357 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:40:34,738 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:40:38,093 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:40:38,096 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:40:38,097 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:40:56,834 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:40:56,839 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:40:56,840 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:40:57,318 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:40:57,320 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:40:57,324 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:40:59,218 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:40:59,220 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:40:59,221 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:40:59,240 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:40:59,257 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:40:59,259 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:42:10,392 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:42:10] "GET / HTTP/1.1" 200 -
+2026-06-20 14:42:10,883 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:42:10] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:43:39,864 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:43:39,980 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:43:41,207 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:43:41,374 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:44:12,351 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:44:12] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 14:44:12,453 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:44:12] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:48:14,131 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:48:14] "GET / HTTP/1.1" 200 -
+2026-06-20 14:48:14,543 INFO werkzeug Thread-7 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:48:14] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:48:45,071 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:48:46,709 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:48:46,770 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:48:46] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 14:48:46,804 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:48:46] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:49:15,786 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:49:15] "GET /test/Muhammad%20Hussnain HTTP/1.1" 200 -
+2026-06-20 14:49:15,819 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:49:15] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:49:30,530 INFO werkzeug Thread-12 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:49:30] "GET /ranking HTTP/1.1" 200 -
+2026-06-20 14:49:30,550 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:49:30] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 14:49:54,424 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:49:54] "[33mGET /Github HTTP/1.1[0m" 404 -
+2026-06-20 14:49:58,891 INFO werkzeug Thread-15 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:49:58] "[33mGET /linkedin HTTP/1.1[0m" 404 -
+2026-06-20 14:51:07,823 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:51:09,727 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:51:09,752 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:51:09] "POST /analyze HTTP/1.1" 200 -
+2026-06-20 14:51:09,775 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:51:09] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-06-20 14:51:21,535 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 14:51:21] "[33mGET /github.com/MuhammadFahad829 HTTP/1.1[0m" 404 -
+2026-06-20 14:51:56,615 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:51:57,883 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:51:57,930 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:51:59,316 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"

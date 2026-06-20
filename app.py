@@ -108,6 +108,9 @@ def init_db():
     conn.commit()
     conn.close()
 
+# Auto-initialize database on application import (required for Docker & Gunicorn)
+init_db()
+
 # ---------------------- App Routes ----------------------
 @app.route('/')
 def index():
@@ -142,18 +145,20 @@ def process_single_cv(file_path, filename, job_role, job_desc, exp_target_map, p
 
         # 4. Save Record to Database cleanly (independent thread connections)
         conn = sqlite3.connect("candidates.db", timeout=30.0)
-        cur = conn.cursor()
-        cur.execute('''INSERT INTO candidates 
-                       (name, filename, job_role, score, soft_skills, interests, certificates, final_score, exp_years, personality_score,
-                        personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism, ai_report)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                    (candidate_name, filename, job_role, job_score,
-                     ", ".join(soft_skills), ", ".join(interests), ", ".join(certificates), final_score,
-                     exp_years, personality_score_val,
-                     est_traits.get('openness'), est_traits.get('conscientiousness'), est_traits.get('extraversion'), est_traits.get('agreeableness'), est_traits.get('neuroticism'),
-                     json.dumps(ai_report)))
-        conn.commit()
-        conn.close()
+        try:
+            cur = conn.cursor()
+            cur.execute('''INSERT INTO candidates 
+                           (name, filename, job_role, score, soft_skills, interests, certificates, final_score, exp_years, personality_score,
+                            personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism, ai_report)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                        (candidate_name, filename, job_role, job_score,
+                         ", ".join(soft_skills), ", ".join(interests), ", ".join(certificates), final_score,
+                         exp_years, personality_score_val,
+                         est_traits.get('openness'), est_traits.get('conscientiousness'), est_traits.get('extraversion'), est_traits.get('agreeableness'), est_traits.get('neuroticism'),
+                         json.dumps(ai_report)))
+            conn.commit()
+        finally:
+            conn.close()
 
         return {
             "name": candidate_name,
@@ -169,7 +174,9 @@ def process_single_cv(file_path, filename, job_role, job_desc, exp_target_map, p
             "skills": parsed_profile.skills if parsed_profile else soft_skills,
             "education": parsed_profile.education if parsed_profile else [],
             "experience": parsed_profile.experience if parsed_profile else [],
-            "projects": parsed_profile.projects if parsed_profile else []
+            "projects": parsed_profile.projects if parsed_profile else [],
+            "personality_traits": est_traits,
+            "personality_score": personality_score_val
         }
     except Exception as e:
         logging.error(f"Error processing file {filename}: {str(e)}", exc_info=True)
@@ -240,10 +247,10 @@ def analyze():
             except Exception as e:
                 print(f"Error resolving concurrent thread: {e}")
 
-    suitable_candidates = [r for r in results if r["final_score"] >= THRESHOLD]
-    suitable_candidates.sort(key=lambda x: x["final_score"], reverse=True)
+    results.sort(key=lambda x: x["final_score"], reverse=True)
+    suitable_count = sum(1 for r in results if r["final_score"] >= THRESHOLD)
 
-    return render_template('result.html', job_role=job_role, results=suitable_candidates, total=len(results), suitable=len(suitable_candidates), threshold=THRESHOLD)
+    return render_template('result.html', job_role=job_role, results=results, total=len(results), suitable=suitable_count, threshold=THRESHOLD)
 
 @app.route('/test/<name>')
 def personality_test(name: str):
@@ -381,5 +388,4 @@ def ranking():
         return render_template('ranking.html', rows=rows)
 
 if __name__ == '__main__':
-    init_db()
     app.run(debug=True)

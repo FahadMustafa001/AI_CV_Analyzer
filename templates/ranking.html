@@ -51,7 +51,7 @@
       </thead>
       <tbody>
         {% for row in rows %}
-        <tr class="fw-medium animate-fade-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+        <tr class="fw-medium animate-fade-in" style="--delay: {{ loop.index0 * 0.05 }}s; animation-delay: var(--delay);">
           <td class="ps-4">
             <div class="fw-bold text-white fs-5">{{ row.name }}</div>
             <div class="text-muted small mt-1">💼 Target: {{ row.job_role }}</div>
@@ -66,7 +66,7 @@
             <td>
               <div class="d-flex align-items-center gap-2">
                 <div class="progress-container flex-grow-1" style="height: 6px;">
-                  <div class="progress-bar-neon bg-success" role="progressbar" style="width: {{ row.relevance_score }}%"></div>
+                  <div class="progress-bar-neon bg-success" role="progressbar" style="--w: {{ row.relevance_score }}%; width: var(--w);"></div>
                 </div>
                 <span class="text-success small fw-bold">{{ row.relevance_score }}%</span>
               </div>
@@ -75,7 +75,7 @@
           <td>
             <div class="d-flex align-items-center gap-2">
               <div class="progress-container flex-grow-1" style="height: 6px;">
-                <div class="progress-bar-neon bg-info" role="progressbar" style="width: {{ row.job_score }}%"></div>
+                <div class="progress-bar-neon bg-info" role="progressbar" style="--w: {{ row.job_score }}%; width: var(--w);"></div>
               </div>
               <span class="text-white small fw-bold">{{ row.job_score }}%</span>
             </div>
@@ -86,7 +86,7 @@
           <td>
             <div class="d-flex align-items-center gap-2">
               <div class="progress-container flex-grow-1" style="height: 6px;">
-                <div class="progress-bar-neon bg-warning" role="progressbar" style="width: {{ row.personality_score }}%"></div>
+                <div class="progress-bar-neon bg-warning" role="progressbar" style="--w: {{ row.personality_score }}%; width: var(--w);"></div>
               </div>
               <span class="text-white small fw-bold">{{ row.personality_score }}%</span>
             </div>
@@ -130,7 +130,7 @@
           <td>
             <div class="d-flex align-items-center gap-2">
               <div class="progress-container flex-grow-1" style="height: 8px;">
-                <div class="progress-bar-neon bg-success" role="progressbar" style="width: {{ row.final_score }}%"></div>
+                <div class="progress-bar-neon bg-success" role="progressbar" style="--w: {{ row.final_score }}%; width: var(--w);"></div>
               </div>
               <span class="text-success fw-bold fs-5">{{ row.final_score }}%</span>
             </div>

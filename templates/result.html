@@ -14,6 +14,31 @@
   </div>
 
   {% if results %}
+  {% if suitable == 0 %}
+  <div class="alert bg-warning-subtle text-warning border-0 rounded p-4 mb-4 box-highlight d-flex align-items-start gap-3 animate-fade-in" style="background: rgba(245, 158, 11, 0.08) !important; border: 1px solid rgba(245, 158, 11, 0.2) !important;">
+    <span class="fs-4">⚠️</span>
+    <div>
+      <h6 class="fw-bold text-warning mb-1">No Candidates Met Selection Threshold</h6>
+      <p class="mb-0 small text-white-50">None of the uploaded files achieved a cumulative metric matching percentage of {{ threshold }}%. The candidate profile(s) below are shown for your review. Try loosening qualifications or dropping standard profile benchmarks.</p>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="box-highlight rounded p-3 mb-4 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3">
+    <div class="input-group" style="max-width: 400px;">
+      <span class="input-group-text bg-light-glass border-white-10 text-muted">🔍</span>
+      <input type="text" id="live-search-input" class="form-control bg-light-glass border-white-10 text-white" placeholder="Live search candidates by name or email..." onkeyup="filterCandidates()">
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <span class="text-muted small" style="white-space: nowrap;">Sort by:</span>
+      <select id="sort-select" class="form-select bg-light-glass border-white-10 text-white" style="width: 230px;" onchange="sortCandidates()">
+        <option value="final_score">Final Score (High to Low)</option>
+        <option value="job_score">Job Match (High to Low)</option>
+        <option value="exp_years">Experience (High to Low)</option>
+      </select>
+    </div>
+  </div>
+
   <div class="table-glass-container">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
@@ -29,15 +54,22 @@
         </thead>
         <tbody>
           {% for r in results %}
-          <tr class="fw-medium animate-fade-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+          <tr class="fw-medium animate-fade-in" style="--delay: {{ loop.index0 * 0.05 }}s; animation-delay: var(--delay);">
             <td class="ps-4">
-              <div class="fw-bold text-white fs-5">{{ r.name }}</div>
+              <div class="d-flex align-items-center gap-2 flex-wrap">
+                <div class="fw-bold text-white fs-5">{{ r.name }}</div>
+                {% if r.final_score >= threshold %}
+                  <span class="badge badge-cert" style="font-size: 10px; padding: 0.25em 0.5em;">Suitable</span>
+                {% else %}
+                  <span class="badge badge-danger" style="font-size: 10px; padding: 0.25em 0.5em;">Below Threshold</span>
+                {% endif %}
+              </div>
               <div class="text-muted small mt-1">📧 {{ r.email|default('Not found') }}</div>
             </td>
             <td>
               <div class="d-flex align-items-center gap-2">
                 <div class="progress-container flex-grow-1" style="height: 6px;">
-                  <div class="progress-bar-neon bg-info" role="progressbar" style="width: {{ r.job_score }}%"></div>
+                  <div class="progress-bar-neon bg-info" role="progressbar" style="--w: {{ r.job_score }}%; width: var(--w);"></div>
                 </div>
                 <span class="text-white small fw-bold">{{ r.job_score }}%</span>
               </div>
@@ -53,9 +85,17 @@
             <td>
               <div class="d-flex align-items-center gap-2">
                 <div class="progress-container flex-grow-1" style="height: 8px;">
-                  <div class="progress-bar-neon bg-success" role="progressbar" style="width: {{ r.final_score }}%"></div>
+                  {% if r.final_score >= threshold %}
+                    <div class="progress-bar-neon bg-success" role="progressbar" style="--w: {{ r.final_score }}%; width: var(--w);"></div>
+                  {% else %}
+                    <div class="progress-bar-neon bg-warning" role="progressbar" style="--w: {{ r.final_score }}%; width: var(--w);"></div>
+                  {% endif %}
                 </div>
-                <span class="text-success fw-bold fs-5">{{ r.final_score }}%</span>
+                {% if r.final_score >= threshold %}
+                  <span class="text-success fw-bold fs-5">{{ r.final_score }}%</span>
+                {% else %}
+                  <span class="text-warning fw-bold fs-5">{{ r.final_score }}%</span>
+                {% endif %}
               </div>
             </td>
             <td class="text-center">
@@ -169,6 +209,25 @@
                         <span class="text-white small">{{ r.ai_report.formatting_feedback }}</span>
                       </div>
 
+                      {% if r.personality_traits %}
+                      <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                        <small class="text-warning fw-bold d-block mb-2">🎭 Projected Personality Alignment ({{ r.personality_score }}% Fit)</small>
+                        <div class="row g-2">
+                          {% for trait, val in r.personality_traits.items() %}
+                          <div class="col-12">
+                            <div class="d-flex justify-content-between text-white-50 small mb-1" style="font-size: 11px;">
+                              <span class="text-capitalize">{{ trait }}</span>
+                              <span class="text-white fw-semibold">{{ val }}%</span>
+                            </div>
+                            <div class="progress-container" style="height: 4px;">
+                              <div class="progress-bar-neon bg-warning" role="progressbar" style="--w: {{ val }}%; width: var(--w);"></div>
+                            </div>
+                          </div>
+                          {% endfor %}
+                        </div>
+                      </div>
+                      {% endif %}
+
                       <div class="mb-4">
                         <small class="text-danger fw-bold d-block mb-2">⚠️ Critical Missing Job Gaps</small>
                         <div class="d-flex flex-wrap gap-2">
@@ -221,4 +280,62 @@
   </div>
 </div>
 
+<script>
+function filterCandidates() {
+  const input = document.getElementById('live-search-input');
+  const filter = input.value.toLowerCase();
+  const table = document.querySelector('.table tbody');
+  const rows = table.querySelectorAll('tr:not(.collapse)');
+  
+  rows.forEach(row => {
+    const name = row.querySelector('.fs-5').textContent.toLowerCase();
+    const email = row.querySelector('.text-muted').textContent.toLowerCase();
+    const collapseId = row.querySelector('button').getAttribute('data-bs-target');
+    const detailRow = document.querySelector(collapseId);
+    
+    if (name.includes(filter) || email.includes(filter)) {
+      row.style.display = '';
+    } else {
+      row.style.display = 'none';
+      if (detailRow.classList.contains('show')) {
+        detailRow.classList.remove('show');
+      }
+      detailRow.style.display = 'none';
+    }
+  });
+}
+
+function sortCandidates() {
+  const select = document.getElementById('sort-select');
+  const criterion = select.value;
+  const table = document.querySelector('.table tbody');
+  const pairs = [];
+  
+  const rows = table.querySelectorAll('tr:not(.collapse)');
+  rows.forEach(row => {
+    const collapseId = row.querySelector('button').getAttribute('data-bs-target');
+    const detailRow = document.querySelector(collapseId);
+    
+    let val = 0;
+    if (criterion === 'final_score') {
+      val = parseFloat(row.querySelector('.text-success.fw-bold').textContent);
+    } else if (criterion === 'job_score') {
+      val = parseFloat(row.querySelector('.text-white.small.fw-bold').textContent);
+    } else if (criterion === 'exp_years') {
+      val = parseFloat(row.querySelector('td:nth-child(3) span').textContent);
+    }
+    
+    pairs.push({ row, detailRow, val });
+  });
+  
+  pairs.sort((a, b) => b.val - a.val);
+  
+  // Clear the table body and re-append in sorted order
+  table.innerHTML = '';
+  pairs.forEach(pair => {
+    table.appendChild(pair.row);
+    table.appendChild(pair.detailRow);
+  });
+}
+</script>
 {% endblock %}
