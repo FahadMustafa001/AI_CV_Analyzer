@@ -36,7 +36,7 @@
       </div>
       <div>
         <div class="text-muted small" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Total Pool</div>
-        <h4 class="text-white fw-bold mb-0 mt-0">{{ rows|length }}</h4>
+        <h4 class="text-white fw-bold mb-0 mt-0" id="stat-total-pool">{{ rows|length }}</h4>
       </div>
     </div>
   </div>
@@ -54,7 +54,7 @@
   <div class="col-6 col-md-3">
     <div class="p-3 box-highlight rounded h-100 d-flex align-items-center gap-3" style="border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease;">
       <div class="feature-icon-wrapper mb-0 border-info" style="width: 42px; height: 42px; border-radius: 8px; background: rgba(6, 182, 212, 0.15);">
-        <i class="bi bi-shield-check-fill text-info" style="font-size: 1.1rem;"></i>
+        <i class="bi bi-shield-fill-check text-info" style="font-size: 1.1rem;"></i>
       </div>
       <div>
         <div class="text-muted small" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Strong Fits</div>
@@ -92,10 +92,10 @@
     <!-- Search Suggestion Pills -->
     <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
       <span class="text-muted small" style="font-size: 11px;"><i class="bi bi-lightbulb-fill text-warning me-1"></i> Try searching:</span>
-      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('Find me a Software Engineer with high conscientiousness traits')">Conscientious Software Engineers</span>
-      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('Data Analyst with Python and SQL experience')">Python & SQL Data Analysts</span>
-      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('Flutter Developer with high openness who knows Firebase')">Flutter & Firebase Experts</span>
-      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('HR Manager with recruitment and talent acquisition skills')">HR Recruitment Managers</span>
+      <span class="option-select-pill" onclick="fillSearch('Find me a Software Engineer with high conscientiousness traits')">Conscientious Software Engineers</span>
+      <span class="option-select-pill" onclick="fillSearch('Data Analyst with Python and SQL experience')">Python & SQL Data Analysts</span>
+      <span class="option-select-pill" onclick="fillSearch('Flutter Developer with high openness who knows Firebase')">Flutter & Firebase Experts</span>
+      <span class="option-select-pill" onclick="fillSearch('HR Manager with recruitment and talent acquisition skills')">HR Recruitment Managers</span>
     </div>
   </form>
 </div>
@@ -151,16 +151,16 @@
       <thead>
         <tr>
           <th class="text-center" style="width: 70px;">Compare</th>
-          <th class="ps-4">Candidate & Role</th>
+          <th class="ps-4 sortable-header" onclick="sortByColumn('name')">Candidate & Role <span class="sort-indicator" id="sort-name">⇅</span></th>
           {% if query %}
-            <th class="text-center" style="width: 180px">Search Relevance</th>
+            <th class="text-center sortable-header" style="width: 180px" onclick="sortByColumn('relevance')">Search Relevance <span class="sort-indicator" id="sort-relevance">⇅</span></th>
           {% endif %}
-          <th class="text-center" style="width: 150px">Job Match</th>
-          <th class="text-center" style="width: 130px">Experience</th>
-          <th class="text-center" style="width: 150px">Personality Fit</th>
+          <th class="text-center sortable-header" style="width: 150px" onclick="sortByColumn('match')">Job Match <span class="sort-indicator" id="sort-match">⇅</span></th>
+          <th class="text-center sortable-header" style="width: 130px" onclick="sortByColumn('exp')">Experience <span class="sort-indicator" id="sort-exp">⇅</span></th>
+          <th class="text-center sortable-header" style="width: 150px" onclick="sortByColumn('personality')">Personality Fit <span class="sort-indicator" id="sort-personality">⇅</span></th>
           <th class="ps-3">Extracted Profile Details</th>
-          <th class="text-center" style="width: 160px">Final Audit Score</th>
-          <th class="text-center" style="width: 280px">Actions</th>
+          <th class="text-center sortable-header" style="width: 160px" onclick="sortByColumn('score')">Final Audit Score <span class="sort-indicator" id="sort-score">⇅</span></th>
+          <th class="text-center" style="width: 280px;">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -173,6 +173,8 @@
                    data-score="{{ row.final_score }}" 
                    data-exp="{{ row.exp_years }}" 
                    data-match="{{ row.job_score }}" 
+                   data-relevance="{{ row.relevance_score|default(0) }}"
+                   data-personality="{{ row.personality_score|default(0) }}"
                    data-traits='{{ (row.personality_traits|default({}))|tojson }}' 
                    data-gaps='{{ (row.ai_report.critical_gaps|default([]))|tojson }}' 
                    onclick="toggleCompareCandidate(this)">
@@ -205,24 +207,37 @@
           {% if query %}
             <td class="text-center">
               {% set relevance_badge_class = 'rating-badge-success' if row.relevance_score >= 70 else ('rating-badge-warning' if row.relevance_score >= 45 else 'rating-badge-danger') %}
-              <div class="rating-badge {{ relevance_badge_class }} mx-auto">
+              <div class="rating-badge {{ relevance_badge_class }} mx-auto mb-1">
                 {{ row.relevance_score }}%
+              </div>
+              <div class="progress mx-auto" style="height: 6px; width: 60px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+                {% set bar_color = 'bg-success' if row.relevance_score >= 70 else ('bg-warning' if row.relevance_score >= 45 else 'bg-danger') %}
+                <div class="progress-bar-neon {{ bar_color }}" style="--w: {{ row.relevance_score }}%; width: var(--w); height: 100%;"></div>
               </div>
             </td>
           {% endif %}
           <td class="text-center">
             {% set match_badge_class = 'rating-badge-success' if row.job_score >= 70 else ('rating-badge-warning' if row.job_score >= 45 else 'rating-badge-danger') %}
-            <div class="rating-badge {{ match_badge_class }} mx-auto">
+            <div class="rating-badge {{ match_badge_class }} mx-auto mb-1">
               {{ row.job_score }}%
+            </div>
+            <div class="progress mx-auto" style="height: 6px; width: 60px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+              {% set bar_color = 'bg-success' if row.job_score >= 70 else ('bg-warning' if row.job_score >= 45 else 'bg-danger') %}
+              <div class="progress-bar-neon {{ bar_color }}" style="--w: {{ row.job_score }}%; width: var(--w); height: 100%;"></div>
             </div>
           </td>
           <td class="text-center">
-            <span class="badge bg-secondary px-2 py-1 fs-6">{{ row.exp_years }} yrs</span>
+            <span class="badge bg-secondary px-2 py-1 fs-6 mb-1">{{ row.exp_years }} yrs</span>
+            <div class="text-muted" style="font-size: 10px;">Experience</div>
           </td>
           <td class="text-center">
             {% set pers_badge_class = 'rating-badge-success' if row.personality_score >= 70 else ('rating-badge-warning' if row.personality_score >= 45 else 'rating-badge-danger') %}
-            <div class="rating-badge {{ pers_badge_class }} mx-auto">
+            <div class="rating-badge {{ pers_badge_class }} mx-auto mb-1">
               {{ row.personality_score }}%
+            </div>
+            <div class="progress mx-auto" style="height: 6px; width: 60px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+              {% set bar_color = 'bg-success' if row.personality_score >= 70 else ('bg-warning' if row.personality_score >= 45 else 'bg-danger') %}
+              <div class="progress-bar-neon {{ bar_color }}" style="--w: {{ row.personality_score }}%; width: var(--w); height: 100%;"></div>
             </div>
           </td>
           <td class="ps-3">
@@ -263,8 +278,12 @@
           </td>
           <td class="text-center">
             {% set score_badge_class = 'rating-badge-success' if row.final_score >= 50 else 'rating-badge-warning' %}
-            <div class="rating-badge {{ score_badge_class }} fs-5 py-2 mx-auto">
+            <div class="rating-badge {{ score_badge_class }} fs-5 py-2 mx-auto mb-1">
               {{ row.final_score }}%
+            </div>
+            <div class="progress mx-auto" style="height: 6px; width: 70px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+              {% set bar_color = 'bg-success' if row.final_score >= 50 else 'bg-warning' %}
+              <div class="progress-bar-neon {{ bar_color }}" style="--w: {{ row.final_score }}%; width: var(--w); height: 100%;"></div>
             </div>
           </td>
           <td class="text-center">
@@ -273,6 +292,7 @@
                 <i class="bi bi-eye-fill me-1"></i> Profile Audit
               </button>
               <a href="/test/{{ row.name }}" class="btn btn-sm btn-outline-primary px-3 rounded-pill"><i class="bi bi-clipboard2-pulse me-1"></i> Psych Test</a>
+              <button class="btn btn-sm btn-outline-danger px-2.5 rounded-pill" onclick="deleteCandidate(event, '{{ row.name }}', this)"><i class="bi bi-trash3-fill"></i></button>
             </div>
           </td>
         </tr>
@@ -283,7 +303,7 @@
               
               <div class="col-md-6 col-lg-7">
                 <div class="box-highlight rounded mb-3">
-                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-link-45deg text-indigo-400 me-2"></i> Professional Footprints</h5>
+                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-link-45deg icon-glow-indigo me-2"></i> Professional Footprints</h5>
                   {% if row.links %}
                     <div class="d-flex flex-wrap gap-2 mt-2">
                       {% for link in row.links %}
@@ -296,7 +316,7 @@
                 </div>
 
                 <div class="box-highlight rounded mb-3">
-                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-briefcase-fill text-indigo-400 me-2"></i> Work History & Timeline</h5>
+                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-briefcase-fill icon-glow-indigo me-2"></i> Work History & Timeline</h5>
                   <div class="mt-3">
                     {% if row.experience %}
                       {% for exp in row.experience %}
@@ -320,19 +340,19 @@
                 </div>
 
                 <div class="box-highlight rounded mb-3">
-                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-rocket-takeoff-fill text-indigo-400 me-2"></i> Showcased Engineering Projects</h5>
+                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-rocket-takeoff-fill icon-glow-indigo me-2"></i> Showcased Engineering Projects</h5>
                   <div class="mt-3">
                     {% if row.projects %}
                       <div class="row g-3">
                         {% for proj in row.projects %}
-                          <div class="col-12 border border-white-10 rounded p-3" style="background: rgba(15,23,42,0.3);">
-                            <div class="fw-bold text-white mb-2">{{ proj.title }}</div>
+                          <div class="col-12 project-card">
+                            <div class="project-title mb-2">{{ proj.title }}</div>
                             <div class="mb-2">
                               {% for tech in proj.tech_stack %}
-                                <span class="badge bg-secondary text-white-50 rounded-pill px-2" style="font-size: 10px;">{{ tech }}</span>
+                                <span class="badge badge-soft me-1 mb-1">{{ tech }}</span>
                               {% endfor %}
                             </div>
-                            <p class="text-muted small mb-0">{{ proj.description }}</p>
+                            <p class="project-desc mb-0">{{ proj.description }}</p>
                           </div>
                         {% endfor %}
                       </div>
@@ -343,7 +363,7 @@
                 </div>
 
                 <div class="box-highlight rounded">
-                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-mortarboard-fill text-indigo-400 me-2"></i> Academic Timeline</h5>
+                  <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold"><i class="bi bi-mortarboard-fill icon-glow-indigo me-2"></i> Academic Timeline</h5>
                   <div class="mt-3">
                     {% if row.education %}
                       <div class="table-responsive">
@@ -351,7 +371,7 @@
                           <tbody>
                             {% for edu in row.education %}
                               <tr>
-                                <td class="fw-bold text-white" style="width: 40%;"><i class="bi bi-mortarboard-fill text-indigo-300 me-1"></i> {{ edu.degree }}</td>
+                                <td class="fw-bold text-white" style="width: 40%;"><i class="bi bi-mortarboard-fill icon-glow-indigo me-1"></i> {{ edu.degree }}</td>
                                 <td class="text-muted"><i class="bi bi-building text-muted me-1"></i> {{ edu.institution }}</td>
                                 <td class="text-end text-success fw-semibold"><i class="bi bi-graph-up-arrow text-success me-1"></i> {{ edu.gpa|default('N/A') }}</td>
                               </tr>
@@ -370,18 +390,18 @@
                 <div class="card card-app border-0 h-100 audit-card">
                   <div class="card-body p-4">
                     <h5 class="card-title text-white fw-bold mb-4 d-flex align-items-center gap-2">
-                      <i class="bi bi-cpu-fill text-indigo-400 me-2" style="text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);"></i> Cognitive AI Audit Report
+                      <i class="bi bi-cpu-fill icon-glow-indigo me-2"></i> Cognitive AI Audit Report
                     </h5>
                     
                     <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
-                      <small class="text-indigo-300 fw-bold d-block mb-1"><i class="bi bi-file-earmark-check text-indigo-300 me-1"></i> Layout & Parser Feedback</small>
+                      <small class="text-indigo-300 fw-bold d-block mb-1"><i class="bi bi-file-earmark-check icon-glow-info me-1"></i> Layout & Parser Feedback</small>
                       <span class="text-white small">{{ row.ai_report.formatting_feedback }}</span>
                     </div>
 
                     {% if row.personality_traits %}
                     {% set target = benchmarks.get(row.job_role, {"openness": 50, "conscientiousness": 50, "extraversion": 50, "agreeableness": 50, "neuroticism": 50}) %}
                     <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
-                      <small class="text-warning fw-bold d-block mb-2"><i class="bi bi-person-badge-fill text-warning me-1"></i> Projected Personality Alignment ({{ row.personality_score }}% Fit)</small>
+                      <small class="text-warning fw-bold d-block mb-2"><i class="bi bi-person-badge-fill icon-glow-warning me-1"></i> Projected Personality Alignment ({{ row.personality_score }}% Fit)</small>
                       <div class="row g-2">
                         {% for trait, val in row.personality_traits.items() %}
                         <div class="col-12 mb-2">
@@ -406,7 +426,7 @@
 
                     {% if row.ai_report.critical_gaps %}
                     <div class="mb-4">
-                      <small class="text-danger fw-bold d-block mb-2"><i class="bi bi-exclamation-triangle-fill text-danger me-1"></i> Critical Missing Job Gaps</small>
+                      <small class="text-danger fw-bold d-block mb-2"><i class="bi bi-exclamation-triangle-fill icon-glow-danger me-1"></i> Critical Missing Job Gaps</small>
                       <div class="d-flex flex-wrap gap-2">
                         {% for gap in row.ai_report.critical_gaps %}
                           <span class="badge badge-danger">{{ gap }}</span>
@@ -417,7 +437,7 @@
 
                     {% if row.ai_report.bullet_points_improvement %}
                     <div class="mb-4">
-                      <small class="text-warning fw-bold d-block mb-2"><i class="bi bi-pencil-square text-warning me-1"></i> Resume Content Optimizations</small>
+                      <small class="text-warning fw-bold d-block mb-2"><i class="bi bi-pencil-square icon-glow-warning me-1"></i> Resume Content Optimizations</small>
                       <ul class="text-muted small ps-3 mb-0">
                         {% for imp in row.ai_report.bullet_points_improvement %}
                           <li class="mb-2">{{ imp }}</li>
@@ -428,7 +448,7 @@
 
                     {% if row.ai_report.interview_questions %}
                     <div class="mb-4">
-                      <small class="text-success fw-bold d-block mb-2"><i class="bi bi-chat-right-quote-fill text-success me-1"></i> Customized Technical Interview Paths</small>
+                      <small class="text-success fw-bold d-block mb-2"><i class="bi bi-chat-right-quote-fill icon-glow-success me-1"></i> Customized Technical Interview Paths</small>
                       <ol class="text-muted small ps-3 mb-0" style="font-style: italic;">
                         {% for question in row.ai_report.interview_questions %}
                           <li class="mb-3 text-white-50">"{{ question }}"</li>
@@ -440,7 +460,7 @@
                     <hr class="border-white-10 my-4">
 
                     <div class="p-3 rounded text-center" style="background: rgba(99, 102, 241, 0.08); border: 1px dashed rgba(99, 102, 241, 0.3);">
-                      <h6 class="text-white fw-bold mb-2"><i class="bi bi-stars text-info me-1"></i> ATS Resume Optimizer (100% Fit)</h6>
+                      <h6 class="text-white fw-bold mb-2"><i class="bi bi-stars icon-glow-info me-1"></i> ATS Resume Optimizer (100% Fit)</h6>
                       <p class="text-muted small mb-3">Our AI will automatically rewrite this candidate's CV to address formatting issues, fill missing critical skill gaps, and optimize achievements using Google's X-Y-Z formula.</p>
                       <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="optimizeResume('{{ row.name }}')">
                         <i class="bi bi-rocket-takeoff-fill me-1"></i> Generate Perfected Resume
@@ -608,6 +628,7 @@
         <div class="d-flex gap-2 flex-wrap">
           <button type="button" class="btn btn-outline-primary rounded-pill px-3" onclick="copyOptimizedText()">📋 Copy Text</button>
           <button type="button" class="btn btn-outline-info rounded-pill px-3" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" onclick="printOptimizedResume()">🖨️ Print / PDF</button>
+          <button type="button" class="btn btn-outline-success rounded-pill px-3" style="color: #4ade80; border-color: rgba(74, 222, 128, 0.4);" onclick="downloadOptimizedHtml()">📥 Download HTML</button>
           <button type="button" class="btn btn-success rounded-pill px-3" id="btn-download-optimized" onclick="downloadOptimizedText()">📥 Download Markdown</button>
         </div>
       </div>
@@ -622,6 +643,87 @@ function fillSearch(queryText) {
     input.value = queryText;
     input.form.submit();
   }
+}
+
+// Column click sorting variables and function
+let currentSortColumn = '';
+let currentSortDirection = 'desc';
+
+function sortByColumn(column) {
+  const table = document.querySelector('.table tbody');
+  if (!table) return;
+  const rows = Array.from(table.querySelectorAll('tr:not(.collapse)'));
+  
+  if (currentSortColumn === column) {
+    currentSortDirection = currentSortDirection === 'desc' ? 'asc' : 'desc';
+  } else {
+    currentSortColumn = column;
+    currentSortDirection = 'desc'; // Default descending for scores/experience
+  }
+
+  // Update visual sort indicators in headers
+  const columnsToUpdate = ['name', 'relevance', 'match', 'exp', 'personality', 'score'];
+  columnsToUpdate.forEach(col => {
+    const indicator = document.getElementById(`sort-${col}`);
+    if (indicator) {
+      if (col === column) {
+        indicator.classList.add('active');
+        indicator.textContent = currentSortDirection === 'desc' ? '▼' : '▲';
+      } else {
+        indicator.classList.remove('active');
+        indicator.textContent = '⇅';
+      }
+    }
+  });
+
+  const pairs = [];
+  rows.forEach(row => {
+    const collapseId = row.querySelector('button').getAttribute('data-bs-target');
+    const detailRow = document.querySelector(collapseId);
+    
+    let val;
+    const checkbox = row.querySelector('.compare-checkbox');
+    if (column === 'name') {
+      val = checkbox.getAttribute('data-name').toLowerCase();
+    } else if (column === 'relevance') {
+      val = parseFloat(checkbox.getAttribute('data-relevance') || 0);
+    } else if (column === 'match') {
+      val = parseFloat(checkbox.getAttribute('data-match') || 0);
+    } else if (column === 'exp') {
+      val = parseFloat(checkbox.getAttribute('data-exp') || 0);
+    } else if (column === 'personality') {
+      val = parseFloat(checkbox.getAttribute('data-personality') || 0);
+    } else if (column === 'score') {
+      val = parseFloat(checkbox.getAttribute('data-score') || 0);
+    }
+    
+    pairs.push({ row, detailRow, val });
+  });
+
+  pairs.sort((a, b) => {
+    if (typeof a.val === 'string') {
+      if (currentSortDirection === 'asc') {
+        return a.val.localeCompare(b.val);
+      } else {
+        return b.val.localeCompare(a.val);
+      }
+    } else {
+      if (currentSortDirection === 'asc') {
+        return a.val - b.val;
+      } else {
+        return b.val - a.val;
+      }
+    }
+  });
+
+  // Clear and re-append sorted rows and detail sections
+  table.innerHTML = '';
+  pairs.forEach(pair => {
+    table.appendChild(pair.row);
+    if (pair.detailRow) {
+      table.appendChild(pair.detailRow);
+    }
+  });
 }
 
 // Filter dashboard
@@ -750,8 +852,22 @@ function showComparisonModal() {
 
   // Add metrics rows
   addComparisonRow("Target Job Role", c => `💼 <strong class="text-white">${c.role}</strong>`);
-  addComparisonRow("Final ATS score", c => `<strong class="text-success fs-5">${c.score}%</strong>`);
-  addComparisonRow("Semantic Match score", c => `<span class="text-info fw-semibold">${c.match}%</span>`);
+  addComparisonRow("Final ATS score", c => `
+    <div class="d-flex flex-column align-items-center">
+      <strong class="text-success fs-5 mb-1">${c.score}%</strong>
+      <div class="progress-container w-75" style="height: 6px;">
+        <div class="progress-bar-neon bg-success" style="width: ${c.score}%;"></div>
+      </div>
+    </div>
+  `);
+  addComparisonRow("Semantic Match score", c => `
+    <div class="d-flex flex-column align-items-center">
+      <span class="text-info fw-semibold mb-1">${c.match}%</span>
+      <div class="progress-container w-75" style="height: 6px;">
+        <div class="progress-bar-neon bg-info" style="width: ${c.match}%;"></div>
+      </div>
+    </div>
+  `);
   addComparisonRow("Work Experience", c => `<span class="badge bg-secondary">${c.exp} Years</span>`);
   addComparisonRow("Critical Skill Gaps", c => {
     if (!c.gaps || c.gaps.length === 0) return '<span class="text-success">No gaps detected!</span>';
@@ -760,14 +876,22 @@ function showComparisonModal() {
 
   // Traits rows
   const traitsList = ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"];
+  const traitColors = {
+    openness: "bg-info",
+    conscientiousness: "bg-success",
+    extraversion: "bg-primary",
+    agreeableness: "bg-warning",
+    neuroticism: "bg-danger"
+  };
   traitsList.forEach(t => {
     addComparisonRow(`Personality: ${t.charAt(0).toUpperCase() + t.slice(1)}`, c => {
       const val = c.traits[t] !== undefined ? c.traits[t] : 50;
+      const colorClass = traitColors[t] || "bg-warning";
       return `
         <div class="d-flex flex-column align-items-center">
           <span class="text-white mb-1 small fw-semibold">${val}%</span>
           <div class="progress-container w-75" style="height: 5px;">
-            <div class="progress-bar-neon bg-warning" style="width: ${val}%;"></div>
+            <div class="progress-bar-neon ${colorClass}" style="width: ${val}%;"></div>
           </div>
         </div>
       `;
@@ -950,6 +1074,81 @@ function downloadOptimizedText() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+function downloadOptimizedHtml() {
+  if (!currentOptimizedText) return;
+  const htmlContent = parseMarkdownToHtml(currentOptimizedText);
+  const doc = `<!DOCTYPE html>
+<html>
+<head>
+  <title>Optimized Resume - ${currentCandidateName}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    body { font-family: 'Inter', sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #1e293b; line-height: 1.6; }
+    h2 { text-align: center; font-size: 26px; margin-bottom: 5px; color: #0f172a; text-transform: uppercase; }
+    h3 { text-align: center; font-size: 14px; margin-top: 0; font-weight: 500; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 20px; }
+    h4 { font-size: 16px; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; margin-top: 25px; margin-bottom: 12px; color: #0f172a; text-transform: uppercase; }
+    p, li { font-size: 13px; color: #334155; }
+    ul { padding-left: 20px; margin-bottom: 15px; }
+    li { margin-bottom: 6px; }
+    strong { color: #0f172a; }
+  </style>
+</head>
+<body>
+  ${htmlContent}
+</body>
+</html>`;
+  const blob = new Blob([doc], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${currentCandidateName.replace(/\s+/g, '_')}_Perfect_CV.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function deleteCandidate(event, name, button) {
+  event.stopPropagation();
+  if (!confirm(`Are you sure you want to permanently delete candidate "${name}" from the database?`)) {
+    return;
+  }
+  
+  const mainRow = button.closest('tr');
+  const detailRow = mainRow.nextElementSibling;
+  
+  fetch(`/delete_candidate/${encodeURIComponent(name)}`, {
+    method: 'POST'
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      mainRow.classList.add('fade-out-row');
+      if (detailRow && detailRow.classList.contains('collapse')) {
+        detailRow.classList.add('fade-out-row');
+      }
+      
+      setTimeout(() => {
+        mainRow.remove();
+        if (detailRow && detailRow.classList.contains('collapse')) {
+          detailRow.remove();
+        }
+        
+        const totalSpan = document.getElementById('stat-total-pool');
+        if (totalSpan) {
+          let count = parseInt(totalSpan.textContent) || 0;
+          totalSpan.textContent = Math.max(0, count - 1);
+        }
+      }, 400);
+    } else {
+      alert("Failed to delete candidate: " + (data.error || "Unknown error"));
+    }
+  })
+  .catch(err => {
+    alert("Network error: " + err);
+  });
 }
 
 function printOptimizedResume() {
