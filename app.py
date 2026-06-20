@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()  # Load .env file before anything else
+
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, send_file, jsonify
 from werkzeug.utils import secure_filename
 import os
@@ -33,7 +36,8 @@ from cv_analyzer import (
     estimate_personality_from_cv, score_personality_test,
     personality_fit_score, compute_final_score, get_ai_deep_analysis,
     extract_targets_from_custom_jd, semantic_search_candidates,
-    generate_optimized_resume
+    generate_optimized_resume, generate_cover_letter, compare_candidates,
+    auto_shortlist, find_team_complement
 )
 from concurrent.futures import ThreadPoolExecutor
 
@@ -149,7 +153,7 @@ def init_db():
     add_col("projects", "TEXT")
     add_col("optimized_cv", "TEXT")
     add_col("optimized_cv_params", "TEXT")
-    add_col("created_at", "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    add_col("created_at", "TEXT DEFAULT ''")
     # v2.0 Agent fields
     add_col("executive_summary", "TEXT")
     add_col("unified_verdict", "TEXT")
@@ -204,7 +208,7 @@ def process_single_cv(file_path, filename, job_role, job_desc, exp_target_map, p
         est_traits = estimate_personality_from_cv(raw_text)
         personality_score_val = personality_fit_score(job_role, est_traits, personality_target_map)
 
-        # 3. Fetch Deep Semantic AI Audit Report (8 agents + supervisor)
+        # 3. Fetch Deep Semantic AI Audit Report (11 agents + supervisor)
         ai_report = get_ai_deep_analysis(raw_text, job_role)
 
         # Extract new agent scores for weighted final score
@@ -1064,6 +1068,380 @@ def api_reanalyze(name: str):
         })
     except Exception as e:
         logger.error(f"Reanalyze API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/cover_letter/<name>', methods=['POST'])
+def api_cover_letter(name: str):
+    """Generates a tailored cover letter for the candidate."""
+    try:
+        data = request.get_json(silent=True) or {}
+        company_name = data.get('company', 'the company')
+        tone = data.get('tone', 'professional')
+        
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("SELECT raw_text, job_role FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+        row = cur.fetchone()
+        conn.close()
+        
+        if not row:
+            return jsonify({"error": "Candidate not found"}), 404
+        
+        raw_text = row['raw_text']
+        job_role = row['job_role']
+        
+        if not raw_text or not raw_text.strip():
+            return jsonify({"error": "No CV text available"}), 400
+        
+        cover_letter = generate_cover_letter(raw_text, job_role, company_name, tone)
+        return jsonify({"success": True, "cover_letter": cover_letter, "tone": tone, "company": company_name})
+    except Exception as e:
+        logger.error(f"Cover letter API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/compare', methods=['POST'])
+def api_compare():
+    """Head-to-head AI comparison of two candidates."""
+    try:
+        data = request.get_json(silent=True) or {}
+        name_a = data.get('candidate_a')
+        name_b = data.get('candidate_b')
+        
+        if not name_a or not name_b:
+            return jsonify({"error": "Both candidate_a and candidate_b names required"}), 400
+        
+        conn = sqlite3.connect("candidates.db")
+        conn.row_factory = sqlite3.Row
+        cur = conn.cursor()
+        
+        cur.execute(CANDIDATE_SELECT_COLS + " WHERE name = ? ORDER BY id DESC LIMIT 1", (name_a,))
+        row_a = cur.fetchone()
+        cur.execute(CANDIDATE_SELECT_COLS + " WHERE name = ? ORDER BY id DESC LIMIT 1", (name_b,))
+        row_b = cur.fetchone()
+        conn.close()
+        
+        if not row_a or not row_b:
+            missing = name_a if not row_a else name_b
+            return jsonify({"error": f"Candidate '{missing}' not found"}), 404
+        
+        cand_a = deserialize_candidate(row_a)
+        cand_b = deserialize_candidate(row_b)
+        job_role = cand_a.get('job_role', cand_b.get('job_role', 'General'))
+        
+        comparison = compare_candidates(cand_a, cand_b, job_role)
+        return jsonify({"success": True, "comparison": comparison})
+    except Exception as e:
+        logger.error(f"Compare API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/analytics', methods=['GET'])
+def api_analytics():
+    """Comprehensive analytics dashboard for the entire talent pool."""
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        
+        # Total counts
+        cur.execute("SELECT COUNT(*) as total FROM candidates")
+        total = cur.fetchone()['total']
+        
+        # Score distribution (buckets)
+        buckets = {'0-20': 0, '21-40': 0, '41-60': 0, '61-80': 0, '81-100': 0}
+        cur.execute("SELECT final_score FROM candidates")
+        scores = []
+        for row in cur.fetchall():
+            s = float(row['final_score']) if row['final_score'] else 0
+            scores.append(s)
+            if s <= 20: buckets['0-20'] += 1
+            elif s <= 40: buckets['21-40'] += 1
+            elif s <= 60: buckets['41-60'] += 1
+            elif s <= 80: buckets['61-80'] += 1
+            else: buckets['81-100'] += 1
+        
+        avg_score = round(sum(scores) / len(scores), 1) if scores else 0
+        max_score = round(max(scores), 1) if scores else 0
+        min_score = round(min(scores), 1) if scores else 0
+        
+        # Top 10 candidates
+        cur.execute("SELECT name, final_score, job_role, exp_years FROM candidates ORDER BY final_score DESC LIMIT 10")
+        top_10 = [dict(row) for row in cur.fetchall()]
+        
+        # Job role breakdown
+        cur.execute("SELECT job_role, COUNT(*) as count, AVG(final_score) as avg_score FROM candidates GROUP BY job_role ORDER BY count DESC")
+        role_stats = [{"role": row['job_role'], "count": row['count'], "avg_score": round(row['avg_score'], 1) if row['avg_score'] else 0} for row in cur.fetchall()]
+        
+        # Experience distribution
+        cur.execute("SELECT AVG(exp_years) as avg_exp, MAX(exp_years) as max_exp, MIN(exp_years) as min_exp FROM candidates")
+        exp_row = cur.fetchone()
+        
+        # Hiring funnel
+        cur.execute("SELECT COUNT(*) FROM candidates WHERE final_score >= 75")
+        strong_hire = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM candidates WHERE final_score >= 50 AND final_score < 75")
+        interview = cur.fetchone()[0]
+        cur.execute("SELECT COUNT(*) FROM candidates WHERE final_score < 50")
+        reject = cur.fetchone()[0]
+        
+        conn.close()
+        
+        return jsonify({
+            "success": True,
+            "pool_size": total,
+            "score_distribution": buckets,
+            "score_stats": {"avg": avg_score, "max": max_score, "min": min_score, "median": sorted(scores)[len(scores)//2] if scores else 0},
+            "top_10_candidates": top_10,
+            "role_breakdown": role_stats,
+            "experience_stats": {
+                "avg_years": round(float(exp_row['avg_exp'] or 0), 1),
+                "max_years": round(float(exp_row['max_exp'] or 0), 1),
+                "min_years": round(float(exp_row['min_exp'] or 0), 1),
+            },
+            "hiring_funnel": {
+                "strong_hire_75plus": strong_hire,
+                "interview_50_74": interview,
+                "below_threshold_sub50": reject,
+                "hire_rate_pct": round(strong_hire / total * 100, 1) if total > 0 else 0,
+            },
+            "talent_pool_health": {
+                "quality_index": round(avg_score * (strong_hire / max(total, 1)), 1),
+                "diversity_score": len(role_stats),
+                "pipeline_depth": total,
+            }
+        })
+    except Exception as e:
+        logger.error(f"Analytics API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/email_template/<name>', methods=['POST'])
+def api_email_template(name: str):
+    """Generates a personalized recruiter email template for a candidate."""
+    try:
+        data = request.get_json(silent=True) or {}
+        email_type = data.get('type', 'outreach')  # outreach, interview_invite, rejection, offer
+        company_name = data.get('company', 'Our Company')
+        sender_name = data.get('sender', 'Hiring Team')
+        
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("SELECT name, final_score, job_role, job_score, ai_report FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+        row = cur.fetchone()
+        conn.close()
+        
+        if not row:
+            return jsonify({"error": "Candidate not found"}), 404
+        
+        cand_name = row['name']
+        score = float(row['final_score']) if row['final_score'] else 0
+        job_role = row['job_role'] or 'Professional'
+        
+        ai_report = {}
+        if row['ai_report']:
+            try:
+                ai_report = json.loads(row['ai_report'])
+            except Exception:
+                pass
+        
+        # Clean name
+        display_name = cand_name
+        for ext in ['.pdf', '.docx', '.PDF', '.DOCX']:
+            if display_name.lower().endswith(ext):
+                display_name = display_name[:-len(ext)]
+        display_name = display_name.replace('_', ' ').replace('-', ' ').strip().title()
+        
+        templates = {
+            'outreach': {
+                'subject': f"Exciting {job_role} Opportunity at {company_name}",
+                'body': f"""Dear {display_name},
+
+I came across your profile and was impressed by your background in {job_role}. Your experience{f" of {ai_report.get('seniority_level', 'professional')}-level work" if ai_report.get('seniority_level') else ''} aligns well with what we're looking for at {company_name}.
+
+{f"Our AI assessment identified key strengths including: {', '.join(ai_report.get('top_strengths', ['strong technical foundation'])[:2])}." if ai_report.get('top_strengths') else 'Your qualifications stand out in our talent pool.'}
+
+We'd love to explore how your skills could contribute to our team. Would you be available for a brief introductory call this week?
+
+Best regards,
+{sender_name}
+{company_name}"""
+            },
+            'interview_invite': {
+                'subject': f"Interview Invitation: {job_role} Position at {company_name}",
+                'body': f"""Dear {display_name},
+
+Thank you for your application for the {job_role} position at {company_name}. After reviewing your profile, we're pleased to invite you for an interview.
+
+{f"Based on our assessment, we'd like to discuss your experience with {', '.join(ai_report.get('skills_found', ['your technical background'])[:3])}." if ai_report.get('skills_found') else 'We were impressed by your qualifications and would like to learn more.'}
+
+{f"We have prepared some targeted interview questions and a practical assessment to help us understand your fit for the role." if ai_report.get('custom_coding_test') else ''}
+
+Please let us know your availability for a {f"{'60' if ai_report.get('seniority_level', '').lower() in ['senior', 'lead', 'staff'] else '45'}-minute" } interview session.
+
+Looking forward to meeting you,
+{sender_name}
+{company_name}"""
+            },
+            'rejection': {
+                'subject': f"Update on Your Application: {job_role} at {company_name}",
+                'body': f"""Dear {display_name},
+
+Thank you for your interest in the {job_role} position at {company_name} and for taking the time to apply.
+
+After careful review, we have decided to move forward with other candidates whose experience more closely aligns with our current requirements.
+
+{f"We would encourage you to strengthen your profile in areas like {', '.join(ai_report.get('critical_gaps', ['industry-specific experience'])[:2])} to strengthen future applications." if ai_report.get('critical_gaps') else 'We encourage you to continue developing your skills.'}
+
+We will keep your profile on file and reach out if a suitable opportunity arises. We wish you the best in your job search.
+
+Best regards,
+{sender_name}
+{company_name}"""
+            },
+            'offer': {
+                'subject': f"Job Offer: {job_role} at {company_name} 🎉",
+                'body': f"""Dear {display_name},
+
+We are delighted to extend a formal offer for the {job_role} position at {company_name}!
+
+{f"Your {ai_report.get('seniority_level', 'professional')}-level expertise" if ai_report.get('seniority_level') else 'Your experience'} and {f"market competitiveness rating of '{ai_report.get('market_competitiveness', 'strong')}'" if ai_report.get('market_competitiveness') else 'strong qualifications'} made you the standout candidate.
+
+{f"Our analysis ranked you in the top {100 - ai_report.get('market_percentile', 50)}% of candidates for this role." if ai_report.get('market_percentile') else ''}
+
+Please find the formal offer details attached. We'd appreciate your response within 5 business days.
+
+Welcome to the team!
+{sender_name}
+{company_name}"""
+            }
+        }
+        
+        template = templates.get(email_type, templates['outreach'])
+        return jsonify({
+            "success": True,
+            "email_type": email_type,
+            "subject": template['subject'],
+            "body": template['body'],
+            "candidate": display_name,
+            "score": score,
+        })
+    except Exception as e:
+        logger.error(f"Email template API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/shortlist', methods=['POST'])
+def api_shortlist():
+    """AI-powered automatic shortlisting of top candidates."""
+    try:
+        data = request.get_json(silent=True) or {}
+        job_role = data.get('job_role', 'Software Engineer')
+        top_n = min(int(data.get('top_n', 5)), 20)
+        
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("SELECT name, final_score, exp_years, soft_skills, job_role FROM candidates WHERE job_role = ? ORDER BY final_score DESC", (job_role,))
+        rows = cur.fetchall()
+        conn.close()
+        
+        if not rows:
+            return jsonify({"error": f"No candidates found for role: {job_role}"}), 404
+        
+        candidates = [dict(row) for row in rows]
+        result = auto_shortlist(candidates, job_role, top_n)
+        return jsonify({"success": True, "job_role": job_role, "total_pool": len(candidates), **result})
+    except Exception as e:
+        logger.error(f"Shortlist API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/team_builder', methods=['POST'])
+def api_team_builder():
+    """Finds candidates that best complement an existing team."""
+    try:
+        data = request.get_json(silent=True) or {}
+        existing_skills = data.get('existing_team_skills', [])
+        job_role = data.get('job_role', 'Software Engineer')
+        team_size = min(int(data.get('team_size', 3)), 10)
+        
+        if not existing_skills:
+            return jsonify({"error": "existing_team_skills list required"}), 400
+        
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("SELECT name, final_score, soft_skills, ai_report, job_role FROM candidates WHERE job_role = ? ORDER BY final_score DESC LIMIT 20", (job_role,))
+        rows = cur.fetchall()
+        conn.close()
+        
+        candidates = []
+        for row in rows:
+            c = dict(row)
+            if c.get('ai_report'):
+                try:
+                    c['ai_report'] = json.loads(c['ai_report'])
+                except Exception:
+                    c['ai_report'] = {}
+            candidates.append(c)
+        
+        result = find_team_complement(existing_skills, candidates, job_role, team_size)
+        return jsonify({"success": True, **result})
+    except Exception as e:
+        logger.error(f"Team builder API error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/skill_heatmap', methods=['GET'])
+def api_skill_heatmap():
+    """Generates a skill frequency heatmap across the entire talent pool."""
+    try:
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute("SELECT ai_report FROM candidates WHERE ai_report IS NOT NULL")
+        rows = cur.fetchall()
+        conn.close()
+        
+        skill_counts = {}
+        gap_counts = {}
+        total = 0
+        
+        for row in rows:
+            try:
+                report = json.loads(row['ai_report'])
+                total += 1
+                # Count skills found
+                cat_skills = report.get('categorized_skills', {})
+                if isinstance(cat_skills, dict):
+                    for category, skills in cat_skills.items():
+                        if isinstance(skills, list):
+                            for skill in skills:
+                                s = str(skill).strip().lower()
+                                if s and len(s) > 1:
+                                    skill_counts[s] = skill_counts.get(s, 0) + 1
+                # Count gaps
+                gaps = report.get('critical_gaps', [])
+                if isinstance(gaps, list):
+                    for gap in gaps:
+                        g = str(gap).strip().lower()
+                        if g and len(g) > 1:
+                            gap_counts[g] = gap_counts.get(g, 0) + 1
+            except Exception:
+                continue
+        
+        # Sort by frequency
+        top_skills = sorted(skill_counts.items(), key=lambda x: x[1], reverse=True)[:30]
+        top_gaps = sorted(gap_counts.items(), key=lambda x: x[1], reverse=True)[:15]
+        
+        return jsonify({
+            "success": True,
+            "total_analyzed": total,
+            "top_skills": [{"skill": s, "count": c, "pct": round(c/max(total,1)*100, 1)} for s, c in top_skills],
+            "top_gaps": [{"gap": g, "count": c, "pct": round(c/max(total,1)*100, 1)} for g, c in top_gaps],
+            "unique_skills_found": len(skill_counts),
+            "unique_gaps_found": len(gap_counts),
+        })
+    except Exception as e:
+        logger.error(f"Skill heatmap API error: {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 

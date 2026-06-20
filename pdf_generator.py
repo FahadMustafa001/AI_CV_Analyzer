@@ -642,7 +642,331 @@ def generate_candidate_pdf(candidate) -> io.BytesIO:
                 ('RIGHTPADDING', (0,0), (-1,-1), 12),
             ]))
             story.append(KeepTogether([rubric_table]))
+
+    # --- 9. EXECUTIVE SUMMARY & VERDICT (v2.1) ---
+    exec_summary = ai_report.get('executive_summary', '')
+    unified_verdict = ai_report.get('unified_verdict', '')
+    candidate_tier = ai_report.get('candidate_tier', '')
+    analysis_confidence = ai_report.get('analysis_confidence', 0)
+    
+    if exec_summary or unified_verdict:
+        story.append(PageBreak())
+        story.append(Paragraph("Executive Summary &amp; Unified Verdict", h1_style))
+        
+        # Verdict badge color
+        verdict_colors = {
+            'Strong Hire': '#10b981', 'Hire': '#22c55e', 'Lean Hire': '#84cc16',
+            'Interview': '#f59e0b', 'Lean Reject': '#f97316', 'Reject': '#ef4444'
+        }
+        v_color = verdict_colors.get(unified_verdict, '#6366f1')
+        
+        verdict_data = [
+            [
+                Paragraph(f"<b>Unified AI Verdict:</b> <font color='{v_color}'><b>{clean_text_for_pdf(unified_verdict)}</b></font>", body_bold),
+                Paragraph(f"<b>Candidate Tier:</b> <font color='#4f46e5'><b>{clean_text_for_pdf(candidate_tier)}</b></font>", body_bold),
+            ],
+            [
+                Paragraph(f"<b>Analysis Confidence:</b> {analysis_confidence}%", body_style),
+                Paragraph(f"<b>Agents Executed:</b> {ai_report.get('agents_executed', 11)}", body_style),
+            ]
+        ]
+        verdict_table = Table(verdict_data, colWidths=[270, 270])
+        verdict_table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#eff6ff")),
+            ('BOX', (0,0), (-1,-1), 2, colors.HexColor(v_color)),
+            ('TOPPADDING', (0,0), (-1,-1), 10),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 10),
+            ('LEFTPADDING', (0,0), (-1,-1), 12),
+            ('RIGHTPADDING', (0,0), (-1,-1), 12),
+            ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor("#dbeafe")),
+        ]))
+        story.append(verdict_table)
+        story.append(Spacer(1, 8))
+        
+        if exec_summary:
+            story.append(Paragraph(f"<b>Executive Summary:</b> {clean_text_for_pdf(exec_summary)}", body_style))
+        
+        # Top strengths
+        top_strengths = ai_report.get('top_strengths', [])
+        if top_strengths and isinstance(top_strengths, list):
+            story.append(Paragraph("<b>Top Strengths:</b>", body_bold))
+            for s in top_strengths[:3]:
+                story.append(Paragraph(f"<font color='#10b981'>✓</font> {clean_text_for_pdf(s)}", bullet_style))
+        
+        # Top concerns
+        top_concerns = ai_report.get('top_concerns', [])
+        if top_concerns and isinstance(top_concerns, list):
+            story.append(Paragraph("<b>Top Concerns:</b>", body_bold))
+            for c in top_concerns[:3]:
+                story.append(Paragraph(f"<font color='#f43f5e'>⚠</font> {clean_text_for_pdf(c)}", bullet_style))
+        
+        # Next steps
+        next_steps = ai_report.get('next_steps', [])
+        if next_steps and isinstance(next_steps, list):
+            story.append(Spacer(1, 6))
+            story.append(Paragraph("<b>Recommended Next Steps:</b>", body_bold))
+            for ns in next_steps[:3]:
+                story.append(Paragraph(f"→ {clean_text_for_pdf(ns)}", bullet_style))
+
+    # --- 10. CAREER TRAJECTORY ANALYSIS (v2.1) ---
+    trajectory_pattern = ai_report.get('trajectory_pattern', '')
+    if trajectory_pattern and trajectory_pattern != 'Unknown':
+        story.append(Spacer(1, 14))
+        story.append(Paragraph("Career Trajectory &amp; Growth Analysis", h1_style))
+        
+        traj_color_map = {
+            'Rising Star': '#10b981', 'Steady Performer': '#3b82f6',
+            'Plateau': '#f59e0b', 'Career Switcher': '#8b5cf6', 'Early Career': '#06b6d4'
+        }
+        t_color = traj_color_map.get(trajectory_pattern, '#6366f1')
+        
+        momentum = ai_report.get('career_momentum_score', 0)
+        risk = ai_report.get('risk_assessment', 'N/A')
+        promo_freq = ai_report.get('promotion_frequency', 'N/A')
+        avg_tenure = ai_report.get('average_tenure_months', 0)
+        
+        traj_data = [
+            [Paragraph("<b>Metric</b>", body_bold), Paragraph("<b>Value</b>", body_bold)],
+            [Paragraph("Trajectory Pattern", body_style), Paragraph(f"<font color='{t_color}'><b>{clean_text_for_pdf(trajectory_pattern)}</b></font>", body_style)],
+            [Paragraph("Career Momentum Score", body_style), Paragraph(f"<font color='{get_score_color(momentum)}'><b>{momentum}%</b></font>", body_style)],
+            [Paragraph("Promotion Frequency", body_style), Paragraph(clean_text_for_pdf(str(promo_freq)), body_style)],
+            [Paragraph("Average Tenure", body_style), Paragraph(f"{avg_tenure} months", body_style)],
+            [Paragraph("Departure Risk", body_style), Paragraph(clean_text_for_pdf(str(risk)), body_style)],
+        ]
+        traj_table = Table(traj_data, colWidths=[200, 340])
+        traj_table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
+            ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
+            ('TOPPADDING', (0,0), (-1,-1), 4),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+            ('LEFTPADDING', (0,0), (-1,-1), 8),
+        ]))
+        story.append(traj_table)
+        
+        # Career gaps
+        career_gaps = ai_report.get('career_gaps', [])
+        if career_gaps and isinstance(career_gaps, list) and career_gaps[0]:
+            story.append(Spacer(1, 6))
+            story.append(Paragraph("<b>Career Gaps Detected:</b>", body_bold))
+            for gap in career_gaps[:3]:
+                story.append(Paragraph(f"<font color='#f59e0b'>⏸</font> {clean_text_for_pdf(str(gap))}", bullet_style))
+        
+        growth = ai_report.get('growth_prediction', '')
+        if growth and growth != 'Insufficient data.':
+            story.append(Spacer(1, 4))
+            story.append(Paragraph(f"<b>Growth Prediction:</b> {clean_text_for_pdf(growth)}", body_style))
+
+    # --- 11. RED FLAG DETECTION REPORT (v2.1) ---
+    red_flags = ai_report.get('red_flags_found', [])
+    overall_risk = ai_report.get('overall_risk_level', '')
+    if overall_risk and overall_risk != 'Unknown':
+        story.append(Spacer(1, 14))
+        story.append(Paragraph("Red Flag Detection Report", h1_style))
+        
+        risk_colors = {'Low': '#10b981', 'Medium': '#f59e0b', 'High': '#f97316', 'Critical': '#ef4444'}
+        r_color = risk_colors.get(overall_risk, '#64748b')
+        
+        risk_box_data = [[
+            Paragraph(f"<b>Overall Risk Level: <font color='{r_color}'>{clean_text_for_pdf(overall_risk)}</font></b> | Total Flags: {ai_report.get('total_flags', 0)}", body_bold)
+        ]]
+        risk_box_bg = '#fff1f2' if overall_risk in ['High', 'Critical'] else '#f0fdf4' if overall_risk == 'Low' else '#fffbeb'
+        risk_box_border = '#fecdd3' if overall_risk in ['High', 'Critical'] else '#bbf7d0' if overall_risk == 'Low' else '#fde68a'
+        
+        risk_box_table = Table(risk_box_data, colWidths=[540])
+        risk_box_table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor(risk_box_bg)),
+            ('BOX', (0,0), (-1,-1), 1.5, colors.HexColor(risk_box_border)),
+            ('TOPPADDING', (0,0), (-1,-1), 8),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 8),
+            ('LEFTPADDING', (0,0), (-1,-1), 12),
+        ]))
+        story.append(risk_box_table)
+        story.append(Spacer(1, 6))
+        
+        if red_flags and isinstance(red_flags, list):
+            for flag in red_flags[:5]:
+                if isinstance(flag, dict):
+                    severity = flag.get('severity', 'Minor')
+                    sev_color = '#ef4444' if severity == 'Critical' else '#f59e0b' if severity == 'Warning' else '#6366f1'
+                    story.append(Paragraph(
+                        f"<font color='{sev_color}'><b>[{clean_text_for_pdf(severity)}]</b></font> "
+                        f"<b>{clean_text_for_pdf(flag.get('category', ''))}</b>: {clean_text_for_pdf(flag.get('description', ''))}",
+                        bullet_style
+                    ))
+        
+        # Positive signals
+        pos_signals = ai_report.get('positive_signals', [])
+        if pos_signals and isinstance(pos_signals, list):
+            story.append(Spacer(1, 6))
+            story.append(Paragraph("<b>Positive Integrity Signals:</b>", body_bold))
+            for ps in pos_signals[:3]:
+                story.append(Paragraph(f"<font color='#10b981'>✓</font> {clean_text_for_pdf(str(ps))}", bullet_style))
+
+    # --- 12. MARKET BENCHMARK (v2.1) ---
+    market_pct = ai_report.get('market_percentile', 0)
+    market_comp = ai_report.get('market_competitiveness', '')
+    if market_comp and market_comp != 'Unknown':
+        story.append(Spacer(1, 14))
+        story.append(Paragraph("Market Competitive Benchmark", h1_style))
+        
+        comp_colors = {
+            'Below Average': '#f43f5e', 'Average': '#f59e0b', 'Above Average': '#22c55e',
+            'Top Tier': '#10b981', 'Elite': '#4f46e5'
+        }
+        mc_color = comp_colors.get(market_comp, '#6366f1')
+        
+        salary = ai_report.get('salary_range_usd', {})
+        if isinstance(salary, dict):
+            salary_str = f"${salary.get('low', 0):,} - ${salary.get('high', 0):,} USD"
+        else:
+            salary_str = "Not estimated"
+        
+        bench_data = [
+            [Paragraph("<b>Metric</b>", body_bold), Paragraph("<b>Value</b>", body_bold)],
+            [Paragraph("Market Percentile", body_style), Paragraph(f"<b>Top {100-market_pct}%</b> (Percentile: {market_pct})", body_style)],
+            [Paragraph("Competitiveness", body_style), Paragraph(f"<font color='{mc_color}'><b>{clean_text_for_pdf(market_comp)}</b></font>", body_style)],
+            [Paragraph("Salary Range Estimate", body_style), Paragraph(salary_str, body_style)],
+        ]
+        bench_table = Table(bench_data, colWidths=[200, 340])
+        bench_table.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
+            ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
+            ('TOPPADDING', (0,0), (-1,-1), 4),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+            ('LEFTPADDING', (0,0), (-1,-1), 8),
+        ]))
+        story.append(bench_table)
+        
+        # Skill comparison
+        skill_comp = ai_report.get('skill_comparison', {})
+        if isinstance(skill_comp, dict):
+            above = skill_comp.get('above_market', [])
+            below = skill_comp.get('below_market', [])
+            if above and isinstance(above, list):
+                story.append(Spacer(1, 4))
+                story.append(Paragraph(f"<b>Above Market:</b> <font color='#10b981'>{clean_text_for_pdf(', '.join(above[:5]))}</font>", body_style))
+            if below and isinstance(below, list):
+                story.append(Paragraph(f"<b>Below Market:</b> <font color='#f43f5e'>{clean_text_for_pdf(', '.join(below[:5]))}</font>", body_style))
+        
+        # Differentiators
+        diffs = ai_report.get('differentiators', [])
+        if diffs and isinstance(diffs, list):
+            story.append(Spacer(1, 4))
+            story.append(Paragraph("<b>Key Differentiators:</b>", body_bold))
+            for d in diffs[:3]:
+                story.append(Paragraph(f"★ {clean_text_for_pdf(str(d))}", bullet_style))
+
+    # --- 13. SKILL VERIFICATION & CREDIBILITY (v2.1) ---
+    cred = ai_report.get('overall_credibility', '')
+    verify_score = ai_report.get('verification_score', 0)
+    if cred and cred != 'Unknown':
+        story.append(Spacer(1, 14))
+        story.append(Paragraph("Skill Verification &amp; Credibility Audit", h1_style))
+        
+        cred_colors = {'High': '#10b981', 'Moderate': '#f59e0b', 'Low': '#f97316', 'Questionable': '#ef4444'}
+        cr_color = cred_colors.get(cred, '#64748b')
+        
+        story.append(Paragraph(
+            f"<b>Overall Credibility:</b> <font color='{cr_color}'><b>{clean_text_for_pdf(cred)}</b></font> | "
+            f"<b>Verification Score:</b> {verify_score}% | "
+            f"<b>Verified:</b> {ai_report.get('verified_count', 0)}/{ai_report.get('total_claimed', 0)} skills",
+            body_style
+        ))
+        
+        skills_audit = ai_report.get('skills_audit', [])
+        if skills_audit and isinstance(skills_audit, list):
+            audit_rows = [
+                [Paragraph("<b>Skill</b>", body_bold), Paragraph("<b>Status</b>", body_bold), Paragraph("<b>Depth</b>", body_bold)]
+            ]
+            status_colors = {'Verified': '#10b981', 'Partially Verified': '#f59e0b', 'Unverified': '#94a3b8', 'Inflated': '#ef4444'}
+            for sa in skills_audit[:10]:
+                if isinstance(sa, dict):
+                    st = sa.get('status', '')
+                    sc = status_colors.get(st, '#64748b')
+                    audit_rows.append([
+                        Paragraph(clean_text_for_pdf(sa.get('skill', '')), body_style),
+                        Paragraph(f"<font color='{sc}'><b>{clean_text_for_pdf(st)}</b></font>", body_style),
+                        Paragraph(clean_text_for_pdf(sa.get('depth', '')), body_style),
+                    ])
             
+            audit_table = Table(audit_rows, colWidths=[180, 180, 180])
+            audit_table.setStyle(TableStyle([
+                ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#f1f5f9")),
+                ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor("#cbd5e1")),
+                ('TOPPADDING', (0,0), (-1,-1), 3),
+                ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+            ]))
+            story.append(Spacer(1, 4))
+            story.append(audit_table)
+
+    # --- 14. LEARNING PATH & UPSKILLING ROADMAP (v2.1) ---
+    current_lvl = ai_report.get('current_level', '')
+    target_lvl = ai_report.get('target_level', '')
+    if current_lvl and current_lvl != 'Unknown':
+        story.append(Spacer(1, 14))
+        story.append(Paragraph("Learning Path &amp; Upskilling Roadmap", h1_style))
+        story.append(Paragraph(
+            f"<b>Current Level:</b> {clean_text_for_pdf(current_lvl)} → <b>Target Level:</b> {clean_text_for_pdf(target_lvl)}",
+            body_style
+        ))
+        
+        # 90-day plan
+        ninety = ai_report.get('ninety_day_plan', {})
+        if isinstance(ninety, dict) and ninety:
+            story.append(Paragraph("<b>90-Day Upskilling Plan:</b>", body_bold))
+            for month_key in ['month_1', 'month_2', 'month_3']:
+                month_val = ninety.get(month_key, '')
+                if month_val:
+                    month_label = month_key.replace('_', ' ').title()
+                    story.append(Paragraph(f"<b>{month_label}:</b> {clean_text_for_pdf(str(month_val))}", bullet_style))
+        
+        # Recommended certifications
+        rec_certs = ai_report.get('recommended_certifications', [])
+        if rec_certs and isinstance(rec_certs, list):
+            story.append(Spacer(1, 4))
+            story.append(Paragraph(f"<b>Recommended Certifications:</b> {clean_text_for_pdf(', '.join(rec_certs[:5]))}", body_style))
+        
+        # Career impact
+        impact = ai_report.get('career_impact_prediction', '')
+        if impact and impact != 'Not assessed':
+            story.append(Spacer(1, 4))
+            story.append(Paragraph(f"<b>Career Impact Prediction:</b> {clean_text_for_pdf(impact)}", body_style))
+
+    # --- 15. CULTURE FIT ANALYSIS (v2.1) ---
+    culture_score = ai_report.get('culture_fit_score', 0)
+    archetypes = ai_report.get('cultural_archetypes', [])
+    if archetypes and isinstance(archetypes, list):
+        story.append(Spacer(1, 14))
+        story.append(Paragraph("Culture Fit &amp; Work Style Analysis", h1_style))
+        
+        story.append(Paragraph(
+            f"<b>Culture Fit Score:</b> <font color='{get_score_color(culture_score)}'><b>{culture_score}%</b></font> | "
+            f"<b>Archetypes:</b> {clean_text_for_pdf(', '.join(archetypes[:3]))}",
+            body_style
+        ))
+        
+        comm_style = ai_report.get('communication_style', {})
+        if isinstance(comm_style, dict) and comm_style:
+            story.append(Paragraph(
+                f"<b>Communication:</b> {clean_text_for_pdf(comm_style.get('formality', ''))} | "
+                f"{clean_text_for_pdf(comm_style.get('verbosity', ''))} | "
+                f"{clean_text_for_pdf(comm_style.get('orientation', ''))}",
+                body_style
+            ))
+        
+        work_style = ai_report.get('work_style_indicators', {})
+        if isinstance(work_style, dict) and work_style:
+            story.append(Paragraph(
+                f"<b>Work Style:</b> {clean_text_for_pdf(work_style.get('team_orientation', ''))} | "
+                f"Pace: {clean_text_for_pdf(work_style.get('pace_preference', ''))} | "
+                f"Autonomy: {clean_text_for_pdf(work_style.get('autonomy_preference', ''))}",
+                body_style
+            ))
+        
+        ideal_env = ai_report.get('ideal_environment', '')
+        if ideal_env and ideal_env != 'Not assessed':
+            story.append(Paragraph(f"<b>Ideal Environment:</b> {clean_text_for_pdf(ideal_env)}", body_style))
+
     # Build Document
     doc.build(story, canvasmaker=NumberedCanvas)
     
