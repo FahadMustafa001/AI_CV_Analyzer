@@ -18,7 +18,8 @@ from cv_analyzer import (
     compute_similarity, extract_keywords, extract_experience_years,
     estimate_personality_from_cv, score_personality_test,
     personality_fit_score, compute_final_score, get_ai_deep_analysis,
-    extract_targets_from_custom_jd, semantic_search_candidates
+    extract_targets_from_custom_jd, semantic_search_candidates,
+    generate_optimized_resume
 )
 from concurrent.futures import ThreadPoolExecutor
 
@@ -95,7 +96,10 @@ def init_db():
     
     def add_col(name, decl):
         if name not in existing_cols:
-            cur.execute(f"ALTER TABLE candidates ADD COLUMN {name} {decl}")
+            try:
+                cur.execute(f"ALTER TABLE candidates ADD COLUMN {name} {decl}")
+            except sqlite3.OperationalError:
+                pass
             
     add_col("exp_years", "REAL DEFAULT 0")
     add_col("personality_openness", "REAL")
@@ -105,6 +109,7 @@ def init_db():
     add_col("personality_neuroticism", "REAL")
     add_col("personality_score", "REAL DEFAULT 0")
     add_col("ai_report", "TEXT")
+    add_col("raw_text", "TEXT")
     conn.commit()
     conn.close()
 
@@ -130,7 +135,8 @@ def process_single_cv(file_path, filename, job_role, job_desc, exp_target_map, p
         soft_skills = extract_keywords(raw_text, SOFT_SKILLS)
         interests = extract_keywords(raw_text, INTERESTS)
         certificates = extract_keywords(raw_text, CERTIFICATES)
-        exp_years = extract_experience_years(raw_text)
+        # Determine experience years using LLM parse value as primary, regex as fallback
+        exp_years = parsed_profile.experience_years if (parsed_profile and parsed_profile.experience_years > 0.0) else extract_experience_years(raw_text)
 
         est_traits = estimate_personality_from_cv(raw_text)
         personality_score_val = personality_fit_score(job_role, est_traits, personality_target_map)
@@ -149,13 +155,13 @@ def process_single_cv(file_path, filename, job_role, job_desc, exp_target_map, p
             cur = conn.cursor()
             cur.execute('''INSERT INTO candidates 
                            (name, filename, job_role, score, soft_skills, interests, certificates, final_score, exp_years, personality_score,
-                            personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism, ai_report)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                            personality_openness, personality_conscientiousness, personality_extraversion, personality_agreeableness, personality_neuroticism, ai_report, raw_text)
+                           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                         (candidate_name, filename, job_role, job_score,
                          ", ".join(soft_skills), ", ".join(interests), ", ".join(certificates), final_score,
                          exp_years, personality_score_val,
                          est_traits.get('openness'), est_traits.get('conscientiousness'), est_traits.get('extraversion'), est_traits.get('agreeableness'), est_traits.get('neuroticism'),
-                         json.dumps(ai_report)))
+                         json.dumps(ai_report), raw_text))
             conn.commit()
         finally:
             conn.close()
@@ -310,6 +316,28 @@ def submit_test(name: str):
     conn.commit()
     conn.close()
     return redirect(url_for('ranking'))
+
+@app.route('/optimize_cv/<name>')
+def optimize_cv(name: str):
+    conn = sqlite3.connect("candidates.db")
+    cur = conn.cursor()
+    cur.execute("SELECT raw_text, job_role, ai_report FROM candidates WHERE name = ? ORDER BY id DESC LIMIT 1", (name,))
+    row = cur.fetchone()
+    conn.close()
+    if not row:
+        return {"error": "Candidate not found"}, 404
+    
+    raw_text, job_role, ai_report_str = row
+    if not raw_text or not raw_text.strip():
+        return {"error": "Original CV text is missing for this older record. Please re-upload the CV to optimize it!"}, 400
+        
+    try:
+        ai_report = json.loads(ai_report_str) if ai_report_str else {}
+    except Exception:
+        ai_report = {}
+        
+    optimized_text = generate_optimized_resume(raw_text, job_role, ai_report)
+    return {"optimized_cv": optimized_text}
 
 @app.route('/ranking')
 def ranking():

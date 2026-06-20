@@ -310,3 +310,43 @@ def semantic_search_candidates(candidates_list: list, query: str) -> list:
         # Sort fallback results by score descending
         fallback_results.sort(key=lambda x: x["relevance_score"], reverse=True)
         return fallback_results
+
+def generate_optimized_resume(raw_text: str, job_role: str, ai_report: dict) -> str:
+    """
+    Uses Groq LLM to rewrite the raw resume text into an ATS-optimized, high-impact version.
+    It integrates missing skills and fixes poor work achievements.
+    """
+    gaps = ai_report.get("critical_gaps", [])
+    bullet_improvements = ai_report.get("bullet_points_improvement", [])
+    improvements_str = "\n".join([f"- {imp}" for imp in bullet_improvements])
+    
+    prompt = f"""
+    You are an elite professional resume writer and ATS optimization specialist.
+    Your goal is to rewrite the candidate's CV text into a polished, high-impact, 100% perfect professional resume tailored for the role of '{job_role}'.
+
+    Critical Requirements for the Rewrite:
+    1. Integrate the following missing critical skills naturally: {', '.join(gaps)}.
+    2. Upgrade the work experience description using the following metric-driven improvements:
+    {improvements_str}
+    3. Rewrite the experience bullet points to follow the Google X-Y-Z formula: "Accomplished [X], as measured by [Y], by doing [Z]."
+    4. Keep the resume factual to the original content; do not invent completely fake employment dates or college degrees.
+    5. Output the result in clean, well-formatted Markdown with clear sections: Contact Info, Professional Summary, Core Skills, Work Experience, Projects, and Education.
+    
+    Candidate's Original CV:
+    {raw_text}
+    
+    Output ONLY the professional Markdown content. Do not include introductory notes or explanation blocks.
+    """
+    try:
+        completion = groq_client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": "You are a professional resume optimization writer. You output ONLY high-quality Markdown and do not converse."},
+                {"role": "user", "content": prompt}
+            ],
+            model="llama-3.3-70b-versatile",
+            temperature=0.3
+        )
+        return completion.choices[0].message.content
+    except Exception as e:
+        print(f"Error in generate_optimized_resume: {e}")
+        return f"### Error generating optimized resume\n\nWe encountered an error contacting the AI service: {str(e)}"

@@ -255,6 +255,16 @@
                         </ol>
                       </div>
 
+                      <hr class="border-white-10 my-4">
+
+                      <div class="p-3 rounded text-center" style="background: rgba(99, 102, 241, 0.08); border: 1px dashed rgba(99, 102, 241, 0.3);">
+                        <h6 class="text-white fw-bold mb-2">✨ ATS Resume Optimizer (100% Fit)</h6>
+                        <p class="text-muted small mb-3">Our AI will automatically rewrite your CV to address formatting issues, fill missing critical skill gaps, and optimize your work experience achievements using Google's X-Y-Z formula.</p>
+                        <button class="btn btn-sm btn-primary rounded-pill px-4" onclick="optimizeResume('{{ r.name }}')">
+                          🚀 Generate Perfected Resume
+                        </button>
+                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -277,6 +287,42 @@
   <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-5 gap-3">
     <a href="/" class="btn btn-light px-4 py-2 rounded-pill fw-semibold w-100 w-sm-auto">🔄 Upload & Analyze Again</a>
     <a href="/ranking" class="btn btn-success px-4 py-2 rounded-pill fw-semibold w-100 w-sm-auto">🏆 Global Candidate Rankings</a>
+  </div>
+</div>
+
+<!-- Bootstrap 5 Modal for displaying the Optimized CV -->
+<div class="modal fade" id="optimizedCvModal" tabindex="-1" aria-labelledby="optimizedCvModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+    <div class="modal-content bg-dark border border-white-10 text-white" style="background: #0d131f !important; border: 1px solid rgba(255, 255, 255, 0.08) !important;">
+      <div class="modal-header border-bottom border-white-10">
+        <h5 class="modal-title fw-bold text-indigo-300" id="optimizedCvModalLabel">✨ ATS Optimized & Perfected CV</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div id="optimizer-loading" class="text-center py-5">
+          <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="text-muted mt-3 mb-0">AI is rewriting and optimizing your CV. Please wait, this takes about 5-10 seconds...</p>
+        </div>
+        <div id="optimizer-content" class="d-none">
+          <div class="alert bg-success-subtle text-success border border-success-subtle rounded mb-4" style="background: rgba(16, 185, 129, 0.08) !important; border: 1px solid rgba(16, 185, 129, 0.2) !important;">
+             💡 <strong>Perfect CV Recommendations Applied:</strong> Critical skill gaps have been merged into your skills list, achievements have been rewritten using metric-driven templates, and formatting is optimized for ATS software parsing.
+          </div>
+          <div class="position-relative p-4 rounded text-white-50 border border-white-10" style="background: rgba(0, 0, 0, 0.35); max-height: 450px; overflow-y: auto; font-size: 14px; line-height: 1.6;">
+            <div id="optimized-html" class="optimized-markdown-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer border-top border-white-10 d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary rounded-pill px-3" data-bs-dismiss="modal">Close</button>
+        <div class="d-flex gap-2 flex-wrap">
+          <button type="button" class="btn btn-outline-primary rounded-pill px-3" onclick="copyOptimizedText()">📋 Copy Text</button>
+          <button type="button" class="btn btn-outline-info rounded-pill px-3" style="color: #67e8f9; border-color: rgba(6, 182, 212, 0.4);" onclick="printOptimizedResume()">🖨️ Print / PDF</button>
+          <button type="button" class="btn btn-success rounded-pill px-3" id="btn-download-optimized" onclick="downloadOptimizedText()">📥 Download Markdown</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -336,6 +382,193 @@ function sortCandidates() {
     table.appendChild(pair.row);
     table.appendChild(pair.detailRow);
   });
+}
+
+let currentOptimizedText = "";
+let currentCandidateName = "";
+
+function parseMarkdownToHtml(markdown) {
+  if (!markdown) return "";
+  let html = markdown
+    // Format headers
+    .replace(/^### (.*$)/gim, '<h5 class="text-white fw-bold mt-4 mb-2 pb-1" style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #a5b4fc !important;">$1</h5>')
+    .replace(/^## (.*$)/gim, '<h4 class="text-white fw-bold mt-4 mb-2" style="color: #cbd5e1 !important;">$1</h4>')
+    .replace(/^# (.*$)/gim, '<h3 class="text-white fw-bold mt-4 mb-3" style="color: #ffffff !important;">$1</h3>')
+    // Bold & italic
+    .replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em class="text-muted">$1</em>')
+    // List elements
+    .replace(/^\*\s+(.*$)/gim, '<li class="mb-1 text-white-50">$1</li>')
+    .replace(/^\-\s+(.*$)/gim, '<li class="mb-1 text-white-50">$1</li>');
+    
+  // Wrap list items nicely
+  html = html.replace(/(<li.*?>.*?<\/li>)/gs, '<ul class="mb-3">$1</ul>');
+  
+  // Convert line breaks and paragraph separations
+  html = html.split('\n\n').map(p => {
+    const trimmed = p.trim();
+    if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li')) return p;
+    return `<p class="mb-2 text-white-50">${p.replace(/\n/g, '<br>')}</p>`;
+  }).join('\n');
+  
+  return html;
+}
+
+function optimizeResume(candidateName) {
+  currentCandidateName = candidateName;
+  const modalEl = document.getElementById('optimizedCvModal');
+  const modal = new bootstrap.Modal(modalEl);
+  modal.show();
+
+  // Reset modal state
+  document.getElementById('optimizer-loading').classList.remove('d-none');
+  document.getElementById('optimizer-content').classList.add('d-none');
+  document.getElementById('optimized-html').innerHTML = "";
+  currentOptimizedText = "";
+
+  // Call the optimization API endpoint
+  fetch(`/optimize_cv/${encodeURIComponent(candidateName)}`)
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(err => { throw new Error(err.error || 'Server error'); });
+      }
+      return response.json();
+    })
+    .then(data => {
+      currentOptimizedText = data.optimized_cv;
+      document.getElementById('optimized-html').innerHTML = parseMarkdownToHtml(currentOptimizedText);
+      document.getElementById('optimizer-loading').classList.add('d-none');
+      document.getElementById('optimizer-content').classList.remove('d-none');
+    })
+    .catch(error => {
+      document.getElementById('optimized-html').innerHTML = `<div class="text-danger">Failed to generate optimization: ${error.message}</div>`;
+      document.getElementById('optimizer-loading').classList.add('d-none');
+      document.getElementById('optimizer-content').classList.remove('d-none');
+    });
+}
+
+function copyOptimizedText() {
+  if (!currentOptimizedText) return;
+  navigator.clipboard.writeText(currentOptimizedText)
+    .then(() => {
+      alert("Optimized CV copied to clipboard successfully!");
+    })
+    .catch(err => {
+      alert("Failed to copy text: " + err);
+    });
+}
+
+function downloadOptimizedText() {
+  if (!currentOptimizedText) return;
+  const blob = new Blob([currentOptimizedText], { type: 'text/markdown' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${currentCandidateName.replace(/\s+/g, '_')}_Perfect_CV.md`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function printOptimizedResume() {
+  if (!currentOptimizedText) return;
+  const printWindow = window.open('', '_blank');
+  
+  // Format Markdown raw text into printable HTML document
+  let printableHtml = currentOptimizedText
+    .replace(/^### (.*$)/gim, '<h4>$1</h4>')
+    .replace(/^## (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^# (.*$)/gim, '<h2>$1</h2>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/^\*\s+(.*$)/gim, '<li>$1</li>')
+    .replace(/^\-\s+(.*$)/gim, '<li>$1</li>');
+    
+  printableHtml = printableHtml.replace(/(<li.*?>.*?<\/li>)/gs, '<ul>$1</ul>');
+  
+  printableHtml = printableHtml.split('\n\n').map(p => {
+    const trimmed = p.trim();
+    if (trimmed.startsWith('<h') || trimmed.startsWith('<ul') || trimmed.startsWith('<li')) return p;
+    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+  }).join('\n');
+  
+  printWindow.document.write(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Optimized Resume - ${currentCandidateName}</title>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+      <style>
+        body {
+          font-family: 'Inter', sans-serif;
+          color: #1e293b;
+          line-height: 1.6;
+          padding: 40px;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+        h2 {
+          text-align: center;
+          font-size: 26px;
+          margin-bottom: 5px;
+          color: #0f172a;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        h3 {
+          text-align: center;
+          font-size: 14px;
+          margin-top: 0;
+          font-weight: 500;
+          color: #475569;
+          border-bottom: 2px solid #cbd5e1;
+          padding-bottom: 10px;
+          margin-bottom: 20px;
+        }
+        h4 {
+          font-size: 16px;
+          border-bottom: 1px solid #e2e8f0;
+          padding-bottom: 4px;
+          margin-top: 25px;
+          margin-bottom: 12px;
+          color: #0f172a;
+          text-transform: uppercase;
+          letter-spacing: 0.03em;
+        }
+        p, li {
+          font-size: 13px;
+          color: #334155;
+        }
+        ul {
+          padding-left: 20px;
+          margin-bottom: 15px;
+        }
+        li {
+          margin-bottom: 6px;
+        }
+        strong {
+          color: #0f172a;
+        }
+        @media print {
+          body {
+            padding: 0;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      ${printableHtml}
+      <script>
+        window.onload = function() {
+          window.print();
+          setTimeout(function() { window.close(); }, 500);
+        }
+      <\/script>
+    </body>
+    </html>
+  `);
+  printWindow.document.close();
 }
 </script>
 {% endblock %}

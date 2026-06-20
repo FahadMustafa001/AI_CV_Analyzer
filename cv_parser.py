@@ -37,6 +37,7 @@ class CVAnalysisSchema(BaseModel):
     education: List[EducationSchema] = Field(description="Structured list of all educational milestones")
     experience: List[ExperienceSchema] = Field(description="Structured list of all professional work experiences")
     projects: List[ProjectSchema] = Field(description="Structured list of all personal or group projects showcased")
+    experience_years: float = Field(default=0.0, description="Calculated total years of professional work experience represented as a float (e.g., 2.5 or 5.0).")
 
 # ---------------------- Extraction Utility Functions ----------------------
 

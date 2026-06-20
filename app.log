@@ -142,3 +142,62 @@
 2026-06-20 14:51:57,883 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 14:51:57,930 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
 2026-06-20 14:51:59,316 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 14:58:08,046 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:58:08,061 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:58:08,300 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:58:10,688 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:58:10,690 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:58:10,899 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:58:13,911 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:58:13,916 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:58:44,942 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 14:58:45,270 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:58:46,824 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:58:46,827 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:59:37,750 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 14:59:37,750 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 14:59:37,751 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:59:39,371 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:59:39,374 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:59:53,907 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:59:54,001 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_analyzer.py', reloading
+2026-06-20 14:59:54,243 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:59:54,383 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 14:59:55,853 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:59:55,855 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 14:59:55,938 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 14:59:55,941 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:00:23,799 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:00:23,901 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:00:24,167 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:00:24,296 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:00:25,890 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:00:25,893 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:00:25,939 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:00:25,941 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:01:54,997 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:01:56,190 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:01:56,200 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:01:57,807 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:02:33,942 INFO httpx MainThread : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:05:47,490 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_parser.py', reloading
+2026-06-20 15:05:47,491 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\cv_parser.py', reloading
+2026-06-20 15:05:47,879 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:05:47,929 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:05:49,536 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:05:49,539 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:05:49,553 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:05:49,556 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:06:03,046 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:06:03,056 INFO werkzeug MainThread :  * Detected change in 'C:\\AI_CV_Analyzer\\app.py', reloading
+2026-06-20 15:06:03,404 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 15:06:05,121 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:06:05,124 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:06:05,126 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 15:06:05,128 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 15:07:08,461 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:07:09,562 INFO httpx ThreadPoolExecutor-0_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:07:09,716 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:07:11,262 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-20 15:07:43,970 INFO httpx MainThread : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
