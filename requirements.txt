@@ -7,3 +7,4 @@ groq
 instructor
 pydantic
 reportlab
+gunicorn
