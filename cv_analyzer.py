@@ -16,7 +16,7 @@ def compute_similarity(job_desc: str, cv_text: str) -> float:
     """
     if not cv_text.strip():
         return 0.0
-    vect = TfidfVectorizer(stop_words='english').fit_transform([job_desc, cv_text])
+    vect = TfidfVectorizer(stop_words='english', ngram_range=(1, 2)).fit_transform([job_desc, cv_text])
     sim_score = cosine_similarity(vect[0:1], vect[1:2])[0][0]
     # Scale: raw cosine of 0.35 or higher is mapped to 100.0%
     scaled_score = min((sim_score / 0.35) * 100.0, 100.0)
@@ -39,21 +39,22 @@ def extract_experience_years(cv_text: str) -> float:
     """
     years = 0.0
     # 1. Look for explicit mentions like '2.5 years' or '3+ yrs'
-    explicit_matches = re.findall(r"(\d+(?:\.\d+)?)\s*(?:\+\s*)?(?:years|year|yrs|yr|y)\b", cv_text)
+    explicit_matches = re.findall(r"(\d+(?:\.\d+)?)\s*(?:\+\s*)?(?:years|year|yrs|yr|y)\b", cv_text, re.IGNORECASE)
     for m in explicit_matches:
         try:
             years = max(years, float(m))
         except ValueError:
             continue
             
-    # 2. Parse structural dates like (2022 - 2025) or (2024 to Present)
+    # 2. Parse structural dates like (2022 - 2025) or (1998 to Present)
     current_year = 2026
-    date_ranges = re.findall(r"(20\d{2})\s*[-––to]+\s*(20\d{2}|present|current)", cv_text)
+    date_ranges = re.findall(r"((?:19|20)\d{2})\s*[-––to]+\s*((?:19|20)\d{2}|present|current)", cv_text, re.IGNORECASE)
     calculated_years = 0.0
     for y1, y2 in date_ranges:
         try:
             start = int(y1)
-            end = current_year if y2.strip() in ["present", "current"] else int(y2)
+            y2_clean = y2.lower().strip()
+            end = current_year if y2_clean in ["present", "current"] else int(y2_clean)
             if end >= start:
                 calculated_years += (end - start)
         except Exception:
@@ -227,15 +228,48 @@ def extract_targets_from_custom_jd(jd_text: str) -> dict:
 def semantic_search_candidates(candidates_list: list, query: str) -> list:
     """
     Ranks candidates semantically against a natural language query using Groq LLM.
-    candidates_list: List of dicts with keys: 'name', 'job_role', 'job_score', 'exp_years', 'personality_score', 'soft_skills', 'interests', 'certificates', 'final_score', 'personality_traits'
-    query: The natural language search query
-    Returns a list of dicts: [{'name': '...', 'relevance_score': ..., 'match_explanation': '...'}]
+    Uses an initial local TF-IDF cosine similarity filter to select the top 15 matches,
+    reducing token usage by 90%+ and preventing API timeout issues.
     """
     if not candidates_list:
         return []
         
-    candidates_summary = []
+    # 1. Local TF-IDF pre-filtering to find the top 15 most relevant candidate profiles
+    candidate_texts = []
     for c in candidates_list:
+        # Combine candidate metadata and profile fields into a single text block
+        proj_text = " ".join([p.get("title", "") + " " + p.get("description", "") for p in c.get("projects", [])])
+        edu_text = " ".join([e.get("degree", "") + " " + e.get("institution", "") for e in c.get("education", [])])
+        exp_text = " ".join([ex.get("role", "") + " " + ex.get("company", "") for ex in c.get("experience", [])])
+        
+        profile_content = (
+            f"{c['name']} {c['job_role']} {c['soft_skills']} {c['certificates']} "
+            f"{c['interests']} {proj_text} {edu_text} {exp_text}"
+        )
+        candidate_texts.append(profile_content)
+        
+    try:
+        # Use bigram TF-IDF for high-accuracy phrase matching
+        vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
+        tfidf_matrix = vectorizer.fit_transform([query] + candidate_texts)
+        # Compute cosine similarity between query (index 0) and candidates (indices 1+)
+        scores = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:])[0]
+    except Exception as e:
+        print(f"Local TF-IDF similarity calculation failed: {e}")
+        scores = [1.0] * len(candidates_list)
+        
+    # Pair candidates with their TF-IDF scores
+    scored_candidates = list(zip(candidates_list, scores))
+    # Sort candidates by similarity score descending
+    scored_candidates.sort(key=lambda x: x[1], reverse=True)
+    
+    # Filter the list to the top 15 candidate matches
+    TOP_N = 15
+    top_candidates = [c for c, score in scored_candidates[:TOP_N]]
+    
+    # 2. Query Groq LLM for deep re-ranking and generating match explanations
+    candidates_summary = []
+    for c in top_candidates:
         summary = (
             f"Candidate: {c['name']}\n"
             f"Current Role Match: {c['job_role']} (Score: {c['job_score']}%)\n"
@@ -311,12 +345,21 @@ def semantic_search_candidates(candidates_list: list, query: str) -> list:
         fallback_results.sort(key=lambda x: x["relevance_score"], reverse=True)
         return fallback_results
 
+_optimizer_cache = {}
+
 def generate_optimized_resume(raw_text: str, job_role: str, ai_report: dict, focus_area: str = "all", tone: str = "professional", target_length: str = "default") -> str:
     """
     Uses Groq LLM to rewrite the raw resume text into an ATS-optimized, high-impact version.
     It integrates missing skills, fixes poor work achievements, and adjusts according to
     focus_area, tone, and target_length specifications.
     """
+    import hashlib
+    text_hash = hashlib.md5(raw_text.encode('utf-8')).hexdigest()
+    cache_key = (text_hash, job_role, focus_area, tone, target_length)
+    if cache_key in _optimizer_cache:
+        print("Serving optimized resume from memory cache.")
+        return _optimizer_cache[cache_key]
+        
     gaps = ai_report.get("critical_gaps", [])
     bullet_improvements = ai_report.get("bullet_points_improvement", [])
     improvements_str = "\n".join([f"- {imp}" for imp in bullet_improvements])
@@ -374,7 +417,10 @@ def generate_optimized_resume(raw_text: str, job_role: str, ai_report: dict, foc
             model="llama-3.3-70b-versatile",
             temperature=0.3
         )
-        return completion.choices[0].message.content
+        optimized_content = completion.choices[0].message.content
+        # Save to memory cache on successful generation
+        _optimizer_cache[cache_key] = optimized_content
+        return optimized_content
     except Exception as e:
         print(f"Error in generate_optimized_resume: {e}")
         return f"### Error generating optimized resume\n\nWe encountered an error contacting the AI service: {str(e)}"

@@ -12,7 +12,7 @@
 <div id="test-content">
   <div class="hero p-4 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
     <div>
-      <h3 class="mb-1 text-white">🧠 Candidate Psychometric Audit</h3>
+      <h3 class="mb-1 text-white"><i class="bi bi-patch-question-fill text-indigo-400 me-2" style="text-shadow: 0 0 10px rgba(99, 102, 241, 0.4);"></i> Candidate Psychometric Audit</h3>
       <p class="text-white-50 small mb-0">Refining Big Five alignment profile for: <strong class="text-white">{{ name }}</strong> ({{ job_role }})</p>
     </div>
     <div class="text-sm-end">
@@ -75,16 +75,16 @@
     
     <div class="d-flex justify-content-between align-items-center mt-4 gap-3">
       <button type="button" id="prev-btn" class="btn btn-light px-4 py-2 rounded-pill fw-semibold" style="visibility: hidden;" onclick="navigateStep(-1)">
-        ← Back
+        <i class="bi bi-arrow-left me-1"></i> Back
       </button>
       
       <a href="/ranking" id="cancel-link" class="text-muted small text-decoration-none hover-underline">Cancel Test</a>
       
       <button type="button" id="next-btn" class="btn btn-primary px-4 py-2 rounded-pill fw-semibold" onclick="navigateStep(1)">
-        Next →
+        Next <i class="bi bi-arrow-right ms-1"></i>
       </button>
       <button type="submit" id="submit-btn" class="btn btn-success px-4 py-2 rounded-pill fw-semibold d-none">
-        Submit Test ✓
+        <i class="bi bi-check-circle-fill me-1"></i> Submit Test
       </button>
     </div>
   </form>
