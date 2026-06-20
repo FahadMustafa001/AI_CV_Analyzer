@@ -170,14 +170,27 @@ def get_ai_deep_analysis(cv_text: str, job_role: str) -> dict:
         )
         return json.loads(completion.choices[0].message.content)
     except Exception as e:
-        print(f"Groq API Error in cv_analyzer module: {e}")
-        return {
-            "skills_found": [],
-            "critical_gaps": ["Could not parse missing skill gaps via AI"],
-            "bullet_points_improvement": ["Ensure your experience bullet points include clear technical scope"],
-            "interview_questions": ["Explain your core project and the architecture decisions you made."],
-            "formatting_feedback": "Standard formatting parsed successfully."
-        }
+        print(f"Groq API Error in cv_analyzer module: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            return json.loads(completion.choices[0].message.content)
+        except Exception as e2:
+            print(f"Groq API fallback failed: {e2}")
+            return {
+                "skills_found": [],
+                "critical_gaps": ["Could not parse missing skill gaps via AI"],
+                "bullet_points_improvement": ["Ensure your experience bullet points include clear technical scope"],
+                "interview_questions": ["Explain your core project and the architecture decisions you made."],
+                "formatting_feedback": "Standard formatting parsed successfully."
+            }
 
 # ---------------------- Custom JD & Talent RAG Search Engine ----------------------
 
@@ -217,13 +230,26 @@ def extract_targets_from_custom_jd(jd_text: str) -> dict:
         )
         return json.loads(completion.choices[0].message.content)
     except Exception as e:
-        print(f"Groq Custom JD Extraction Error: {e}")
-        # Default fallback target metrics:
-        return {
-            "job_role": "Custom Job Role",
-            "experience_target": 2.0,
-            "personality_target": {"openness": 60, "conscientiousness": 70, "extraversion": 50, "agreeableness": 60, "neuroticism": 40}
-        }
+        print(f"Groq Custom JD Extraction Error: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            return json.loads(completion.choices[0].message.content)
+        except Exception as e2:
+            print(f"Groq Custom JD fallback failed: {e2}")
+            # Default fallback target metrics:
+            return {
+                "job_role": "Custom Job Role",
+                "experience_target": 2.0,
+                "personality_target": {"openness": 60, "conscientiousness": 70, "extraversion": 50, "agreeableness": 60, "neuroticism": 40}
+            }
 
 def semantic_search_candidates(candidates_list: list, query: str) -> list:
     """
@@ -323,27 +349,43 @@ def semantic_search_candidates(candidates_list: list, query: str) -> list:
             return data["results"]
         return []
     except Exception as e:
-        print(f"Groq Semantic Talent Search Error: {e}")
-        # Fallback to keyword-based local search if Groq fails (crash-proof)
-        fallback_results = []
-        keywords = [k.lower().strip() for k in query.split() if len(k.strip()) > 2]
-        for c in candidates_list:
-            score = 0
-            matches = []
-            c_text = f"{c['name']} {c['job_role']} {c['soft_skills']} {c['certificates']} {c['interests']}".lower()
-            for kw in keywords:
-                if kw in c_text:
-                    score += 25
-                    matches.append(kw)
-            if score > 0:
-                fallback_results.append({
-                    "name": c["name"],
-                    "relevance_score": min(score, 100),
-                    "match_explanation": f"Keyword match for: {', '.join(matches)} (Local search fallback)."
-                })
-        # Sort fallback results by score descending
-        fallback_results.sort(key=lambda x: x["relevance_score"], reverse=True)
-        return fallback_results
+        print(f"Groq Semantic Talent Search Error: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a precise JSON-only response model."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.1,
+                response_format={"type": "json_object"}
+            )
+            data = json.loads(completion.choices[0].message.content)
+            if isinstance(data, dict) and "results" in data:
+                return data["results"]
+            return []
+        except Exception as e2:
+            print(f"Groq Semantic Talent Search fallback failed: {e2}")
+            # Fallback to keyword-based local search if Groq fails (crash-proof)
+            fallback_results = []
+            keywords = [k.lower().strip() for k in query.split() if len(k.strip()) > 2]
+            for c in candidates_list:
+                score = 0
+                matches = []
+                c_text = f"{c['name']} {c['job_role']} {c['soft_skills']} {c['certificates']} {c['interests']}".lower()
+                for kw in keywords:
+                    if kw in c_text:
+                        score += 25
+                        matches.append(kw)
+                if score > 0:
+                    fallback_results.append({
+                        "name": c["name"],
+                        "relevance_score": min(score, 100),
+                        "match_explanation": f"Keyword match for: {', '.join(matches)} (Local search fallback)."
+                    })
+            # Sort fallback results by score descending
+            fallback_results.sort(key=lambda x: x["relevance_score"], reverse=True)
+            return fallback_results
 
 _optimizer_cache = {}
 
@@ -422,5 +464,20 @@ def generate_optimized_resume(raw_text: str, job_role: str, ai_report: dict, foc
         _optimizer_cache[cache_key] = optimized_content
         return optimized_content
     except Exception as e:
-        print(f"Error in generate_optimized_resume: {e}")
-        return f"### Error generating optimized resume\n\nWe encountered an error contacting the AI service: {str(e)}"
+        print(f"Error in generate_optimized_resume: {e}. Trying fallback model llama-3.1-8b-instant...")
+        try:
+            completion = groq_client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": "You are a professional resume optimization writer. You output ONLY high-quality Markdown and do not converse."},
+                    {"role": "user", "content": prompt}
+                ],
+                model="llama-3.1-8b-instant",
+                temperature=0.3
+            )
+            optimized_content = completion.choices[0].message.content
+            # Save to memory cache on successful generation
+            _optimizer_cache[cache_key] = optimized_content
+            return optimized_content
+        except Exception as e2:
+            print(f"Error in generate_optimized_resume fallback model: {e2}")
+            return f"### Error generating optimized resume\n\nWe encountered an error contacting the AI service: {str(e2)}"

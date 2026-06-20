@@ -881,4 +881,42 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   text-shadow: 0 0 8px rgba(165, 180, 252, 0.4);
 }
 
+/* Color coded psychometric options */
+.psych-option-card input[type="radio"]:checked + .label-strongly-disagree {
+  background: rgba(244, 63, 94, 0.15) !important;
+  border-color: #f43f5e !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.3) !important;
+}
+.psych-option-card input[type="radio"]:checked + .label-disagree {
+  background: rgba(249, 115, 22, 0.15) !important;
+  border-color: #f97316 !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3) !important;
+}
+.psych-option-card input[type="radio"]:checked + .label-neutral {
+  background: rgba(148, 163, 184, 0.15) !important;
+  border-color: #94a3b8 !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(148, 163, 184, 0.3) !important;
+}
+.psych-option-card input[type="radio"]:checked + .label-agree {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: #10b981 !important;
+  color: #fff !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3) !important;
+}
+.psych-option-card input[type="radio"]:checked + .label-strongly-agree {
+  background: rgba(5, 150, 105, 0.2) !important;
+  border-color: #34d399 !important;
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(52, 211, 153, 0.4) !important;
+}
+
+.label-strongly-disagree:hover { border-color: rgba(244, 63, 94, 0.6) !important; color: #fff !important; }
+.label-disagree:hover { border-color: rgba(249, 115, 22, 0.6) !important; color: #fff !important; }
+.label-neutral:hover { border-color: rgba(148, 163, 184, 0.6) !important; color: #fff !important; }
+.label-agree:hover { border-color: rgba(16, 185, 129, 0.6) !important; color: #fff !important; }
+.label-strongly-agree:hover { border-color: rgba(52, 211, 153, 0.6) !important; color: #fff !important; }
+
 

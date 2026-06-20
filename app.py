@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 import os
 import sqlite3
@@ -130,6 +130,11 @@ def init_db():
 init_db()
 
 # ---------------------- App Routes ----------------------
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static', 'images'),
+                               'logo.png', mimetype='image/png')
+
 @app.route('/')
 def index():
     return render_template('index.html', job_profiles=JOB_PROFILES.keys())

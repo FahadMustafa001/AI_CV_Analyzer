@@ -16,6 +16,66 @@
   <a href="/" class="btn btn-primary btn-sm px-4 py-2 rounded-pill align-self-start align-self-md-center">Analyze More</a>
 </div>
 
+{% if rows %}
+{% set match_scores = rows|map(attribute='final_score')|list %}
+{% set match_avg = (match_scores|sum / (rows|length))|round(1) if rows|length > 0 else 0.0 %}
+{% set exp_years = rows|map(attribute='exp_years')|list %}
+{% set exp_avg = (exp_years|sum / (rows|length))|round(1) if rows|length > 0 else 0.0 %}
+{% set strong_count = namespace(val=0) %}
+{% for r in rows %}
+  {% if r.final_score >= 50 %}
+    {% set strong_count.val = strong_count.val + 1 %}
+  {% endif %}
+{% endfor %}
+
+<div class="row g-3 mb-4 animate-fade-in">
+  <div class="col-6 col-md-3">
+    <div class="p-3 box-highlight rounded h-100 d-flex align-items-center gap-3" style="border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease;">
+      <div class="feature-icon-wrapper mb-0 border-primary" style="width: 42px; height: 42px; border-radius: 8px; background: rgba(99, 102, 241, 0.15);">
+        <i class="bi bi-people-fill text-primary" style="font-size: 1.1rem;"></i>
+      </div>
+      <div>
+        <div class="text-muted small" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Total Pool</div>
+        <h4 class="text-white fw-bold mb-0 mt-0">{{ rows|length }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="p-3 box-highlight rounded h-100 d-flex align-items-center gap-3" style="border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease;">
+      <div class="feature-icon-wrapper mb-0 border-success" style="width: 42px; height: 42px; border-radius: 8px; background: rgba(16, 185, 129, 0.15);">
+        <i class="bi bi-award-fill text-success" style="font-size: 1.1rem;"></i>
+      </div>
+      <div>
+        <div class="text-muted small" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Avg Fit Score</div>
+        <h4 class="text-white fw-bold mb-0 mt-0">{{ match_avg }}%</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="p-3 box-highlight rounded h-100 d-flex align-items-center gap-3" style="border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease;">
+      <div class="feature-icon-wrapper mb-0 border-info" style="width: 42px; height: 42px; border-radius: 8px; background: rgba(6, 182, 212, 0.15);">
+        <i class="bi bi-shield-check-fill text-info" style="font-size: 1.1rem;"></i>
+      </div>
+      <div>
+        <div class="text-muted small" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Strong Fits</div>
+        <h4 class="text-white fw-bold mb-0 mt-0">{{ strong_count.val }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="p-3 box-highlight rounded h-100 d-flex align-items-center gap-3" style="border: 1px solid rgba(255,255,255,0.06); transition: all 0.3s ease;">
+      <div class="feature-icon-wrapper mb-0 border-warning" style="width: 42px; height: 42px; border-radius: 8px; background: rgba(245, 158, 11, 0.15);">
+        <i class="bi bi-calendar-range text-warning" style="font-size: 1.1rem;"></i>
+      </div>
+      <div>
+        <div class="text-muted small" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Avg Experience</div>
+        <h4 class="text-white fw-bold mb-0 mt-0">{{ exp_avg }} yrs</h4>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 <!-- Semantic Search Bar -->
 <div class="box-highlight rounded p-4 mb-3">
   <form action="/ranking" method="get">
@@ -28,6 +88,15 @@
       {% endif %}
     </div>
     <div class="form-text mt-2 text-muted">Groq AI will parse your natural language query, evaluate all candidates in the database, sort by relevance, and explain each match.</div>
+    
+    <!-- Search Suggestion Pills -->
+    <div class="d-flex flex-wrap gap-2 mt-3 align-items-center">
+      <span class="text-muted small" style="font-size: 11px;"><i class="bi bi-lightbulb-fill text-warning me-1"></i> Try searching:</span>
+      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('Find me a Software Engineer with high conscientiousness traits')">Conscientious Software Engineers</span>
+      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('Data Analyst with Python and SQL experience')">Python & SQL Data Analysts</span>
+      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('Flutter Developer with high openness who knows Firebase')">Flutter & Firebase Experts</span>
+      <span class="badge bg-secondary cursor-pointer option-select-pill" onclick="fillSearch('HR Manager with recruitment and talent acquisition skills')">HR Recruitment Managers</span>
+    </div>
   </form>
 </div>
 
@@ -118,7 +187,7 @@
                 'linear-gradient(135deg, #a855f7, #ec4899)'
               ] %}
               {% set grad = gradients[loop.index0 % gradients|length] %}
-              <div class="avatar-circle" style="background: {{ grad }};">
+              <div class="avatar-circle" style="--bg: {{ grad }}; background: var(--bg);">
                 {{ row.name[:2].upper() }}
               </div>
               <div>
@@ -540,6 +609,14 @@
 </div>
 
 <script>
+function fillSearch(queryText) {
+  const input = document.querySelector('input[name="query"]');
+  if (input) {
+    input.value = queryText;
+    input.form.submit();
+  }
+}
+
 // Filter dashboard
 function toggleFilterPanel() {
   const panel = document.getElementById('filter-panel');

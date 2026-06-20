@@ -102,7 +102,7 @@
                   'linear-gradient(135deg, #a855f7, #ec4899)'
                 ] %}
                 {% set grad = gradients[loop.index0 % gradients|length] %}
-                <div class="avatar-circle" style="background: {{ grad }};">
+                <div class="avatar-circle" style="--bg: {{ grad }}; background: var(--bg);">
                   {{ r.name[:2].upper() }}
                 </div>
                 <div>
