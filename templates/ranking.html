@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
+  <div>
+    <h3 class="mb-0 text-white">🏆 Global Talent Pool</h3>
+    <p class="text-muted small mb-0">Browse all analyzed candidates or perform a semantic AI search across the talent base.</p>
+  </div>
+  <a href="/" class="btn btn-primary btn-sm px-4 py-2 rounded-pill align-self-start align-self-md-center">Analyze More</a>
+</div>
+
+<!-- Semantic Search Bar -->
+<div class="box-highlight rounded p-4 mb-4">
+  <form action="/ranking" method="get">
+    <label class="form-label mb-2 text-indigo-300 fw-bold">🧠 Semantic AI Talent Search (Mini-RAG)</label>
+    <div class="input-group">
+      <input type="text" name="query" class="form-control" placeholder="Type what you are looking for (e.g., 'Find me a backend developer who knows Python and has high conscientiousness traits')..." value="{{ query|default('') }}" required>
+      <button class="btn btn-primary px-4 py-2" type="submit">AI Search</button>
+      {% if query %}
+        <a href="/ranking" class="btn btn-light px-3 py-2 d-flex align-items-center">Clear</a>
+      {% endif %}
+    </div>
+    <div class="form-text mt-2 text-muted">Groq AI will parse your natural language query, evaluate all candidates in the database, sort by relevance, and explain each match.</div>
+  </form>
+</div>
+
+{% if query %}
+  <div class="alert bg-light-glass border border-white-10 text-white mb-4 d-flex align-items-center justify-content-between">
+    <div>
+      <span>✨ Showing semantic search matches for: <strong class="text-indigo-400">"{{ query }}"</strong></span>
+    </div>
+    <span class="badge bg-primary px-3 py-2">{{ rows|length }} Matches Found</span>
+  </div>
+{% endif %}
+
+{% if rows %}
+<div class="table-glass-container">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th class="ps-4">Candidate & Role</th>
+          {% if query %}
+            <th style="width: 180px">Search Relevance</th>
+          {% endif %}
+          <th style="width: 150px">Job Match</th>
+          <th>Experience</th>
+          <th style="width: 150px">Personality Fit</th>
+          <th>Extracted Profile Details</th>
+          <th style="width: 160px">Final Audit Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr class="fw-medium animate-fade-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+          <td class="ps-4">
+            <div class="fw-bold text-white fs-5">{{ row.name }}</div>
+            <div class="text-muted small mt-1">💼 Target: {{ row.job_role }}</div>
+            
+            {% if query and row.match_explanation %}
+              <div class="mt-2 p-2 rounded" style="background: rgba(99, 102, 241, 0.12); border: 1px solid rgba(99, 102, 241, 0.25); max-width: 450px;">
+                <span class="text-indigo-200 small" style="font-size: 13px;">💡 <strong>AI Match:</strong> {{ row.match_explanation }}</span>
+              </div>
+            {% endif %}
+          </td>
+          {% if query %}
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress-container flex-grow-1" style="height: 6px;">
+                  <div class="progress-bar-neon bg-success" role="progressbar" style="width: {{ row.relevance_score }}%"></div>
+                </div>
+                <span class="text-success small fw-bold">{{ row.relevance_score }}%</span>
+              </div>
+            </td>
+          {% endif %}
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress-container flex-grow-1" style="height: 6px;">
+                <div class="progress-bar-neon bg-info" role="progressbar" style="width: {{ row.job_score }}%"></div>
+              </div>
+              <span class="text-white small fw-bold">{{ row.job_score }}%</span>
+            </div>
+          </td>
+          <td>
+            <span class="badge bg-secondary px-2 py-1 fs-6">{{ row.exp_years }} yrs</span>
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress-container flex-grow-1" style="height: 6px;">
+                <div class="progress-bar-neon bg-warning" role="progressbar" style="width: {{ row.personality_score }}%"></div>
+              </div>
+              <span class="text-white small fw-bold">{{ row.personality_score }}%</span>
+            </div>
+          </td>
+          <td>
+            <div class="d-flex flex-column gap-2 py-1">
+              {% if row.soft_skills %}
+              <div>
+                <small class="text-muted d-block" style="font-size: 11px;">Soft Skills:</small>
+                {% for item in row.soft_skills.split(',') %}
+                  {% if item.strip() %}
+                    <span class="badge badge-soft" style="font-size: 10px; padding: 2px 6px;">{{ item.strip() }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              {% if row.certificates %}
+              <div>
+                <small class="text-muted d-block" style="font-size: 11px;">Certifications:</small>
+                {% for item in row.certificates.split(',') %}
+                  {% if item.strip() %}
+                    <span class="badge badge-cert" style="font-size: 10px; padding: 2px 6px;">{{ item.strip() }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              {% if row.interests %}
+              <div>
+                <small class="text-muted d-block" style="font-size: 11px;">Interests:</small>
+                {% for item in row.interests.split(',') %}
+                  {% if item.strip() %}
+                    <span class="badge badge-int" style="font-size: 10px; padding: 2px 6px;">{{ item.strip() }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress-container flex-grow-1" style="height: 8px;">
+                <div class="progress-bar-neon bg-success" role="progressbar" style="width: {{ row.final_score }}%"></div>
+              </div>
+              <span class="text-success fw-bold fs-5">{{ row.final_score }}%</span>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% else %}
+<div class="alert bg-light-glass border border-white-10 text-center p-5">
+  <div class="fs-1 mb-3">📭</div>
+  <h5 class="text-white">No Candidate Records Found</h5>
+  <p class="text-muted small">No candidates match your query or have been analyzed yet.</p>
+  <a href="/" class="btn btn-primary px-4 py-2 rounded-pill mt-3">Analyze Resumes</a>
+</div>
+{% endif %}
+
+{% endblock %}

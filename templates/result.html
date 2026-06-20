@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container-fluid">
+  <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between p-3 rounded bg-light-glass border border-white-10 mb-5 gap-3">
+    <div>
+      <h3 class="mb-1 text-white">Analysis Results: <span class="text-indigo-400">{{ job_role }}</span></h3>
+      <p class="text-muted small mb-0">System processed all resumes using hybrid semantic vector weights and cognitive AI models.</p>
+    </div>
+    <div class="text-md-end">
+      <span class="badge bg-success fs-6 px-3 py-2">Suitable: {{ suitable|default(0) }} / {{ total|default(0) }}</span>
+      <div class="text-muted small mt-1">Passing Threshold: {{ threshold|default(50) }}%</div>
+    </div>
+  </div>
+
+  {% if results %}
+  <div class="table-glass-container">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead>
+          <tr>
+            <th class="ps-4">Candidate Info</th>
+            <th style="width: 180px">Semantic Match</th>
+            <th style="width: 130px">Experience</th>
+            <th>Extracted Metrics</th>
+            <th style="width: 180px">Final Rank Score</th>
+            <th class="text-center" style="width: 280px">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in results %}
+          <tr class="fw-medium animate-fade-in" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
+            <td class="ps-4">
+              <div class="fw-bold text-white fs-5">{{ r.name }}</div>
+              <div class="text-muted small mt-1">📧 {{ r.email|default('Not found') }}</div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress-container flex-grow-1" style="height: 6px;">
+                  <div class="progress-bar-neon bg-info" role="progressbar" style="width: {{ r.job_score }}%"></div>
+                </div>
+                <span class="text-white small fw-bold">{{ r.job_score }}%</span>
+              </div>
+            </td>
+            <td>
+              <span class="badge bg-secondary px-2 py-1 fs-6">{{ r.exp_years }} yrs</span>
+            </td>
+            <td>
+              <span class="badge badge-soft me-1">🛠️ {{ r.skills|length }} Skills</span>
+              <span class="badge badge-cert me-1">🚀 {{ r.projects|length }} Projects</span>
+              <span class="badge badge-int">🎓 {{ r.education|length }} Edu</span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress-container flex-grow-1" style="height: 8px;">
+                  <div class="progress-bar-neon bg-success" role="progressbar" style="width: {{ r.final_score }}%"></div>
+                </div>
+                <span class="text-success fw-bold fs-5">{{ r.final_score }}%</span>
+              </div>
+            </td>
+            <td class="text-center">
+              <div class="btn-group gap-2">
+                <button class="btn btn-sm btn-primary px-3 rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#details-{{ loop.index }}" aria-expanded="false">
+                  👁️ Profile Audit
+                </button>
+                <a href="/test/{{ r.name }}" class="btn btn-sm btn-outline-primary px-3 rounded-pill">🧠 Psych Test</a>
+              </div>
+            </td>
+          </tr>
+
+          <tr class="collapse" id="details-{{ loop.index }}">
+            <td colspan="6" class="bg-light-glass p-4 border-top border-bottom">
+              <div class="row g-4">
+                
+                <div class="col-md-6 col-lg-7">
+                  <div class="box-highlight rounded mb-3">
+                    <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold">🔗 Professional Footprints</h5>
+                    {% if r.links %}
+                      <div class="d-flex flex-wrap gap-2 mt-2">
+                        {% for link in r.links %}
+                          <a href="{{ link }}" target="_blank" class="btn btn-xs btn-light py-1 px-3 small text-truncate" style="max-width: 250px;">🌐 {{ link }}</a>
+                        {% endfor %}
+                      </div>
+                    {% else %}
+                      <span class="text-muted small">No web links detected in CV.</span>
+                    {% endif %}
+                  </div>
+
+                  <div class="box-highlight rounded mb-3">
+                    <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold">💼 Work History & Timeline</h5>
+                    <div class="mt-3">
+                      {% if r.experience %}
+                        {% for exp in r.experience %}
+                          <div class="timeline-item">
+                            <div class="d-flex justify-content-between align-items-baseline">
+                              <strong class="text-white fs-6">{{ exp.role }}</strong>
+                              <span class="badge bg-secondary border border-white-10">{{ exp.duration }}</span>
+                            </div>
+                            <div class="text-indigo-300 small mb-2">🏢 {{ exp.company }}</div>
+                            <ul class="text-muted small ps-3 mb-0">
+                              {% for ach in exp.achievements %}
+                                <li class="mb-1">{{ ach }}</li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <span class="text-muted small">No professional experience blocks structurally indexed.</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <div class="box-highlight rounded mb-3">
+                    <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold">🚀 Showcased Engineering Projects</h5>
+                    <div class="mt-3">
+                      {% if r.projects %}
+                        <div class="row g-3">
+                          {% for proj in r.projects %}
+                            <div class="col-12 border border-white-10 rounded p-3" style="background: rgba(15,23,42,0.3);">
+                              <div class="fw-bold text-white mb-2">{{ proj.title }}</div>
+                              <div class="mb-2">
+                                {% for tech in proj.tech_stack %}
+                                  <span class="badge bg-secondary text-white-50 rounded-pill px-2" style="font-size: 10px;">{{ tech }}</span>
+                                {% endfor %}
+                              </div>
+                              <p class="text-muted small mb-0">{{ proj.description }}</p>
+                            </div>
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        <span class="text-muted small">No dynamic personal projects detected.</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <div class="box-highlight rounded">
+                    <h5 class="border-bottom border-white-10 pb-2 text-white fw-bold">🎓 Academic Timeline</h5>
+                    <div class="mt-3">
+                      {% if r.education %}
+                        <div class="table-responsive">
+                          <table class="table table-sm table-borderless align-middle mb-0 text-muted small">
+                            <tbody>
+                              {% for edu in r.education %}
+                                <tr>
+                                  <td class="fw-bold text-white" style="width: 40%;">🎓 {{ edu.degree }}</td>
+                                  <td class="text-muted">🏢 {{ edu.institution }}</td>
+                                  <td class="text-end text-success fw-semibold">📊 {{ edu.gpa|default('N/A') }}</td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      {% else %}
+                        <span class="text-muted small">No dynamic education milestones indexed.</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-lg-5">
+                  <div class="card card-app border-0 h-100 audit-card">
+                    <div class="card-body p-4">
+                      <h5 class="card-title text-white fw-bold mb-4 d-flex align-items-center gap-2">
+                        🧠 Cognitive AI Audit Report
+                      </h5>
+                      
+                      <div class="p-3 rounded mb-4" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);">
+                        <small class="text-indigo-300 fw-bold d-block mb-1">📋 Layout & Parser Feedback</small>
+                        <span class="text-white small">{{ r.ai_report.formatting_feedback }}</span>
+                      </div>
+
+                      <div class="mb-4">
+                        <small class="text-danger fw-bold d-block mb-2">⚠️ Critical Missing Job Gaps</small>
+                        <div class="d-flex flex-wrap gap-2">
+                          {% for gap in r.ai_report.critical_gaps %}
+                            <span class="badge badge-danger">{{ gap }}</span>
+                          {% endfor %}
+                        </div>
+                      </div>
+
+                      <div class="mb-4">
+                        <small class="text-warning fw-bold d-block mb-2">📝 Resume Content Optimizations</small>
+                        <ul class="text-muted small ps-3 mb-0">
+                          {% for imp in r.ai_report.bullet_points_improvement %}
+                            <li class="mb-2">{{ imp }}</li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <small class="text-success fw-bold d-block mb-2">❓ Customized Technical Interview Paths</small>
+                        <ol class="text-muted small ps-3 mb-0" style="font-style: italic;">
+                          {% for question in r.ai_report.interview_questions %}
+                            <li class="mb-3 text-white-50">"{{ question }}"</li>
+                          {% endfor %}
+                        </ol>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% else %}
+  <div class="alert bg-warning-subtle text-warning border-0 rounded p-4 mt-3 box-highlight">
+    <h5 class="fw-bold text-warning mb-2">⚠️ No Candidates Met Selection Threshold</h5>
+    <p class="mb-0 small text-white-50">None of the uploaded files achieved a cumulative metric matching percentage of {{ threshold|default(50) }}%. Try loosening qualifications or dropping standard profile benchmarks.</p>
+  </div>
+  {% endif %}
+
+  <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-5 gap-3">
+    <a href="/" class="btn btn-light px-4 py-2 rounded-pill fw-semibold w-100 w-sm-auto">🔄 Upload & Analyze Again</a>
+    <a href="/ranking" class="btn btn-success px-4 py-2 rounded-pill fw-semibold w-100 w-sm-auto">🏆 Global Candidate Rankings</a>
+  </div>
+</div>
+
+{% endblock %}
