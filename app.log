@@ -3490,3 +3490,435 @@ sqlite3.OperationalError: table candidates has no column named created_at
 2026-06-20 23:26:26,221 INFO werkzeug Thread-16 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:26:26] "GET / HTTP/1.1" 200 -
 2026-06-20 23:26:26,283 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:26:26] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
 2026-06-20 23:26:26,294 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:26:26] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 23:40:34,805 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-20 23:40:34,807 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-20 23:40:34,809 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-20 23:40:37,634 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-20 23:40:37,657 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-20 23:40:57,396 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:40:57] "GET / HTTP/1.1" 200 -
+2026-06-20 23:40:58,043 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:40:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-20 23:40:58,043 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:40:58] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-20 23:40:58,157 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [20/Jun/2026 23:40:58] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-22 19:58:31,386 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-22 19:58:31,388 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-22 19:58:31,391 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-22 19:58:35,901 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-22 19:58:35,910 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-22 19:58:50,949 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [22/Jun/2026 19:58:50] "GET / HTTP/1.1" 200 -
+2026-06-22 19:58:51,400 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [22/Jun/2026 19:58:51] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-22 19:58:51,406 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [22/Jun/2026 19:58:51] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-22 19:58:51,512 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [22/Jun/2026 19:58:51] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 09:02:08,877 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-06-23 09:02:08,878 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-06-23 09:02:08,882 INFO werkzeug MainThread :  * Restarting with stat
+2026-06-23 09:02:11,347 WARNING werkzeug MainThread :  * Debugger is active!
+2026-06-23 09:02:11,353 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-06-23 09:02:23,755 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:02:23] "GET / HTTP/1.1" 200 -
+2026-06-23 09:02:23,871 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:02:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-23 09:02:23,933 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:02:23] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 09:02:24,951 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:02:24] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 09:03:34,447 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.401216 seconds
+2026-06-23 09:03:44,857 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.944747 seconds
+2026-06-23 09:03:55,823 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : API call failed on attempt 1: Request timed out.
+2026-06-23 09:03:55,823 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : Max retries exceeded. Total attempts: 1, Last error: Request timed out.
+2026-06-23 09:03:55,824 WARNING cv_parser ThreadPoolExecutor-0_0 : Parser failed (model=llama-3.3-70b-versatile, attempt=1): Request timed out.
+2026-06-23 09:04:06,854 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.461697 seconds
+2026-06-23 09:04:17,339 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.791393 seconds
+2026-06-23 09:04:28,154 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : API call failed on attempt 1: Request timed out.
+2026-06-23 09:04:28,155 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : Max retries exceeded. Total attempts: 1, Last error: Request timed out.
+2026-06-23 09:04:28,155 WARNING cv_parser ThreadPoolExecutor-0_0 : Parser failed (model=llama-3.3-70b-versatile, attempt=2): Request timed out.
+2026-06-23 09:04:38,173 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.463325 seconds
+2026-06-23 09:04:48,654 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.815813 seconds
+2026-06-23 09:04:59,485 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : API call failed on attempt 1: Request timed out.
+2026-06-23 09:04:59,486 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : Max retries exceeded. Total attempts: 1, Last error: Request timed out.
+2026-06-23 09:04:59,486 WARNING cv_parser ThreadPoolExecutor-0_0 : Parser failed (model=llama-3.1-8b-instant, attempt=1): Request timed out.
+2026-06-23 09:05:10,506 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.496033 seconds
+2026-06-23 09:05:21,033 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.894942 seconds
+2026-06-23 09:05:31,949 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : API call failed on attempt 1: Request timed out.
+2026-06-23 09:05:31,950 ERROR instructor.v2.retry ThreadPoolExecutor-0_0 : Max retries exceeded. Total attempts: 1, Last error: Request timed out.
+2026-06-23 09:05:31,950 WARNING cv_parser ThreadPoolExecutor-0_0 : Parser failed (model=llama-3.1-8b-instant, attempt=2): Request timed out.
+2026-06-23 09:05:31,950 WARNING cv_parser ThreadPoolExecutor-0_0 : All LLM models failed for parsing. Using rule-based fallback.
+2026-06-23 09:05:42,252 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.380417 seconds
+2026-06-23 09:05:52,651 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.981966 seconds
+2026-06-23 09:06:03,651 WARNING cv_analyzer ThreadPoolExecutor-0_0 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:06:13,687 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.382037 seconds
+2026-06-23 09:06:23,477 INFO werkzeug Thread-8 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:06:23] "GET /ranking HTTP/1.1" 200 -
+2026-06-23 09:06:23,533 INFO werkzeug Thread-9 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:06:23] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-23 09:06:23,550 INFO werkzeug Thread-10 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:06:23] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 09:06:24,080 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.877757 seconds
+2026-06-23 09:06:34,984 WARNING cv_analyzer ThreadPoolExecutor-0_0 : Groq error (model=llama-3.1-8b-instant): Request timed out.. Switching to fallback...
+2026-06-23 09:06:34,984 WARNING cv_analyzer ThreadPoolExecutor-0_0 : LLM similarity failed, using TF-IDF only: Request timed out.
+2026-06-23 09:06:44,996 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.415062 seconds
+2026-06-23 09:06:55,432 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.757129 seconds
+2026-06-23 09:07:06,212 WARNING cv_analyzer ThreadPoolExecutor-0_0 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:07:16,242 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.463808 seconds
+2026-06-23 09:07:26,734 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 0.921918 seconds
+2026-06-23 09:07:37,674 WARNING cv_analyzer ThreadPoolExecutor-0_0 : Groq error (model=llama-3.1-8b-instant): Request timed out.. Switching to fallback...
+2026-06-23 09:07:37,675 WARNING cv_analyzer ThreadPoolExecutor-0_0 : LLM personality estimation failed, using keyword heuristics: Request timed out.
+2026-06-23 09:07:47,726 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 0.379156 seconds
+2026-06-23 09:07:47,736 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 0.381225 seconds
+2026-06-23 09:07:47,738 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 0.498568 seconds
+2026-06-23 09:07:47,737 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 0.443738 seconds
+2026-06-23 09:07:47,737 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 0.445479 seconds
+2026-06-23 09:07:47,737 INFO groq._base_client ThreadPoolExecutor-1_5 : Retrying request to /openai/v1/chat/completions in 0.446527 seconds
+2026-06-23 09:07:47,738 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 0.382013 seconds
+2026-06-23 09:07:47,738 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 0.480510 seconds
+2026-06-23 09:07:47,738 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 0.464042 seconds
+2026-06-23 09:07:47,739 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 0.450355 seconds
+2026-06-23 09:07:47,739 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 0.475600 seconds
+2026-06-23 09:07:47,737 INFO groq._base_client ThreadPoolExecutor-1_8 : Retrying request to /openai/v1/chat/completions in 0.462785 seconds
+2026-06-23 09:07:47,739 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 0.439738 seconds
+2026-06-23 09:32:38,656 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 0.925954 seconds
+2026-06-23 09:32:38,672 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 0.781964 seconds
+2026-06-23 09:32:38,672 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 0.852496 seconds
+2026-06-23 09:32:38,735 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 0.959801 seconds
+2026-06-23 09:32:38,735 INFO groq._base_client ThreadPoolExecutor-1_5 : Retrying request to /openai/v1/chat/completions in 0.832443 seconds
+2026-06-23 09:32:38,736 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 0.878406 seconds
+2026-06-23 09:32:38,736 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 0.790064 seconds
+2026-06-23 09:32:38,751 INFO groq._base_client ThreadPoolExecutor-1_8 : Retrying request to /openai/v1/chat/completions in 0.832390 seconds
+2026-06-23 09:32:38,751 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 0.952909 seconds
+2026-06-23 09:32:38,752 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 0.858162 seconds
+2026-06-23 09:32:38,768 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 0.769338 seconds
+2026-06-23 09:32:38,768 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 0.985894 seconds
+2026-06-23 09:32:38,799 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 0.844435 seconds
+2026-06-23 09:32:49,983 WARNING cv_analyzer ThreadPoolExecutor-1_5 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,984 WARNING cv_analyzer ThreadPoolExecutor-1_8 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,985 WARNING cv_analyzer ThreadPoolExecutor-1_10 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,983 WARNING cv_analyzer ThreadPoolExecutor-1_9 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,984 WARNING cv_analyzer ThreadPoolExecutor-1_7 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,984 WARNING cv_analyzer ThreadPoolExecutor-1_3 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,984 WARNING cv_analyzer ThreadPoolExecutor-1_2 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,983 WARNING cv_analyzer ThreadPoolExecutor-1_4 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,986 WARNING cv_analyzer ThreadPoolExecutor-1_12 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,983 WARNING cv_analyzer ThreadPoolExecutor-1_11 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,986 WARNING cv_analyzer ThreadPoolExecutor-1_6 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,986 WARNING cv_analyzer ThreadPoolExecutor-1_1 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:49,986 WARNING cv_analyzer ThreadPoolExecutor-1_0 : Groq error (model=llama-3.3-70b-versatile): Request timed out.. Switching to fallback...
+2026-06-23 09:32:59,997 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 0.499458 seconds
+2026-06-23 09:32:59,997 INFO groq._base_client ThreadPoolExecutor-1_8 : Retrying request to /openai/v1/chat/completions in 0.424958 seconds
+2026-06-23 09:32:59,997 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 0.391957 seconds
+2026-06-23 09:32:59,997 INFO groq._base_client ThreadPoolExecutor-1_5 : Retrying request to /openai/v1/chat/completions in 0.464391 seconds
+2026-06-23 09:33:00,017 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 0.443742 seconds
+2026-06-23 09:33:00,017 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 0.485559 seconds
+2026-06-23 09:33:00,017 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 0.447824 seconds
+2026-06-23 09:33:00,017 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 0.391495 seconds
+2026-06-23 09:33:00,018 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 0.385639 seconds
+2026-06-23 09:33:00,018 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 0.412648 seconds
+2026-06-23 09:33:00,018 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 0.468726 seconds
+2026-06-23 09:33:00,018 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 0.412020 seconds
+2026-06-23 09:33:00,018 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 0.415362 seconds
+2026-06-23 09:33:10,414 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 0.822238 seconds
+2026-06-23 09:33:10,431 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 0.905565 seconds
+2026-06-23 09:33:10,431 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 0.902864 seconds
+2026-06-23 09:33:10,447 INFO groq._base_client ThreadPoolExecutor-1_8 : Retrying request to /openai/v1/chat/completions in 0.868722 seconds
+2026-06-23 09:33:10,447 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 0.932702 seconds
+2026-06-23 09:33:10,447 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 0.875448 seconds
+2026-06-23 09:33:10,463 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 0.829859 seconds
+2026-06-23 09:33:10,479 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 0.943185 seconds
+2026-06-23 09:33:10,480 INFO groq._base_client ThreadPoolExecutor-1_5 : Retrying request to /openai/v1/chat/completions in 0.918215 seconds
+2026-06-23 09:33:10,496 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 0.931050 seconds
+2026-06-23 09:33:10,512 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 0.894390 seconds
+2026-06-23 09:33:10,512 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 0.967493 seconds
+2026-06-23 09:33:10,528 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 0.795425 seconds
+2026-06-23 09:33:16,249 WARNING cv_analyzer ThreadPoolExecutor-1_10 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,312 WARNING cv_analyzer ThreadPoolExecutor-1_7 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,328 WARNING cv_analyzer ThreadPoolExecutor-1_8 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,328 WARNING cv_analyzer ThreadPoolExecutor-1_11 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,329 WARNING cv_analyzer ThreadPoolExecutor-1_0 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,344 WARNING cv_analyzer ThreadPoolExecutor-1_1 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,344 WARNING cv_analyzer ThreadPoolExecutor-1_12 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,391 WARNING cv_analyzer ThreadPoolExecutor-1_4 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,407 WARNING cv_analyzer ThreadPoolExecutor-1_5 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,422 WARNING cv_analyzer ThreadPoolExecutor-1_9 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,438 WARNING cv_analyzer ThreadPoolExecutor-1_6 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,439 WARNING cv_analyzer ThreadPoolExecutor-1_3 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:16,486 WARNING cv_analyzer ThreadPoolExecutor-1_2 : Groq transient error (model=llama-3.1-8b-instant, attempt=1): Connection error.. Retrying in 1.0s...
+2026-06-23 09:33:17,254 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 0.449774 seconds
+2026-06-23 09:33:17,315 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 0.400079 seconds
+2026-06-23 09:33:17,334 INFO groq._base_client ThreadPoolExecutor-1_8 : Retrying request to /openai/v1/chat/completions in 0.417706 seconds
+2026-06-23 09:33:17,334 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 0.489809 seconds
+2026-06-23 09:33:17,334 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 0.408213 seconds
+2026-06-23 09:33:17,347 INFO groq._base_client ThreadPoolExecutor-1_1 : Retrying request to /openai/v1/chat/completions in 0.499154 seconds
+2026-06-23 09:33:17,347 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 0.436195 seconds
+2026-06-23 09:33:17,394 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 0.412782 seconds
+2026-06-23 09:33:17,415 INFO groq._base_client ThreadPoolExecutor-1_5 : Retrying request to /openai/v1/chat/completions in 0.406442 seconds
+2026-06-23 09:33:17,424 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 0.423349 seconds
+2026-06-23 09:33:17,444 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 0.410334 seconds
+2026-06-23 09:33:17,445 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 0.475824 seconds
+2026-06-23 09:33:17,489 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 0.380797 seconds
+2026-06-23 09:33:20,336 INFO httpx ThreadPoolExecutor-1_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,337 INFO httpx ThreadPoolExecutor-1_9 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,338 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-23 09:33:20,339 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-23 09:33:20,478 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,479 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,479 INFO httpx ThreadPoolExecutor-1_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,480 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:20,481 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:20,482 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:20,488 INFO httpx ThreadPoolExecutor-1_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,489 INFO httpx ThreadPoolExecutor-1_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,490 INFO httpx ThreadPoolExecutor-1_11 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,491 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-23 09:33:20,491 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:20,492 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:20,590 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,592 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 3.000000 seconds
+2026-06-23 09:33:20,607 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:20,617 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:20,902 INFO httpx ThreadPoolExecutor-1_5 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:20,962 INFO cv_analyzer ThreadPoolExecutor-1_5 : Groq API call OK (model=llama-3.1-8b-instant, attempt=2, time=3.55s)
+2026-06-23 09:33:21,441 INFO httpx ThreadPoolExecutor-1_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:21,443 INFO cv_analyzer ThreadPoolExecutor-1_1 : Groq API call OK (model=llama-3.1-8b-instant, attempt=2, time=4.1s)
+2026-06-23 09:33:23,559 INFO httpx ThreadPoolExecutor-1_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:23,561 INFO cv_analyzer ThreadPoolExecutor-1_8 : Groq API call OK (model=llama-3.1-8b-instant, attempt=2, time=6.23s)
+2026-06-23 09:33:23,962 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:23,963 WARNING cv_analyzer ThreadPoolExecutor-1_0 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5960, Requested 1686. Please try again in 16.46s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:24,829 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:24,830 WARNING cv_analyzer ThreadPoolExecutor-1_4 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5876, Requested 1539. Please try again in 14.15s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:24,846 INFO httpx ThreadPoolExecutor-1_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:24,847 INFO httpx ThreadPoolExecutor-1_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:24,848 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:24,849 INFO httpx ThreadPoolExecutor-1_11 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:24,850 WARNING cv_analyzer ThreadPoolExecutor-1_7 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5872, Requested 1752. Please try again in 16.239999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:24,851 WARNING cv_analyzer ThreadPoolExecutor-1_3 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5871, Requested 1517. Please try again in 13.88s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:24,851 WARNING cv_analyzer ThreadPoolExecutor-1_12 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5869, Requested 1573. Please try again in 14.42s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:24,852 WARNING cv_analyzer ThreadPoolExecutor-1_11 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5869, Requested 1557. Please try again in 14.26s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:25,040 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:25,042 WARNING cv_analyzer ThreadPoolExecutor-1_2 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5846, Requested 1733. Please try again in 15.79s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:25,644 INFO httpx ThreadPoolExecutor-1_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:25,645 WARNING cv_analyzer ThreadPoolExecutor-1_10 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5791, Requested 1859. Please try again in 16.5s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:25,654 INFO httpx ThreadPoolExecutor-1_9 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:25,655 WARNING cv_analyzer ThreadPoolExecutor-1_9 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5790, Requested 1794. Please try again in 15.84s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:25,737 INFO httpx ThreadPoolExecutor-1_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:25,738 WARNING cv_analyzer ThreadPoolExecutor-1_6 : Groq transient error (model=llama-3.1-8b-instant, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5776, Requested 1832. Please try again in 16.08s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:33:26,403 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:26,404 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,194 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,195 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,466 INFO httpx ThreadPoolExecutor-1_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,467 INFO httpx ThreadPoolExecutor-1_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,467 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,468 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,468 INFO groq._base_client ThreadPoolExecutor-1_3 : Retrying request to /openai/v1/chat/completions in 18.000000 seconds
+2026-06-23 09:33:27,469 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,505 INFO httpx ThreadPoolExecutor-1_11 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,506 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,598 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,599 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,931 INFO httpx ThreadPoolExecutor-1_9 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,931 INFO httpx ThreadPoolExecutor-1_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:27,932 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:27,932 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 33.000000 seconds
+2026-06-23 09:33:29,359 INFO httpx ThreadPoolExecutor-1_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:29,360 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 19.000000 seconds
+2026-06-23 09:33:40,713 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:40,762 INFO cv_parser ThreadPoolExecutor-2_0 : CV parsed successfully with llama-3.3-70b-versatile in 5.38s (attempt 1)
+2026-06-23 09:33:41,982 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:41,984 INFO cv_analyzer ThreadPoolExecutor-2_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.18s)
+2026-06-23 09:33:42,628 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:42,630 INFO cv_analyzer ThreadPoolExecutor-2_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=0.64s)
+2026-06-23 09:33:43,377 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,377 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-23 09:33:43,387 INFO httpx ThreadPoolExecutor-3_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,388 INFO groq._base_client ThreadPoolExecutor-3_7 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-23 09:33:43,411 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,412 INFO httpx ThreadPoolExecutor-3_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,413 INFO httpx ThreadPoolExecutor-3_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,414 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-23 09:33:43,414 INFO groq._base_client ThreadPoolExecutor-3_12 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-23 09:33:43,415 INFO groq._base_client ThreadPoolExecutor-3_8 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-23 09:33:43,437 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,438 INFO groq._base_client ThreadPoolExecutor-3_6 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-23 09:33:43,609 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,610 INFO groq._base_client ThreadPoolExecutor-1_0 : Retrying request to /openai/v1/chat/completions in 13.000000 seconds
+2026-06-23 09:33:43,917 INFO httpx ThreadPoolExecutor-3_9 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:43,932 INFO cv_analyzer ThreadPoolExecutor-3_9 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.27s)
+2026-06-23 09:33:43,977 INFO httpx ThreadPoolExecutor-3_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:43,978 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:43,980 INFO groq._base_client ThreadPoolExecutor-1_4 : Retrying request to /openai/v1/chat/completions in 21.000000 seconds
+2026-06-23 09:33:43,982 INFO cv_analyzer ThreadPoolExecutor-3_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.35s)
+2026-06-23 09:33:44,035 INFO httpx ThreadPoolExecutor-3_5 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:44,037 INFO cv_analyzer ThreadPoolExecutor-3_5 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.4s)
+2026-06-23 09:33:44,245 INFO httpx ThreadPoolExecutor-1_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,246 INFO groq._base_client ThreadPoolExecutor-1_12 : Retrying request to /openai/v1/chat/completions in 21.000000 seconds
+2026-06-23 09:33:44,257 INFO httpx ThreadPoolExecutor-1_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,258 INFO groq._base_client ThreadPoolExecutor-1_7 : Retrying request to /openai/v1/chat/completions in 21.000000 seconds
+2026-06-23 09:33:44,297 INFO httpx ThreadPoolExecutor-1_11 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,299 INFO groq._base_client ThreadPoolExecutor-1_11 : Retrying request to /openai/v1/chat/completions in 35.000000 seconds
+2026-06-23 09:33:44,380 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,381 INFO httpx ThreadPoolExecutor-3_1 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:44,382 INFO httpx ThreadPoolExecutor-1_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:44,384 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 21.000000 seconds
+2026-06-23 09:33:44,385 INFO cv_analyzer ThreadPoolExecutor-3_1 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.75s)
+2026-06-23 09:33:44,386 INFO cv_analyzer ThreadPoolExecutor-1_3 : Groq API call OK (model=llama-3.1-8b-instant, attempt=3, time=17.53s)
+2026-06-23 09:33:44,432 INFO httpx ThreadPoolExecutor-3_3 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:44,434 INFO cv_analyzer ThreadPoolExecutor-3_3 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.8s)
+2026-06-23 09:33:44,604 INFO httpx ThreadPoolExecutor-3_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,605 INFO groq._base_client ThreadPoolExecutor-3_7 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-23 09:33:44,656 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,656 INFO httpx ThreadPoolExecutor-3_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,657 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-23 09:33:44,658 INFO groq._base_client ThreadPoolExecutor-3_12 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-23 09:33:44,683 INFO httpx ThreadPoolExecutor-3_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,684 INFO groq._base_client ThreadPoolExecutor-3_8 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-23 09:33:44,701 INFO httpx ThreadPoolExecutor-1_9 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:44,702 INFO groq._base_client ThreadPoolExecutor-1_9 : Retrying request to /openai/v1/chat/completions in 18.000000 seconds
+2026-06-23 09:33:44,997 INFO httpx ThreadPoolExecutor-3_11 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:44,999 INFO cv_analyzer ThreadPoolExecutor-3_11 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=2.34s)
+2026-06-23 09:33:45,101 INFO httpx ThreadPoolExecutor-3_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:45,103 INFO cv_analyzer ThreadPoolExecutor-3_4 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=2.46s)
+2026-06-23 09:33:45,616 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:45,617 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2026-06-23 09:33:45,664 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:45,665 INFO groq._base_client ThreadPoolExecutor-3_6 : Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2026-06-23 09:33:45,788 ERROR cv_analyzer ThreadPoolExecutor-0_0 : Agent 'Audit' future failed: 
+2026-06-23 09:33:46,362 INFO httpx ThreadPoolExecutor-1_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:46,363 INFO groq._base_client ThreadPoolExecutor-1_6 : Retrying request to /openai/v1/chat/completions in 17.000000 seconds
+2026-06-23 09:33:50,904 INFO httpx ThreadPoolExecutor-3_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:50,905 WARNING cv_analyzer ThreadPoolExecutor-3_12 : Groq transient error (model=llama-3.3-70b-versatile, attempt=1): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11892, Requested 1517. Please try again in 7.045s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 1.0s...
+2026-06-23 09:33:51,255 INFO httpx ThreadPoolExecutor-3_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:51,255 WARNING cv_analyzer ThreadPoolExecutor-3_8 : Groq transient error (model=llama-3.3-70b-versatile, attempt=1): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11818, Requested 1501. Please try again in 6.595s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 1.0s...
+2026-06-23 09:33:51,288 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:51,288 WARNING cv_analyzer ThreadPoolExecutor-3_2 : Groq transient error (model=llama-3.3-70b-versatile, attempt=1): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11813, Requested 1310. Please try again in 5.615s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 1.0s...
+2026-06-23 09:33:51,972 INFO httpx ThreadPoolExecutor-3_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:51,974 INFO cv_analyzer ThreadPoolExecutor-3_7 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=9.33s)
+2026-06-23 09:33:52,171 INFO httpx ThreadPoolExecutor-3_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:52,172 INFO groq._base_client ThreadPoolExecutor-3_12 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-23 09:33:52,493 INFO httpx ThreadPoolExecutor-3_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:52,494 INFO groq._base_client ThreadPoolExecutor-3_8 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-23 09:33:52,517 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:52,518 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-23 09:33:53,996 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:53,997 WARNING cv_analyzer ThreadPoolExecutor-3_10 : Groq transient error (model=llama-3.3-70b-versatile, attempt=1): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11594, Requested 1436. Please try again in 5.149999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 1.0s...
+2026-06-23 09:33:54,008 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:54,024 WARNING cv_analyzer ThreadPoolExecutor-3_6 : Groq transient error (model=llama-3.3-70b-versatile, attempt=1): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11592, Requested 1590. Please try again in 5.91s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 1.0s...
+2026-06-23 09:33:55,338 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:55,339 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-23 09:33:55,344 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:55,345 INFO groq._base_client ThreadPoolExecutor-3_6 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:33:57,773 INFO httpx ThreadPoolExecutor-1_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:33:57,775 INFO cv_analyzer ThreadPoolExecutor-1_0 : Groq API call OK (model=llama-3.1-8b-instant, attempt=3, time=31.81s)
+2026-06-23 09:33:58,984 INFO httpx ThreadPoolExecutor-1_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:58,984 INFO groq._base_client ThreadPoolExecutor-1_10 : Retrying request to /openai/v1/chat/completions in 22.000000 seconds
+2026-06-23 09:33:59,629 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:33:59,631 INFO groq._base_client ThreadPoolExecutor-3_6 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-23 09:34:00,767 INFO httpx ThreadPoolExecutor-3_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:00,768 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:00,768 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:00,769 INFO httpx ThreadPoolExecutor-3_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:00,769 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-23 09:34:00,770 INFO cv_analyzer ThreadPoolExecutor-3_12 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=2, time=8.86s)
+2026-06-23 09:34:00,771 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 6.000000 seconds
+2026-06-23 09:34:00,771 INFO groq._base_client ThreadPoolExecutor-3_8 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-23 09:34:03,098 INFO httpx ThreadPoolExecutor-1_9 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:03,099 WARNING cv_analyzer ThreadPoolExecutor-1_9 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5447, Requested 3655. Please try again in 31.02s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:03,712 INFO httpx ThreadPoolExecutor-1_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:03,713 WARNING cv_analyzer ThreadPoolExecutor-1_6 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5385, Requested 2293. Please try again in 16.78s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:05,227 INFO httpx ThreadPoolExecutor-1_4 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:05,228 WARNING cv_analyzer ThreadPoolExecutor-1_4 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5226, Requested 2186. Please try again in 14.12s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:05,482 INFO httpx ThreadPoolExecutor-1_12 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:05,483 WARNING cv_analyzer ThreadPoolExecutor-1_12 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5202, Requested 1916. Please try again in 11.18s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:05,489 INFO httpx ThreadPoolExecutor-1_7 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:05,489 WARNING cv_analyzer ThreadPoolExecutor-1_7 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5201, Requested 1909. Please try again in 11.1s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:05,660 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:05,662 WARNING cv_analyzer ThreadPoolExecutor-1_2 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5185, Requested 2194. Please try again in 13.79s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:06,870 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:06,871 WARNING cv_analyzer ThreadPoolExecutor-3_6 : Groq transient error (model=llama-3.3-70b-versatile, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11749, Requested 1445. Please try again in 5.97s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:34:06,996 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:06,996 WARNING cv_analyzer ThreadPoolExecutor-3_10 : Groq transient error (model=llama-3.3-70b-versatile, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11724, Requested 1617. Please try again in 6.705s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:34:07,100 ERROR cv_analyzer ThreadPoolExecutor-1_9 : AgentCultureFit failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5447, Requested 3655. Please try again in 31.02s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:07,393 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:07,394 WARNING cv_analyzer ThreadPoolExecutor-3_2 : Groq transient error (model=llama-3.3-70b-versatile, attempt=2): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11648, Requested 1491. Please try again in 5.694999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 2.0s...
+2026-06-23 09:34:07,714 ERROR cv_analyzer ThreadPoolExecutor-1_6 : AgentRedFlag failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5385, Requested 2293. Please try again in 16.78s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:07,921 INFO httpx ThreadPoolExecutor-3_8 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:08,070 INFO cv_analyzer ThreadPoolExecutor-3_8 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=2, time=15.81s)
+2026-06-23 09:34:09,105 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:09,106 INFO groq._base_client ThreadPoolExecutor-3_6 : Retrying request to /openai/v1/chat/completions in 10.000000 seconds
+2026-06-23 09:34:09,229 ERROR cv_analyzer ThreadPoolExecutor-1_4 : AgentRecruitmentTest failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5226, Requested 2186. Please try again in 14.12s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:09,248 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:09,249 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 7.000000 seconds
+2026-06-23 09:34:09,484 ERROR cv_analyzer ThreadPoolExecutor-1_12 : AgentSalary failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5202, Requested 1916. Please try again in 11.18s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:09,490 ERROR cv_analyzer ThreadPoolExecutor-1_7 : AgentBenchmark failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5201, Requested 1909. Please try again in 11.1s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:09,646 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:09,647 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 9.000000 seconds
+2026-06-23 09:34:09,663 ERROR cv_analyzer ThreadPoolExecutor-1_2 : AgentPsychProfiler failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 5185, Requested 2194. Please try again in 13.79s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:09,982 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:09,983 INFO groq._base_client ThreadPoolExecutor-1_2 : Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2026-06-23 09:34:17,852 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:17,853 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 2.000000 seconds
+2026-06-23 09:34:18,735 INFO httpx ThreadPoolExecutor-1_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:18,766 INFO cv_analyzer ThreadPoolExecutor-1_2 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=9.1s)
+2026-06-23 09:34:19,293 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:19,294 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 4.000000 seconds
+2026-06-23 09:34:19,358 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:19,359 INFO groq._base_client ThreadPoolExecutor-3_6 : Retrying request to /openai/v1/chat/completions in 5.000000 seconds
+2026-06-23 09:34:19,543 INFO httpx ThreadPoolExecutor-1_11 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:19,544 WARNING cv_analyzer ThreadPoolExecutor-1_11 : Groq transient error (model=llama-3.1-8b-instant, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3795, Requested 3604. Please try again in 13.99s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:20,155 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:20,156 WARNING cv_analyzer ThreadPoolExecutor-3_10 : Groq transient error (model=llama-3.3-70b-versatile, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 11134, Requested 1493. Please try again in 3.135s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:22,147 INFO httpx ThreadPoolExecutor-1_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:22,150 INFO cv_analyzer ThreadPoolExecutor-1_10 : Groq API call OK (model=llama-3.1-8b-instant, attempt=3, time=54.5s)
+2026-06-23 09:34:23,545 ERROR cv_analyzer ThreadPoolExecutor-1_11 : AgentOnboarding failed: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.1-8b-instant` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 6000, Used 3795, Requested 3604. Please try again in 13.99s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+2026-06-23 09:34:23,682 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:23,683 WARNING cv_analyzer ThreadPoolExecutor-3_2 : Groq transient error (model=llama-3.3-70b-versatile, attempt=3): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 10449, Requested 2057. Please try again in 2.53s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 4.0s...
+2026-06-23 09:34:23,781 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:23,783 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-23 09:34:24,417 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:24,418 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 28.000000 seconds
+2026-06-23 09:34:25,043 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:25,044 INFO groq._base_client ThreadPoolExecutor-0_0 : Retrying request to /openai/v1/chat/completions in 8.000000 seconds
+2026-06-23 09:34:25,859 INFO httpx ThreadPoolExecutor-3_6 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:25,861 INFO cv_analyzer ThreadPoolExecutor-3_6 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=3, time=16.99s)
+2026-06-23 09:34:28,300 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:28,301 INFO groq._base_client ThreadPoolExecutor-3_2 : Retrying request to /openai/v1/chat/completions in 10.000000 seconds
+2026-06-23 09:34:33,326 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:33,328 WARNING cv_analyzer ThreadPoolExecutor-0_0 : Groq transient error (model=llama-3.3-70b-versatile, attempt=1): Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kvk3hgp0fe9tq7xza0td11m3` service tier `on_demand` on tokens per minute (TPM): Limit 12000, Used 9905, Requested 2409. Please try again in 1.57s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}. Retrying in 1.0s...
+2026-06-23 09:34:36,586 INFO httpx ThreadPoolExecutor-0_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:36,588 INFO cv_analyzer ThreadPoolExecutor-0_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=2, time=2.26s)
+2026-06-23 09:34:36,588 INFO cv_analyzer ThreadPoolExecutor-0_0 : Multi-agent analysis completed in 1618.91s (13 agents + supervisor)
+2026-06-23 09:34:36,704 INFO werkzeug Thread-6 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:34:36] "POST /analyze HTTP/1.1" 200 -
+2026-06-23 09:34:39,454 INFO httpx ThreadPoolExecutor-3_2 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:39,456 INFO cv_analyzer ThreadPoolExecutor-3_2 : Groq API call OK (model=llama-3.1-8b-instant, attempt=1, time=11.77s)
+2026-06-23 09:34:53,105 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2026-06-23 09:34:53,106 INFO groq._base_client ThreadPoolExecutor-3_10 : Retrying request to /openai/v1/chat/completions in 1.000000 seconds
+2026-06-23 09:34:55,326 INFO httpx ThreadPoolExecutor-3_10 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:55,328 INFO cv_analyzer ThreadPoolExecutor-3_10 : Groq API call OK (model=llama-3.1-8b-instant, attempt=1, time=31.17s)
+2026-06-23 09:34:57,169 INFO httpx ThreadPoolExecutor-2_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 09:34:57,170 INFO cv_analyzer ThreadPoolExecutor-2_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.84s)
+2026-06-23 09:34:57,170 INFO cv_analyzer ThreadPoolExecutor-2_0 : Multi-agent analysis completed in 74.54s (13 agents + supervisor)
+2026-06-23 09:34:57,193 INFO werkzeug Thread-11 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:34:57] "POST /analyze HTTP/1.1" 200 -
+2026-06-23 09:34:57,321 INFO werkzeug Thread-13 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:34:57] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-23 09:34:57,361 INFO werkzeug Thread-14 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 09:34:57] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 10:14:24,553 INFO werkzeug Thread-17 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:24] "GET / HTTP/1.1" 200 -
+2026-06-23 10:14:24,775 INFO werkzeug Thread-18 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:24] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-23 10:14:24,799 INFO werkzeug Thread-19 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:24] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 10:14:25,125 INFO werkzeug Thread-20 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:25] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-06-23 10:14:39,179 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 10:14:39,182 INFO cv_parser ThreadPoolExecutor-4_0 : CV parsed successfully with llama-3.3-70b-versatile in 2.89s (attempt 1)
+2026-06-23 10:14:40,861 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 10:14:40,863 INFO cv_analyzer ThreadPoolExecutor-4_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.64s)
+2026-06-23 10:14:42,098 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 10:14:42,100 INFO cv_analyzer ThreadPoolExecutor-4_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=1.23s)
+2026-06-23 10:14:42,101 INFO cv_analyzer ThreadPoolExecutor-5_0 : Cache HIT for audit:9039ecfcddd1fef85cc7139ec537e84f:S...
+2026-06-23 10:14:42,101 INFO cv_analyzer ThreadPoolExecutor-5_0 : Cache HIT for tech:9039ecfcddd1fef85cc7139ec537e84f:So...
+2026-06-23 10:14:42,102 INFO cv_analyzer ThreadPoolExecutor-5_1 : Cache HIT for psych:9039ecfcddd1fef85cc7139ec537e84f:S...
+2026-06-23 10:14:42,102 INFO cv_analyzer ThreadPoolExecutor-5_0 : Cache HIT for interviewer:9039ecfcddd1fef85cc7139ec537...
+2026-06-23 10:14:42,103 INFO cv_analyzer ThreadPoolExecutor-5_2 : Cache HIT for test:9039ecfcddd1fef85cc7139ec537e84f:So...
+2026-06-23 10:14:42,103 INFO cv_analyzer ThreadPoolExecutor-5_0 : Cache HIT for redflag:9039ecfcddd1fef85cc7139ec537e84f...
+2026-06-23 10:14:42,103 INFO cv_analyzer ThreadPoolExecutor-5_1 : Cache HIT for trajectory:9039ecfcddd1fef85cc7139ec537e...
+2026-06-23 10:14:42,103 INFO cv_analyzer ThreadPoolExecutor-5_3 : Cache HIT for benchmark:9039ecfcddd1fef85cc7139ec537e8...
+2026-06-23 10:14:42,104 INFO cv_analyzer ThreadPoolExecutor-5_4 : Cache HIT for learnpath:9039ecfcddd1fef85cc7139ec537e8...
+2026-06-23 10:14:42,103 INFO cv_analyzer ThreadPoolExecutor-5_2 : Cache HIT for skillverify:9039ecfcddd1fef85cc7139ec537...
+2026-06-23 10:14:42,104 INFO cv_analyzer ThreadPoolExecutor-5_1 : Cache HIT for onboard:9039ecfcddd1fef85cc7139ec537e84f...
+2026-06-23 10:14:42,103 INFO cv_analyzer ThreadPoolExecutor-5_0 : Cache HIT for culturefit:9039ecfcddd1fef85cc7139ec537e...
+2026-06-23 10:14:42,105 INFO cv_analyzer ThreadPoolExecutor-5_5 : Cache HIT for salary:9039ecfcddd1fef85cc7139ec537e84f:...
+2026-06-23 10:14:44,349 INFO httpx ThreadPoolExecutor-4_0 : HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-06-23 10:14:44,350 INFO cv_analyzer ThreadPoolExecutor-4_0 : Groq API call OK (model=llama-3.3-70b-versatile, attempt=1, time=2.24s)
+2026-06-23 10:14:44,351 INFO cv_analyzer ThreadPoolExecutor-4_0 : Multi-agent analysis completed in 2.25s (13 agents + supervisor)
+2026-06-23 10:14:44,387 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:44] "POST /analyze HTTP/1.1" 200 -
+2026-06-23 10:14:44,449 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:44] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
+2026-06-23 10:14:44,479 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:44] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
