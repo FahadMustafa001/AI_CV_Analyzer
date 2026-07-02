@@ -3922,3 +3922,19 @@ sqlite3.OperationalError: table candidates has no column named created_at
 2026-06-23 10:14:44,387 INFO werkzeug Thread-21 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:44] "POST /analyze HTTP/1.1" 200 -
 2026-06-23 10:14:44,449 INFO werkzeug Thread-22 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:44] "[36mGET /static/css/style.css HTTP/1.1[0m" 304 -
 2026-06-23 10:14:44,479 INFO werkzeug Thread-23 (process_request_thread) : 127.0.0.1 - - [23/Jun/2026 10:14:44] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-07-02 22:58:41,217 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-07-02 22:58:41,219 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-07-02 22:58:41,223 INFO werkzeug MainThread :  * Restarting with stat
+2026-07-02 22:58:43,803 WARNING werkzeug MainThread :  * Debugger is active!
+2026-07-02 22:58:43,811 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
+2026-07-02 22:59:09,234 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [02/Jul/2026 22:59:09] "GET / HTTP/1.1" 200 -
+2026-07-02 22:59:09,514 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [02/Jul/2026 22:59:09] "GET /static/css/style.css HTTP/1.1" 200 -
+2026-07-02 22:59:09,533 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [02/Jul/2026 22:59:09] "GET /static/images/logo.png HTTP/1.1" 200 -
+2026-07-02 22:59:10,601 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [02/Jul/2026 22:59:10] "[36mGET /static/images/logo.png HTTP/1.1[0m" 304 -
+2026-07-02 23:00:05,232 INFO werkzeug MainThread : [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-07-02 23:00:05,233 INFO werkzeug MainThread : [33mPress CTRL+C to quit[0m
+2026-07-02 23:00:05,235 INFO werkzeug MainThread :  * Restarting with stat
+2026-07-02 23:00:07,727 WARNING werkzeug MainThread :  * Debugger is active!
+2026-07-02 23:00:07,732 INFO werkzeug MainThread :  * Debugger PIN: 180-552-995
