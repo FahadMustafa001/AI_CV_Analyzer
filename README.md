@@ -1,4 +1,4 @@
-# 🧠 AI CV Analyzer v2.3
+ 🧠 AI CV Analyzer v2.3
 
 > **Enterprise-grade AI-powered Resume Analysis & Talent Intelligence Platform**
 > 
